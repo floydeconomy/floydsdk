@@ -1,7 +1,5 @@
-import Provider, { TESTNET } from '@overledger/provider';
-import AbstractDLT from '@overledger/dlt-abstract';
-import { APICall, SDKOptions, DLTOptions, SignOptions, SignedTransactionResponse, SequenceDataRequest, APICallWrapper, DLTAndAddressArray } from '@overledger/types';
-import { } from '../types';
+import { TypeDLT, TypeNetwork, TypeSDK } from '../types';
+import AbstractDLT from '../abstract/index';
 
 class Crossledger {
   /**
@@ -9,51 +7,32 @@ class Crossledger {
    */
   dlts: { [key: string]: AbstractDLT } = {};
 
-  network: networkOptions;
-  provider: any; // TODO: define the type
+  /**
+   * This is the network type that is being connected to
+   */
+  network: TypeNetwork;
 
   /**
-   * @param {string} mappId
-   * @param {string} bpiKey
    * @param {Object} options
    */
-  constructor(options: SDKOptions) {
-    this.network = options.provider && options.provider.network || TESTNET;
+  constructor(options: TypeSDK) {
+    this.network = options.provider && options.provider.network || "testnet";
 
-    options.dlts.forEach((dltConfig: DLTOptions) => {
+    options.dlts.forEach((dltConfig: TypeDLT) => {
       const dlt = this.loadDLT(dltConfig);
-      this.dlts[dlt.name] = dlt;
+      // this.dlts[dlt.name] = dlt;
     });
   }
 
-  private loadDLT(config: DLTOptions): AbstractDLT {
-
+  /**
+   * Load the dlt to the Overledger SDK
+   *
+   * @param {Object} config
+   *
+   * @return {Provider}
+   */
+  private loadDLT(config: TypeDLT) {
   }
-
-//   /**
-//    * Load the dlt to the Overledger SDK
-//    *
-//    * @param {Object} config
-//    *
-//    * @return {Provider}
-//    */
-//   private loadDlt(config: DLTOptions): AbstractDLT {
-//     // Need to improve this loading
-//     const dltName = `dlt-${config.dlt}`;
-//     try {
-//       const provider = require(`@overledger/${dltName}`).default;
-
-//       return new provider(this, config);
-//     } catch (error) {
-//       if (error.code === 'MODULE_NOT_FOUND') {
-//         throw `Could not find the package for this DLT. Please install @overledger/${dltName} manually`;
-//       }
-//     }
-//   }
-  
-//   public getBalances(array: DLTAndAddressArray): AxiosPromise<Object> {
-//     return this.request.post('/balances', array);
-//   }
 }
 
 export default Crossledger;
