@@ -1,5 +1,5 @@
-import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from '../types';
-import AbstractDLT from '../abstract/index';
+import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from "../types";
+import AbstractDLT from "../abstract/index";
 
 class CrossledgerSDK {
   /**
@@ -17,29 +17,25 @@ class CrossledgerSDK {
    */
   constructor(options: TypeSDK) {
     // validate
-    try {
-      this.validateDLT(options.dlts);
+    this.validateDLT(options.dlts);
 
-      // defaults to testnet if not provided
-      this.network = options.provider && options.provider.network || "testnet";
+    // defaults to testnet if not provided
+    this.network = (options.provider && options.provider.network) || "testnet";
 
-      // create dlts
-      // options.dlts.forEach((dltConfig: TypeDLT) => {
-      //   const dlt = this.loadDLT(dltConfig);
-      //   // this.dlts[dlt.name] = dlt;
-      // });
-    } catch (e) {
-      throw(e);
-    }
+    // create dlts
+    // options.dlts.forEach((dltConfig: TypeDLT) => {
+    //   const dlt = this.loadDLT(dltConfig);
+    //   // this.dlts[dlt.name] = dlt;
+    // });
   }
 
   /**
    * Validate the provided options
-   * @param options 
+   * @param options
    */
   private validateDLT(dlts: TypeDLT[]): void {
     if (!dlts || dlts.length === 0) {
-      throw new Error('There arent any DLTs provided.');
+      throw new Error("There arent any DLTs provided.");
     }
   }
 
@@ -50,8 +46,7 @@ class CrossledgerSDK {
    *
    * @return {Provider}
    */
-  private loadDLT(config: TypeDLT) {
-  }
+  private loadDLT(config: TypeDLT) {}
 }
 
 export default CrossledgerSDK;
