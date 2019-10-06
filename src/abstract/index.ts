@@ -12,6 +12,8 @@ abstract class AbstractDLT {
     this.sdk = sdk;
     this.options = options;
   }
+
+  
 }
 
 export default AbstractDLT;

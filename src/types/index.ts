@@ -1,5 +1,4 @@
-import TypeDLT from './dlt';
-import { TypeNetwork, TypeSDK, TypeProvider } from './sdk';
+import { TypeNetwork, TypeSDK, TypeProvider, TypeDLT } from './sdk';
 
 export {
   TypeDLT,
