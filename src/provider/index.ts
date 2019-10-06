@@ -5,11 +5,11 @@ export const MAINNET: TypeNetwork = 'mainnet';
 
 class Provider {
   options: TypeProvider;
-  network: TypeNetwork;
+  net: TypeNetwork;
 
   constructor(options: TypeProvider = {}) {
     this.options = options;
-    this.network = this.options.network || TESTNET;
+    this.net = this.options.network || TESTNET;
   }
 }
 

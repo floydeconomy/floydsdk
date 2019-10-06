@@ -1,19 +1,9 @@
-abstract class AbstractDLT {
-  name: string;
-  sdk: any;
-  options: Object;
+import Bitcoin from './dlts/bitcoin';
+import Vechain from './dlts/vechain';
+import Ethereum from './dlts/ethereum';
 
-  /**
-   * @param {any} sdk
-   * @param {Object} options
-   */
-  constructor(name: string, sdk: any, options: Object = {}) {
-    this.name = name;
-    this.sdk = sdk;
-    this.options = options;
-  }
-
-  
-}
-
-export default AbstractDLT;
+export {
+  Bitcoin,
+  Vechain,
+  Ethereum
+};

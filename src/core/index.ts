@@ -1,5 +1,5 @@
 import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from "../types";
-import AbstractDLT from "../abstract/index";
+import AbstractDLT from "../abstract/dlts/dlt";
 
 class CrossledgerSDK {
   /**
