@@ -1,7 +1,7 @@
 import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from "../types";
 import AbstractDLT from "../abstract/dlts/dlt";
 
-class CrossledgerSDK {
+class FloydSDK {
   /**
    * The object storing the DLTs loaded by the Overledger sdk
    */
@@ -49,4 +49,4 @@ class CrossledgerSDK {
   private loadDLT(config: TypeDLT) {}
 }
 
-export default CrossledgerSDK;
+export default FloydSDK;

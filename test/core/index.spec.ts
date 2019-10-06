@@ -1,4 +1,4 @@
-import CrossledgerSDK from "../../src/core/index";
+import FloydSDK from "../../src/core/index";
 
 describe("core", () => {
   describe("network", () => {
@@ -6,7 +6,7 @@ describe("core", () => {
       const options = {
         dlts: [{ dlt: "bitcoin" }]
       };
-      let sdk = new CrossledgerSDK(options);
+      let sdk = new FloydSDK(options);
       expect(sdk.network).toBe("testnet");
     });
 
@@ -18,7 +18,7 @@ describe("core", () => {
             timeout: 1000,
         }
       };
-      let sdk = new CrossledgerSDK(options);
+      let sdk = new FloydSDK(options);
       expect(sdk.network).toBe("mainnet");
     });
   });
@@ -29,7 +29,7 @@ describe("core", () => {
             dlts: []
         };
         try {
-            new CrossledgerSDK(options)
+            new FloydSDK(options)
         } catch (e) {
             expect(e).toEqual(Error('There arent any DLTs provided.'));
         }
