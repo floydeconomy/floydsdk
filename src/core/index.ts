@@ -1,6 +1,12 @@
 import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from "../types";
 import AbstractDLT from "../abstract/dlts/dlt";
+import { Bitcoin } from '../abstract';
 
+/**
+ * This class is the base class the software development kit. It facilitates the methods
+ * that can be carried out using this kit. It's a library that allows developers to create
+ * transactions on different blockchains, using a single interface.
+ */
 class FloydSDK {
   /**
    * The object storing the DLTs loaded by the Overledger sdk
@@ -13,7 +19,8 @@ class FloydSDK {
   network: TypeNetwork;
 
   /**
-   * @param {Object} options
+   * Constructor
+   * @param options 
    */
   constructor(options: TypeSDK) {
     // validate
@@ -23,10 +30,10 @@ class FloydSDK {
     this.network = (options.provider && options.provider.network) || "testnet";
 
     // create dlts
-    // options.dlts.forEach((dltConfig: TypeDLT) => {
-    //   const dlt = this.loadDLT(dltConfig);
-    //   // this.dlts[dlt.name] = dlt;
-    // });
+    options.dlts.forEach((dltConfig: TypeDLT) => {
+      const dlt = this.loadDLT(dltConfig);
+      this.dlts[dlt.name] = dlt;
+    });
   }
 
   /**
@@ -41,12 +48,13 @@ class FloydSDK {
 
   /**
    * Load the dlt to the Overledger SDK
-   *
    * @param {Object} config
    *
    * @return {Provider}
    */
-  private loadDLT(config: TypeDLT) {}
+  private loadDLT(config: TypeDLT) {
+    return new Bitcoin("bitcoin");
+  }
 }
 
 export default FloydSDK;
