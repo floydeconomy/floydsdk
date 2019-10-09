@@ -17,16 +17,21 @@ class Bitcoin extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  setAccount(privateKey: string): TypeAccount {
+  addAccount(privateKey?: string): TypeAccount {
     try {
-      const keyPair = bitcoin.ECPair.fromWIF(privateKey);
-      const account = this._buildAccount(keyPair);
-      return account;
+      var keyPair;
+      if (privateKey != null) {
+        keyPair = bitcoin.ECPair.fromWIF(privateKey);
+      } else {
+        keyPair = bitcoin.ECPair.makeRandom();
+      }
+      return this._buildAccount(keyPair);
     } catch {
       throw new Error("Private key provided is invalid");
     }
   }
 
+  /** This is a common method used by setAccount and createAccount */
   private _buildAccount(keyPair: any): TypeAccount {
     const privateKey = keyPair.toWIF();
     const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
@@ -38,13 +43,6 @@ class Bitcoin extends AbstractDLT {
       privateKey,
       address
     }
-  }
-
-  /** @inheritdoc */
-  createAccount(): TypeAccount {
-    const keyPair = bitcoin.ECPair.makeRandom();
-    const account = this._buildAccount(keyPair);
-    return account;
   }
 }
 

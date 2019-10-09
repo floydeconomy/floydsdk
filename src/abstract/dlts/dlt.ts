@@ -20,10 +20,7 @@ abstract class AbstractDLT {
    * Sets the accounts associated with the DLT
    * @param {string} privateKey
    */
-  abstract setAccount(privateKey: string): TypeAccount;
-
-  /** Creates a new account */
-  abstract createAccount(): TypeAccount;
+  abstract addAccount(privateKey?: string): TypeAccount;
 }
 
 export default AbstractDLT;

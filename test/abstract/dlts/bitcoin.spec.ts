@@ -15,7 +15,7 @@ describe("bitcoin", () => {
       });
 
     it("address should have the correct length", () => {
-      const account = sdk.dlts.bitcoin.createAccount();
+      const account = sdk.dlts.bitcoin.addAccount();
       expect(account.address).toHaveLength(ADDRESS_LENGTH);
       expect(account.privateKey).toHaveLength(PRIVATEKEY_LENGTH);
     });
@@ -23,14 +23,14 @@ describe("bitcoin", () => {
     it('should be able to be set with a valid private key', () => {
         const keyPair = bitcoin.ECPair.makeRandom();
         const privateKey = keyPair.toWIF();
-        const account = sdk.dlts.bitcoin.setAccount(privateKey);
+        const account = sdk.dlts.bitcoin.addAccount(privateKey);
         expect(account.privateKey).toBe(privateKey);
     });
 
     it('should fail if invalid private key', () => {
         const privateKey = "123";
         try {
-            sdk.dlts.bitcoin.setAccount(privateKey);
+            sdk.dlts.bitcoin.addAccount(privateKey);
         } catch (e) {
             expect(e).toEqual(Error("Private key provided is invalid"));
         }
