@@ -26,5 +26,14 @@ describe("bitcoin", () => {
         const account = sdk.dlts.bitcoin.setAccount(privateKey);
         expect(account.privateKey).toBe(privateKey);
     });
+
+    it('should fail if invalid private key', () => {
+        const privateKey = "123";
+        try {
+            sdk.dlts.bitcoin.setAccount(privateKey);
+        } catch (e) {
+            expect(e).toEqual(Error("Private key provided is invalid"));
+        }
+    });
   });
 });

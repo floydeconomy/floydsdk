@@ -18,9 +18,13 @@ class Bitcoin extends AbstractDLT {
 
   /** @inheritdoc */
   setAccount(privateKey: string): TypeAccount {
-    const keyPair = bitcoin.ECPair.fromWIF(privateKey);
-    const account = this._buildAccount(keyPair);
-    return account;
+    try {
+      const keyPair = bitcoin.ECPair.fromWIF(privateKey);
+      const account = this._buildAccount(keyPair);
+      return account;
+    } catch {
+      throw new Error("Private key provided is invalid");
+    }
   }
 
   private _buildAccount(keyPair: any): TypeAccount {
