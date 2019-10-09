@@ -1,6 +1,5 @@
 import { TypeDLT, TypeNetwork, TypeSDK } from "../types";
 import AbstractDLT from "../abstract/dlts/dlt";
-import { Bitcoin } from '../abstract';
 
 /**
  * This class is the base class the software development kit. It facilitates the methods
@@ -62,18 +61,6 @@ class FloydSDK {
       }
     }
   }
-
-  // /**
-  //  * This serves as a mock dlt
-  //  * @param {TypeDLT} dlt
-  //  * @return { AbstractDLT }
-  //  */
-  // private mockLoadDLT(dlt: TypeDLT): AbstractDLT {
-  //   if (dlt.dlt == "bitcoin")
-  //     return new Bitcoin();
-  //   else
-  //     return null;
-  // };
 }
 
 export default FloydSDK;
