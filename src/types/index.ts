@@ -1,8 +1,9 @@
-import { TypeNetwork, TypeSDK, TypeProvider, TypeDLT } from './sdk';
+import { TypeNetwork, TypeSDK, TypeProvider, TypeDLT, TypeAccount } from './sdk';
 
 export {
   TypeDLT,
   TypeSDK,
   TypeNetwork,
-  TypeProvider
+  TypeProvider,
+  TypeAccount
 };

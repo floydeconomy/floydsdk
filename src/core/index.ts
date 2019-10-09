@@ -1,4 +1,4 @@
-import { TypeDLT, TypeNetwork, TypeSDK, TypeProvider } from "../types";
+import { TypeDLT, TypeNetwork, TypeSDK } from "../types";
 import AbstractDLT from "../abstract/dlts/dlt";
 import { Bitcoin } from '../abstract';
 
@@ -37,8 +37,8 @@ class FloydSDK {
   }
 
   /**
-   * Validate the provided options
-   * @param options
+   * Validate the provided dlts options
+   * @param dlts
    */
   private validateDLT(dlts: TypeDLT[]): void {
     if (!dlts || dlts.length === 0) {
@@ -49,12 +49,23 @@ class FloydSDK {
   /**
    * Load the dlt to the Overledger SDK
    * @param {Object} config
-   *
-   * @return {Provider}
+   * @return { AbstractDLT }
    */
-  private loadDLT(config: TypeDLT) {
-    return new Bitcoin("bitcoin");
+  private loadDLT(dlt: TypeDLT) : AbstractDLT {
+    return this.mockLoadDLT(dlt);
   }
+
+  /**
+   * This serves as a mock dlt
+   * @param {TypeDLT} dlt
+   * @return { AbstractDLT }
+   */
+  private mockLoadDLT(dlt: TypeDLT): AbstractDLT {
+    if (dlt.dlt == "bitcoin")
+      return new Bitcoin();
+    else
+      return null;
+  };
 }
 
 export default FloydSDK;

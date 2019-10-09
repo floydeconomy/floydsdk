@@ -20,4 +20,9 @@ type TypeSDK = {
   provider?: TypeProvider;
 };
 
-export { TypeSDK, TypeNetwork, TypeProvider, TypeDLT };
+type TypeAccount = {
+  privateKey: string;
+  address: string;
+}
+
+export { TypeSDK, TypeNetwork, TypeProvider, TypeDLT, TypeAccount };

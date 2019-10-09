@@ -1,27 +1,29 @@
+import { TypeAccount } from '../../types/sdk';
+
 abstract class AbstractDLT {
-  _name: string;
-  _symbol: string;
-  sdk: any;
   options: Object;
+  name: string;
+  symbol: string;
+
+  /** This handles all the accounts in the DLT, whereby, the key is the address */
+  accounts: TypeAccount[];
 
   /**
-   * @param {any} sdk
    * @param {Object} options
    */
-  constructor(name: string, symbol: string, sdk: any, options: Object = {}) {
-    this.sdk = sdk;
+  constructor(options: Object = {}) {
     this.options = options;
-    this._name = name;
-    this._symbol = symbol;
+    this.accounts = new Array<TypeAccount>();
   }
 
-  get name(): string {
-    return this.name;
-  }
+  /**
+   * Sets the accounts associated with the DLT
+   * @param {string} privateKey
+   */
+  abstract setAccount(privateKey: string): TypeAccount;
 
-  get symbol(): string {
-    return this.symbol;
-  }
+  /** Creates a new account */
+  abstract createAccount(): TypeAccount;
 }
 
 export default AbstractDLT;
