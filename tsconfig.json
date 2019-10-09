@@ -64,6 +64,7 @@
     "src/**/*"
   ],
   "exclude": [
+    "package.json",
     "node_modules", 
     "**/*.spec.ts",
     "jest.config.js"

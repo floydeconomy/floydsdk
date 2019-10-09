@@ -40,4 +40,10 @@ describe("bitcoin", () => {
         }
     });
   });
+
+  describe("provider", () => {
+    it("should create the provider", () => {
+        
+    });
+  });
 });
