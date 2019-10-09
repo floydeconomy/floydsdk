@@ -1,14 +1,14 @@
 import AbstractDLT from "./dlt";
-import { TypeAccount } from '../../types/sdk';
-import * as bitcoin from 'bitcoinjs-lib';
+import { TypeAccount } from "../../types/sdk";
+import * as bitcoin from "bitcoinjs-lib";
 
 class Bitcoin extends AbstractDLT {
   /** Name of the DLT */
-  name: string = 'bitcoin';
+  name: string = "bitcoin";
 
   /** Symbol used by the DLT */
-  symbol: string = 'XBT'
-  
+  symbol: string = "btc";
+
   /**
    * @inheritdoc
    */
@@ -16,7 +16,9 @@ class Bitcoin extends AbstractDLT {
     super(options);
   }
 
-  /** @inheritdoc */
+  /** 
+   * @inheritdoc
+   */
   addAccount(privateKey?: string): TypeAccount {
     try {
       var keyPair;
@@ -24,24 +26,17 @@ class Bitcoin extends AbstractDLT {
         keyPair = bitcoin.ECPair.fromWIF(privateKey);
       } else {
         keyPair = bitcoin.ECPair.makeRandom();
+        privateKey = keyPair.toWIF();
       }
-      return this._buildAccount(keyPair);
+      const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+      const account: TypeAccount = { 
+        privateKey, 
+        address 
+      };
+      this.accounts.push(account);
+      return account;
     } catch {
-      throw new Error("Private key provided is invalid");
-    }
-  }
-
-  /** This is a common method used by setAccount and createAccount */
-  private _buildAccount(keyPair: any): TypeAccount {
-    const privateKey = keyPair.toWIF();
-    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-    this.accounts.push({
-      privateKey,
-      address
-    });
-    return {
-      privateKey,
-      address
+      throw new Error("[Account] Issue while creating the key pair.");
     }
   }
 }

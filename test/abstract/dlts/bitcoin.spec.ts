@@ -32,7 +32,7 @@ describe("bitcoin", () => {
         try {
             sdk.dlts.bitcoin.addAccount(privateKey);
         } catch (e) {
-            expect(e).toEqual(Error("Private key provided is invalid"));
+            expect(e).toEqual(Error("[Account] Issue while creating the key pair."));
         }
     });
   });
