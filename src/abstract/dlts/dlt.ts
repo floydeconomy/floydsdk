@@ -2,7 +2,11 @@ import { TypeAccount } from '../../types/sdk';
 
 abstract class AbstractDLT {
   options: Object;
+
+    /** Name of the DLT */
   name: string;
+
+    /** Symbol used by the DLT */
   symbol: string;
   sdk: any;
 

@@ -1,5 +1,4 @@
 import FloydSDK from "../../src/core/index";
-import Bitcoin from "../../src/abstract/dlts/bitcoin";
 
 describe("core", () => {
   describe("network", () => {

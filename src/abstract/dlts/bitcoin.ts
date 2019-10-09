@@ -3,22 +3,18 @@ import { TypeAccount } from "../../types/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 
 class Bitcoin extends AbstractDLT {
-  /** Name of the DLT */
+  /** @inheritdoc */
   name: string = "bitcoin";
-
-  /** Symbol used by the DLT */
+  
+  /** @inheritdoc */
   symbol: string = "btc";
 
-  /**
-   * @inheritdoc
-   */
+  /** @inheritdoc */
   constructor(sdk: any, options: Object = {}) {
     super(sdk, options);
   }
 
-  /** 
-   * @inheritdoc
-   */
+  /**  @inheritdoc */
   addAccount(privateKey?: string): TypeAccount {
     try {
       var keyPair;
