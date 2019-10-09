@@ -1,4 +1,4 @@
-import { TypeAccount } from '../../types/sdk';
+import { TypeAccount, TypeProvider } from '../../types/sdk';
 
 abstract class AbstractDLT {
   options: Object;
@@ -27,6 +27,12 @@ abstract class AbstractDLT {
    * @param {string} privateKey
    */
   abstract addAccount(privateKey?: string): TypeAccount;
+
+  /**
+   * Set up provider
+   * @param {options}
+   */
+  abstract createProvider(options: TypeProvider): void;
 }
 
 export default AbstractDLT;

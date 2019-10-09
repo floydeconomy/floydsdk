@@ -4,12 +4,12 @@ export const TESTNET: TypeNetwork = 'testnet';
 export const MAINNET: TypeNetwork = 'mainnet';
 
 class Provider {
-  options: TypeProvider;
+  settings: TypeProvider;
   net: TypeNetwork;
 
   constructor(options: TypeProvider = {}) {
-    this.options = options;
-    this.net = this.options.network || TESTNET;
+    this.settings = options;
+    this.net = this.settings.network || TESTNET;
   }
 }
 
