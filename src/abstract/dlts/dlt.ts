@@ -4,6 +4,7 @@ abstract class AbstractDLT {
   options: Object;
   name: string;
   symbol: string;
+  sdk: any;
 
   /** This handles all the accounts in the DLT, whereby, the key is the address */
   accounts: TypeAccount[];
@@ -11,7 +12,8 @@ abstract class AbstractDLT {
   /**
    * @param {Object} options
    */
-  constructor(options: Object = {}) {
+  constructor(sdk: any, options: Object = {}) {
+    this.sdk = sdk;
     this.options = options;
     this.accounts = new Array<TypeAccount>();
   }

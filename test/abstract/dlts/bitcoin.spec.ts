@@ -1,19 +1,23 @@
 import FloydSDK from "../../../src/core/index";
 import * as bitcoin from "bitcoinjs-lib";
+import Bitcoin from "../../../src/abstract/dlts/bitcoin";
 
 describe("bitcoin", () => {
   const ADDRESS_LENGTH = 34;
   const PRIVATEKEY_LENGTH = 52;
+  var sdk;
+  beforeEach(()=> {
+      const options = {
+          dlts: [{ name: "bitcoin" }]
+        };
+      sdk = new FloydSDK(options);
+    });
+
+  test('should instantiate bitcoin', () => {
+    expect(sdk.dlts.bitcoin).toBeInstanceOf(Bitcoin);
+  });
 
   describe("accounts", () => {
-    var sdk;
-    beforeEach(()=> {
-        const options = {
-            dlts: [{ dlt: "bitcoin" }]
-          };
-        sdk = new FloydSDK(options);
-      });
-
     it("address should have the correct length", () => {
       const account = sdk.dlts.bitcoin.addAccount();
       expect(account.address).toHaveLength(ADDRESS_LENGTH);

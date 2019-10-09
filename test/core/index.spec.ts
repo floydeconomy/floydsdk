@@ -1,10 +1,11 @@
 import FloydSDK from "../../src/core/index";
+import Bitcoin from "../../src/abstract/dlts/bitcoin";
 
 describe("core", () => {
   describe("network", () => {
     test("should default to testnet", () => {
       const options = {
-        dlts: [{ dlt: "bitcoin" }]
+        dlts: [{ name: "bitcoin" }]
       };
       let sdk = new FloydSDK(options);
       expect(sdk.network).toBe("testnet");
@@ -12,7 +13,7 @@ describe("core", () => {
 
     test("should be able to be set to mainnet", () => {
       const options = {
-        dlts: [{ dlt: "bitcoin" }],
+        dlts: [{ name: "bitcoin" }],
         provider: {
             network: "mainnet",
             timeout: 1000,
@@ -23,7 +24,7 @@ describe("core", () => {
     });
   });
 
-  describe("validate", () => {
+  describe("dlts", () => {
     test("should throw error if dlts is empty", () => {
         const options = {
             dlts: []
@@ -33,6 +34,18 @@ describe("core", () => {
         } catch (e) {
             expect(e).toEqual(Error('There arent any DLTs provided.'));
         }
+    });
+
+    test("should throw error if wrong dlt name", () => {
+      const options = {
+        dlts: [{ name: "wrongdlt" }]
+      };
+
+      try {
+        new FloydSDK(options);
+      } catch (e) {
+        expect(e).toEqual(Error("The DLT name provided is not valid, please add wrongdlt manually"));
+      }
     });
   });
 });

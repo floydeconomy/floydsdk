@@ -12,8 +12,8 @@ class Bitcoin extends AbstractDLT {
   /**
    * @inheritdoc
    */
-  constructor(options: Object = {}) {
-    super(options);
+  constructor(sdk: any, options: Object = {}) {
+    super(sdk, options);
   }
 
   /** 

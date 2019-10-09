@@ -52,20 +52,28 @@ class FloydSDK {
    * @return { AbstractDLT }
    */
   private loadDLT(dlt: TypeDLT) : AbstractDLT {
-    return this.mockLoadDLT(dlt);
+    const dltName = `${dlt.name}`;
+    try {
+      const provider = require(`../abstract/dlts/${dltName}`).default;
+      return new provider(this, dlt);
+    } catch (e) {
+      if (e.code === 'MODULE_NOT_FOUND') {
+        throw new Error(`The DLT name provided is not valid, please add ${dltName} manually`);
+      }
+    }
   }
 
-  /**
-   * This serves as a mock dlt
-   * @param {TypeDLT} dlt
-   * @return { AbstractDLT }
-   */
-  private mockLoadDLT(dlt: TypeDLT): AbstractDLT {
-    if (dlt.dlt == "bitcoin")
-      return new Bitcoin();
-    else
-      return null;
-  };
+  // /**
+  //  * This serves as a mock dlt
+  //  * @param {TypeDLT} dlt
+  //  * @return { AbstractDLT }
+  //  */
+  // private mockLoadDLT(dlt: TypeDLT): AbstractDLT {
+  //   if (dlt.dlt == "bitcoin")
+  //     return new Bitcoin();
+  //   else
+  //     return null;
+  // };
 }
 
 export default FloydSDK;
