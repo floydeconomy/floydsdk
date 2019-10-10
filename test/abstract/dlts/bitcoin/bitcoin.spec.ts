@@ -1,6 +1,6 @@
 import FloydSDK from "../../../../src/core/index";
 import * as bitcoin from "bitcoinjs-lib";
-import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin";
+import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin.dlt";
 
 describe("bitcoin", () => {
   const ADDRESS_LENGTH = 34;

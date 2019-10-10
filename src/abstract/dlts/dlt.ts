@@ -1,6 +1,6 @@
 import { TypeAccount, TypeProvider, TypeDLT } from '../../types/sdk';
 import FloydSDK from '../../core';
-import Provider from '../../provider';
+import Provider from './provider';
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */

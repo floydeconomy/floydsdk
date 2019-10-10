@@ -1,7 +1,7 @@
-import Provider from '../../../provider';
+import AbstactProvider from '../provider';
 import { TypeProvider } from '../../../types';
 
-class BitcoinProvider extends Provider {
+class BitcoinProvider extends AbstactProvider {
     constructor(options: TypeProvider) {
         super(options);
     }

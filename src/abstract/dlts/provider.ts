@@ -1,9 +1,9 @@
-import { TypeNetwork, TypeProvider } from '../types';
+import { TypeNetwork, TypeProvider } from '../../types';
 
 export const TESTNET: TypeNetwork = 'testnet';
 export const MAINNET: TypeNetwork = 'mainnet';
 
-abstract class Provider {
+abstract class AbstractProvider {
   settings: TypeProvider;
   net: TypeNetwork;
 
@@ -27,4 +27,4 @@ abstract class Provider {
   abstract validateProvider(options: Object): void;
 }
 
-export default Provider;
+export default AbstractProvider;
