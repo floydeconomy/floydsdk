@@ -40,15 +40,15 @@ abstract class AbstractDLT {
    * @return { AbstractDLT }
    */
   private loadProvider(options: TypeProvider) : void {
-    // try {
-    //   const provider = require(`./${this.name}.provider`).default;
-    //   console.log(provider);
-    //   // return new provider(options);
-    // } catch (e) {
-    //   if (e.code === 'MODULE_NOT_FOUND') {
-    //     throw new Error(`The Provider for this DLT is not present, please add the provider for ${this.name} manually.`);
-    //   }
-    // }
+    try {
+      // const provider = require(`./${this.name}.provider`).default;
+      // console.log(provider);
+      // // return new provider(options);
+    } catch (e) {
+      if (e.code === 'MODULE_NOT_FOUND') {
+        throw new Error(`The Provider for this DLT is not present, please add the provider for ${this.name} manually.`);
+      }
+    }
   }
 
 }
