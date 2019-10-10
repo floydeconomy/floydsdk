@@ -33,7 +33,7 @@ describe("core", () => {
       try {
         new FloydSDK(options);
       } catch (e) {
-        expect(e).toEqual(Error("There arent any DLTs provided."));
+        expect(e).toEqual(Error("[DLT] There arent any DLTs provided."));
       }
     });
 
@@ -47,7 +47,7 @@ describe("core", () => {
       } catch (e) {
         expect(e).toEqual(
           Error(
-            "The DLT name provided is not valid, please add wrongdlt manually"
+            "[DLT] The DLT name provided is not valid, please add wrongdlt manually"
           )
         );
       }

@@ -41,7 +41,7 @@ class FloydSDK {
    */
   private validateDLT(dlts: TypeDLT[]): void {
     if (!dlts || dlts.length === 0) {
-      throw new Error("There arent any DLTs provided.");
+      throw new Error("[DLT] There arent any DLTs provided.");
     }
   }
 
@@ -57,7 +57,9 @@ class FloydSDK {
       return new dlt(this, dltConfig);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`The DLT name provided is not valid, please add ${dltName} manually`);
+        throw new Error(`[DLT] The DLT name provided is not valid, please add ${dltName} manually`);
+      } else {
+        throw e
       }
     }
   }

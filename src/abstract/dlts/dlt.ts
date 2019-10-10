@@ -24,7 +24,7 @@ abstract class AbstractDLT {
    */
   constructor(sdk: FloydSDK, options: TypeDLT) {
     this.sdk = sdk;
-    this.loadProvider(options.provider);
+    this.provider = this.loadProvider(options);
   }
 
   /**
@@ -39,14 +39,14 @@ abstract class AbstractDLT {
    * @param {Object} config
    * @return { AbstractDLT }
    */
-  private loadProvider(options: TypeProvider) : void {
+  public loadProvider(options: TypeDLT) : Provider {
+    const dltName = `${options.name}`;
     try {
-      // const provider = require(`./${this.name}.provider`).default;
-      // console.log(provider);
-      // // return new provider(options);
+      const provider = require(`../../abstract/dlts/${dltName}/${dltName}.provider`).default;
+      return new provider(options);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`The Provider for this DLT is not present, please add the provider for ${this.name} manually.`);
+        throw new Error(`The Provider for this DLT is not present, please add the provider for ${dltName} manually.`);
       }
     }
   }

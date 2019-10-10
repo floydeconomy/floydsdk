@@ -6,10 +6,10 @@ class BitcoinProvider extends Provider {
         super(options);
     }
     createProvider(options: Object): void {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
     }   
     validateProvider(options: Object): void {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
     }
 }
 

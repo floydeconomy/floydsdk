@@ -7,11 +7,11 @@ abstract class Provider {
   settings: TypeProvider;
   net: TypeNetwork;
 
-  constructor(options: TypeProvider = {}) {
-    this.validateProvider(options);
-    this.settings = options;
-    this.net = this.settings.network || TESTNET;
-    this.createProvider(options);
+  constructor(options: TypeProvider) {
+    // this.validateProvider(options);
+    // this.settings = options;
+    // this.net = this.settings.network || TESTNET;
+    // this.createProvider(options);
   }
 
   /**
