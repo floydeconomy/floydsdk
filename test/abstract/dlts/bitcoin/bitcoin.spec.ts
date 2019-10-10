@@ -1,6 +1,8 @@
 import FloydSDK from "../../../../src/core/index";
 import * as bitcoin from "bitcoinjs-lib";
 import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin.dlt";
+import { TypeDLT } from '../../../../src/types';
+import AbstractProvider from '../../../../src/abstract/dlts/provider';
 
 describe("bitcoin", () => {
   const ADDRESS_LENGTH = 34;
@@ -44,11 +46,23 @@ describe("bitcoin", () => {
   });
 
   describe("provider", () => {
-    it("should be validated", async () => {
-      const options = {
-        dlts: [{ name: "bitcoin" }]
-      };
-      sdk = new FloydSDK(options);
+    test("should throw error if provider does not exist", () => {
+      const dltOptions: TypeDLT = {
+        name: "notbitcoin"
+      }
+      try {
+        new Bitcoin(sdk, dltOptions);
+      } catch (e) {
+        expect(e).toEqual(Error("[Provider] The Provider for this DLT is not present, please add the provider for notbitcoin manually."));
+      }
+    });
+
+    test("should return a provider object", () => {
+      const dltOptions: TypeDLT = {
+        name: "bitcoin"
+      }
+      const bitcoin = new Bitcoin(sdk, dltOptions);
+      expect(bitcoin.provider).toBeInstanceOf(AbstractProvider);
     });
   });
 });

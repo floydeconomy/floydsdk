@@ -46,7 +46,7 @@ abstract class AbstractDLT {
       return new provider(options);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`The Provider for this DLT is not present, please add the provider for ${dltName} manually.`);
+        throw new Error(`[Provider] The Provider for this DLT is not present, please add the provider for ${dltName} manually.`);
       }
     }
   }
