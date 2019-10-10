@@ -1,5 +1,6 @@
-import AbstractDLT from "./dlt";
-import { TypeAccount } from "../../types/sdk";
+import AbstractDLT from "../dlt";
+import { TypeAccount, TypeProvider, TypeDLT } from "../../../types/sdk";
+
 import * as bitcoin from "bitcoinjs-lib";
 
 class Bitcoin extends AbstractDLT {
@@ -10,7 +11,7 @@ class Bitcoin extends AbstractDLT {
   symbol: string = "btc";
 
   /** @inheritdoc */
-  constructor(sdk: any, options: Object = {}) {
+  constructor(sdk: any, options: TypeDLT) {
     super(sdk, options);
   }
 

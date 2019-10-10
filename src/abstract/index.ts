@@ -1,5 +1,5 @@
-import Bitcoin from './dlts/bitcoin';
+import Bitcoin from './dlts/bitcoin/bitcoin.dlt';
 
 export {
-  Bitcoin,
+  Bitcoin as Bitcoin,
 };

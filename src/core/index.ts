@@ -26,7 +26,7 @@ class FloydSDK {
     this.validateDLT(options.dlts);
 
     // defaults to testnet if not provided
-    this.network = (options.provider && options.provider.network) || "testnet";
+    this.network = (options.network) || "testnet";
 
     // create dlts
     options.dlts.forEach((dltConfig: TypeDLT) => {
@@ -41,7 +41,7 @@ class FloydSDK {
    */
   private validateDLT(dlts: TypeDLT[]): void {
     if (!dlts || dlts.length === 0) {
-      throw new Error("There arent any DLTs provided.");
+      throw new Error("[DLT] There arent any DLTs provided.");
     }
   }
 
@@ -50,14 +50,16 @@ class FloydSDK {
    * @param {Object} config
    * @return { AbstractDLT }
    */
-  private loadDLT(dlt: TypeDLT) : AbstractDLT {
-    const dltName = `${dlt.name}`;
+  private loadDLT(dltConfig: TypeDLT) : AbstractDLT {
+    const dltName = `${dltConfig.name}`;
     try {
-      const provider = require(`../abstract/dlts/${dltName}`).default;
-      return new provider(this, dlt);
+      const dlt = require(`../abstract/dlts/${dltName}/${dltName}.dlt`).default;
+      return new dlt(this, dltConfig);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`The DLT name provided is not valid, please add ${dltName} manually`);
+        throw new Error(`[DLT] The DLT name provided is not valid, please add ${dltName} manually`);
+      } else {
+        throw e
       }
     }
   }

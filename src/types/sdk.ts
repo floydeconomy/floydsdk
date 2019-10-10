@@ -5,7 +5,8 @@ type TypeProvider = {
 
 type TypeDLT = {
   name: string,
-  privateKeys?: [String]
+  privateKeys?: [String],
+  provider?: TypeProvider
 };
 
 /** Note: 
@@ -17,7 +18,7 @@ type TypeNetwork = "mainnet" | "testnet" | string;
 
 type TypeSDK = {
   dlts: TypeDLT[];
-  provider?: TypeProvider;
+  network?: TypeNetwork;
 };
 
 type TypeAccount = {
