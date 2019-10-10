@@ -714,6 +714,14 @@ bip66@^1.1.0:
   dependencies:
     safe-buffer "^5.0.1"
 
+bitcoin-cli@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/bitcoin-cli/-/bitcoin-cli-0.0.3.tgz#fa2f0a8babd75084841a065b395896e2bdc52af8"
+  integrity sha1-+i8Ki6vXUISEGgZbOViW4r3FKvg=
+  dependencies:
+    bitcoind-rpc "^0.2.1"
+    minimist "^1.1.0"
+
 bitcoin-core@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bitcoin-core/-/bitcoin-core-3.0.0.tgz#3ad59a16b6748d8b60937affae6c5f1df2db770d"
@@ -731,6 +739,11 @@ bitcoin-ops@^1.3.0, bitcoin-ops@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz#e45de620398e22fd4ca6023de43974ff42240278"
   integrity sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow==
+
+bitcoind-rpc@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/bitcoind-rpc/-/bitcoind-rpc-0.2.1.tgz#34911190c3795f68c13c1ccabfa8366b0408e3fc"
+  integrity sha1-NJERkMN5X2jBPBzKv6g2awQI4/w=
 
 bitcoinjs-lib@^5.1.6:
   version "5.1.6"
@@ -3417,7 +3430,7 @@ minimist@0.0.8:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
   integrity sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=
 
-minimist@^1.1.1, minimist@^1.2.0:
+minimist@^1.1.0, minimist@^1.1.1, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
   integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=

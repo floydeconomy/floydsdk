@@ -1,5 +1,5 @@
 {
-  "name": "FloydSDK",
+  "name": "floydsdk",
   "version": "1.0.0",
   "description": "",
   "repository": {
@@ -8,17 +8,23 @@
   },
   "author": "lpfloyd",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "yarn test --coverage"
   },
-  
   "dependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.11",
+    "bitcoin-cli": "^0.0.3",
     "bitcoin-core": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3",
     "web3": "^1.2.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "!**/src/**/*.ts"
+    ]
   }
 }

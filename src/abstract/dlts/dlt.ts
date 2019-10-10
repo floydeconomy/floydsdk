@@ -1,25 +1,31 @@
 import { TypeAccount, TypeProvider } from '../../types/sdk';
+import FloydSDK from '../../core';
 
 abstract class AbstractDLT {
-  options: Object;
+  /** Provider configuration for the DLT */
+  options: TypeProvider;
 
     /** Name of the DLT */
   name: string;
 
     /** Symbol used by the DLT */
   symbol: string;
+
+  /** Instance of the FloydSDK  */
   sdk: any;
 
   /** This handles all the accounts in the DLT, whereby, the key is the address */
   accounts: TypeAccount[];
 
   /**
-   * @param {Object} options
+   * @param {FloydSDK} sdk
+   * @param {TypeProvider} options
    */
-  constructor(sdk: any, options: Object = {}) {
+  constructor(sdk: FloydSDK, options: TypeProvider = {}) {
     this.sdk = sdk;
     this.options = options;
     this.accounts = new Array<TypeAccount>();
+    this.createProvider(options);
   }
 
   /**

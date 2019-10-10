@@ -2,6 +2,7 @@ import AbstractDLT from "./dlt";
 import { TypeAccount, TypeProvider } from "../../types/sdk";
 
 import * as bitcoin from "bitcoinjs-lib";
+import client from "bitcoin-cli";
 
 class Bitcoin extends AbstractDLT {
   /** @inheritdoc */
