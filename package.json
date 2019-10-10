@@ -1,11 +1,12 @@
 {
-  "name": "floydsdk",
+  "name": "floyd",
   "version": "1.0.0",
   "description": "",
   "repository": {
     "url": "https://github.com/lpfloyd/floyd",
     "type": "git"
   },
+  "main": "src/index.ts",
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",

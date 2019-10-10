@@ -15,9 +15,12 @@ describe("bitcoin", () => {
     sdk = new FloydSDK(options);
   });
 
-  test("should instantiate bitcoin as abstracdlt", () => {
-    expect(sdk.dlts.bitcoin).toBeInstanceOf(Bitcoin);
-  });
+  describe("dlt", () => {
+    it("should instantiate bitcoin as abstracdlt", () => {
+      expect(sdk.dlts.bitcoin).toBeInstanceOf(Bitcoin);
+    });
+  })
+
 
   describe("accounts", () => {
     it("address should have the correct length", () => {
