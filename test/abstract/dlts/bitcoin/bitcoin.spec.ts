@@ -1,12 +1,12 @@
 import FloydSDK from "../../../../src/core/index";
 import * as bitcoin from "bitcoinjs-lib";
 import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin.dlt";
-import { TypeDLT } from '../../../../src/types';
+import { TypeDLT, TypeAccount } from '../../../../src/types';
 import AbstractProvider from '../../../../src/abstract/dlts/provider';
+import 'jest-extended';
+import AbstractDLT from '../../../../src/abstract/dlts/dlt';
 
 describe("bitcoin", () => {
-  const ADDRESS_LENGTH = 34;
-  const PRIVATEKEY_LENGTH = 52;
   var sdk;
   beforeEach(() => {
     const options = {
@@ -15,22 +15,26 @@ describe("bitcoin", () => {
     sdk = new FloydSDK(options);
   });
 
-  test("should instantiate bitcoin", () => {
+  test("should instantiate bitcoin as abstracdlt", () => {
     expect(sdk.dlts.bitcoin).toBeInstanceOf(Bitcoin);
   });
 
   describe("accounts", () => {
     it("address should have the correct length", () => {
       const account = sdk.dlts.bitcoin.addAccount();
-      expect(account.address).toHaveLength(ADDRESS_LENGTH);
-      expect(account.privateKey).toHaveLength(PRIVATEKEY_LENGTH);
+      expect(account.privateKey).toBeString();      
+      expect(account.address).toBeString();    
     });
 
     it("should be able to be set with a valid private key", () => {
       const keyPair = bitcoin.ECPair.makeRandom();
       const privateKey = keyPair.toWIF();
       const account = sdk.dlts.bitcoin.addAccount(privateKey);
+
+      expect(account.privateKey).toBeString();      
       expect(account.privateKey).toBe(privateKey);
+
+      expect(account.address).toBeString();
     });
 
     it("should fail if invalid private key", () => {
