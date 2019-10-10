@@ -53,7 +53,7 @@ class FloydSDK {
   private loadDLT(dlt: TypeDLT) : AbstractDLT {
     const dltName = `${dlt.name}`;
     try {
-      const provider = require(`../abstract/dlts/${dltName}`).default;
+      const provider = require(`../abstract/dlts/${dltName}/${dltName}`).default;
       return new provider(this, dlt);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {

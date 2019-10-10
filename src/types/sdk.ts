@@ -5,7 +5,8 @@ type TypeProvider = {
 
 type TypeDLT = {
   name: string,
-  privateKeys?: [String]
+  privateKeys?: [String],
+  provider: TypeProvider
 };
 
 /** Note: 

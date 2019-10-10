@@ -1,11 +1,13 @@
 import FloydSDK from "../../src/core/index";
+import { TypeSDK } from '../../src/types';
 
 describe("core", () => {
   describe("network", () => {
     test("should default to testnet", () => {
-      const options = {
-        dlts: [{ name: "bitcoin" }]
-      };
+      const options: TypeSDK = {
+        dlts: [
+          { name: "bitcoin" }
+      ]};
       let sdk = new FloydSDK(options);
       expect(sdk.network).toBe("testnet");
     });
