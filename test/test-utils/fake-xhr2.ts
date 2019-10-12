@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import "jest-extended";
 
 interface Request {
   url?: string;
@@ -55,8 +55,8 @@ class FakeXHR2 {
   };
 
   public open = function(method, host, async) {
-    expect(method).to.be.oneOf(["GET", "POST"]);
-    expect(!!host).to.be.equal(true);
+    expect(method).toBeOneOf(["GET", "POST"]);
+    expect(!!host).toBe(true);
     this.async = typeof async === "boolean" ? async : true;
     this.host = host;
     request.url = host.replace("http://localhost:8669", "");
@@ -111,9 +111,9 @@ class FakeXHR2 {
       throw new Error("send failed");
     }
 
-    expect(payload === null || typeof payload === "string").to.be.equal(true);
+    expect(payload === null || typeof payload === "string").toBe(true);
     if (this.async) {
-      expect(this.onreadystatechange).to.be.a("function");
+      expect(this.onreadystatechange).toBeFunction();
       this.readyState = 3;
       this.onreadystatechange();
       this.readyState = 4;
