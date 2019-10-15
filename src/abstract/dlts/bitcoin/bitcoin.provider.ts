@@ -8,7 +8,7 @@ class BitcoinProvider extends AbstactProvider {
     createProvider(options: Object): void {
         // throw new Error('Method not implemented.');
     }   
-    validateProvider(options: Object): void {
+    validateOptions(options: Object): void {
         // throw new Error('Method not implemented.');
     }
 }

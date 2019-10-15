@@ -25,9 +25,6 @@ class FloydSDK {
     // validate
     this.validateDLT(options.dlts);
 
-    // defaults to testnet if not provided
-    this.network = (options.network) || "testnet";
-
     // create dlts
     options.dlts.forEach((dltConfig: TypeDLT) => {
       const dlt = this.loadDLT(dltConfig);

@@ -24,7 +24,7 @@ abstract class AbstractProvider {
    * This validates the provider given according to the DLT.
    * @param {options} options
    */
-  abstract validateProvider(options: Object): void;
+  abstract validateOptions(options: Object): void;
 }
 
 export default AbstractProvider;

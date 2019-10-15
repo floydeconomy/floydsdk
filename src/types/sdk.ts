@@ -18,7 +18,6 @@ type TypeNetwork = "mainnet" | "testnet" | string;
 
 type TypeSDK = {
   dlts: TypeDLT[];
-  network?: TypeNetwork;
 };
 
 type TypeAccount = {

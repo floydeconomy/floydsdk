@@ -4,26 +4,25 @@ import { TypeSDK, TypeDLT } from "../../src/types";
 describe("core", () => {
   let options: TypeSDK;
 
-  describe("network", () => {
-    test("should default to testnet", () => {
-      options = {
-        dlts: [{
-          name: "bitcoin"
-        }]
-      };
-      let sdk = new FloydSDK(options);
-      expect(sdk.network).toBe("testnet");
-    });
+  // describe("network", () => {
+  //   test("should default to testnet", () => {
+  //     options = {
+  //         name: "bitcoin"
+  //       }]
+  //     };
+  //     let sdk = new FloydSDK(options);
+  //     expect(sdk.network).toBe("testnet");
+  //   });
 
-    test("should be able to be set to mainnet", () => {
-      options = {
-        dlts: [{ name: "bitcoin" }],
-        network: "mainnet"
-      };
-      let sdk = new FloydSDK(options);
-      expect(sdk.network).toBe("mainnet");
-    });
-  });
+  //   test("should be able to be set to mainnet", () => {
+  //     options = {
+  //       dlts: [{ name: "bitcoin" }],
+  //       network: "mainnet"
+  //     };
+  //     let sdk = new FloydSDK(options);
+  //     expect(sdk.network).toBe("mainnet");
+  //   });
+  // });
 
   describe("dlts", () => {
     test("should throw error if dlts is empty", () => {
