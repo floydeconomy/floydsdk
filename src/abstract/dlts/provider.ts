@@ -5,11 +5,12 @@ export const MAINNET: TypeNetwork = 'mainnet';
 
 abstract class AbstractProvider {
   settings: TypeProvider;
-  net: TypeNetwork;
+  network: TypeNetwork;
 
   constructor(options: TypeProvider) {
-    // this.validateProvider(options);
-    // this.settings = options;
+      // defaults to testnet if not provided
+      this.network = (options.network) || "testnet";
+      
     // this.net = this.settings.network || TESTNET;
     // this.createProvider(options);
   }
@@ -19,12 +20,6 @@ abstract class AbstractProvider {
    * @param options
    */
   abstract createProvider(options: Object): void;
-
-  /**
-   * This validates the provider given according to the DLT.
-   * @param {options} options
-   */
-  abstract validateOptions(options: Object): void;
 }
 
 export default AbstractProvider;
