@@ -1,5 +1,5 @@
 type TypeProvider = {
-  timeout?: number;
+  timeout?: number | 0;
   uri: string;
 };
 
