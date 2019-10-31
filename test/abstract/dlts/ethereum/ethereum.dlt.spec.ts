@@ -1,6 +1,6 @@
 import FloydSDK from "../../../../src/core/index";
 import Ethereum from "../../../../src/abstract/dlts/ethereum/ethereum.dlt";
-import { TypeDLT, TypeAccount } from '../../../../src/types';
+import { TypeDLT } from '../../../../src/types';
 import AbstractProvider from '../../../../src/abstract/dlts/provider';
 
 import 'jest-extended';
@@ -34,7 +34,10 @@ describe("ethereum", () => {
 
     test("should return a provider object", () => {
       const dltOptions: TypeDLT = {
-        name: "ethereum"
+        name: "ethereum",
+        provider: {
+          uri: "http://localhost:8445"
+        }
       }
       const ethereum = new Ethereum(sdk, dltOptions);
       expect(ethereum.provider).toBeInstanceOf(AbstractProvider);

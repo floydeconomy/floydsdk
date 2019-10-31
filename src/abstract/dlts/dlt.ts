@@ -37,7 +37,7 @@ abstract class AbstractDLT {
     const dltName = `${options.name}`;
     try {
       const provider = require(`../../abstract/dlts/${dltName}/${dltName}.provider`).default;
-      return new provider(options);
+      return new provider(options.provider);
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
         throw new Error(`[Provider] The Provider for this DLT is not present, please add the provider for ${dltName} manually.`);

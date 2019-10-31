@@ -1,8 +1,6 @@
 import FloydSDK from "../../../../src/core/index";
 import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
 import { TypeDLT } from '../../../../src/types';
-
-import 'jest-extended';
 import VechainProvider from '../../../../src/abstract/dlts/vechain/vechain.provider';
 
 describe("vechain", () => {
@@ -34,7 +32,10 @@ describe("vechain", () => {
 
     test("should return a provider object", () => {
       const dltOptions: TypeDLT = {
-        name: "vechain"
+        name: "vechain",
+        provider: {
+            uri: "http://localhost:8445"
+          }
       }
       const vechain = new Vechain(sdk, dltOptions);
       expect(vechain.provider).toBeInstanceOf(VechainProvider);

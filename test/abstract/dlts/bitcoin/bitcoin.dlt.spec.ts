@@ -1,7 +1,7 @@
 import FloydSDK from "../../../../src/core/index";
 import * as bitcoin from "bitcoinjs-lib";
 import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin.dlt";
-import { TypeDLT, TypeAccount } from '../../../../src/types';
+import { TypeDLT } from '../../../../src/types';
 import AbstractProvider from '../../../../src/abstract/dlts/provider';
 import 'jest-extended';
 
@@ -65,7 +65,10 @@ describe("bitcoin", () => {
 
     test("should return a provider object", () => {
       const dltOptions: TypeDLT = {
-        name: "bitcoin"
+        name: "bitcoin",
+        provider: {
+          uri: "http://localhost:8445"
+        }
       }
       const bitcoin = new Bitcoin(sdk, dltOptions);
       expect(bitcoin.provider).toBeInstanceOf(AbstractProvider);
