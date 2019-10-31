@@ -1,10 +1,11 @@
 import { TypeAccount, TypeProvider, TypeDLT } from '../../types/sdk';
 import FloydSDK from '../../core';
 import Provider from './provider';
+import AbstractProvider from './provider';
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
-  provider: Provider;
+  provider: AbstractProvider;
 
   /** Name of the DLT */
   name: string;
@@ -26,7 +27,7 @@ abstract class AbstractDLT {
     this.sdk = sdk;
     this.provider = this.loadProvider(options);
   }
-  
+
   /**
    * Load the dlt to the Overledger SDK
    * @param {Object} config

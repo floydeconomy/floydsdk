@@ -1,12 +1,12 @@
 import AbstractDLT from "../dlt";
 import { TypeDLT } from "../../../types/sdk";
 
-class Ethereum extends AbstractDLT {
+class Vechain extends AbstractDLT {
   /** @inheritdoc */
-  name: string = "ethereum";
+  name: string = "vechain";
   
   /** @inheritdoc */
-  symbol: string = "eth";
+  symbol: string = "vet";
 
   /** @inheritdoc */
   constructor(sdk: any, options: TypeDLT) {
@@ -14,4 +14,4 @@ class Ethereum extends AbstractDLT {
   }
 }
 
-export default Ethereum;
+export default Vechain;
