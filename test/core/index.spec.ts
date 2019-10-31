@@ -1,32 +1,9 @@
 import FloydSDK from "../../src/core/index";
-import { TypeSDK, TypeDLT } from "../../src/types";
 
 describe("core", () => {
-  let options: TypeSDK;
-
-  // describe("network", () => {
-  //   test("should default to testnet", () => {
-  //     options = {
-  //         name: "bitcoin"
-  //       }]
-  //     };
-  //     let sdk = new FloydSDK(options);
-  //     expect(sdk.network).toBe("testnet");
-  //   });
-
-  //   test("should be able to be set to mainnet", () => {
-  //     options = {
-  //       dlts: [{ name: "bitcoin" }],
-  //       network: "mainnet"
-  //     };
-  //     let sdk = new FloydSDK(options);
-  //     expect(sdk.network).toBe("mainnet");
-  //   });
-  // });
-
   describe("dlts", () => {
     test("should throw error if dlts is empty", () => {
-      options = {
+      let options = {
         dlts: []
       };
       try {
@@ -37,7 +14,7 @@ describe("core", () => {
     });
 
     test("should throw error if wrong dlt name", () => {
-      options = {
+      let options = {
         dlts: [{ name: "wrongdlt" }]
       };
 
@@ -49,6 +26,32 @@ describe("core", () => {
             "[DLT] The DLT name provided is not valid, please add wrongdlt manually"
           )
         );
+      }
+    });
+    test("should be able to instantiate multiple dlts", () => {
+      let options = {
+        dlts: [{ name: "bitcoin" }, { name: "vechain"}, { name: "ethereum"}]
+      };
+
+      var sdk = new FloydSDK(options);
+      expect(sdk.dlts.bitcoin).toBeDefined;
+      expect(sdk.dlts.vechain).toBeDefined;
+      expect(sdk.dlts.ethereum).toBeDefined;
+    });
+
+    test("should fail if one of the dlts is wrong", () => {
+      let options = {
+        dlts: [{ name: "bitcoin" }, { name: "wrongdlt"}, { name: "ethereum"}]
+      };
+
+      try {
+        new FloydSDK(options);
+      } catch (e) {
+        expect(e).toEqual(
+          Error(
+            "[DLT] The DLT name provided is not valid, please add wrongdlt manually"
+          )
+        );        
       }
     });
   });
