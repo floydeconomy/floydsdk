@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeAccount, TypeProvider, TypeDLT } from "../../../types/sdk";
+import { TypeAccount, TypeDLT } from "../../../types/sdk";
 
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */
@@ -12,11 +12,6 @@ class Ethereum extends AbstractDLT {
   constructor(sdk: any, options: TypeDLT) {
     super(sdk, options);
   }
-
-  /**  @inheritdoc */
-  addAccount(privateKey?: string): TypeAccount {
-      return;
-    }
 }
 
 export default Ethereum;

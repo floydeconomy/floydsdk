@@ -1,4 +1,4 @@
-import { TypeDLT, TypeNetwork, TypeSDK } from "../types";
+import { TypeDLT, TypeSDK } from "../types";
 import AbstractDLT from "../abstract/dlts/dlt";
 
 /**
@@ -11,11 +11,6 @@ class FloydSDK {
    * The object storing the DLTs loaded by the Overledger sdk
    */
   dlts: { [key: string]: AbstractDLT } = {};
-
-  /**
-   * This is the network type that is being connected to
-   */
-  network: TypeNetwork;
 
   /**
    * Constructor

@@ -26,14 +26,7 @@ abstract class AbstractDLT {
     this.sdk = sdk;
     this.provider = this.loadProvider(options);
   }
-
-  /**
-   * Sets the accounts associated with the DLT
-   * @param {string} privateKey
-   */
-  abstract addAccount(privateKey?: string): TypeAccount;
-
-
+  
   /**
    * Load the dlt to the Overledger SDK
    * @param {Object} config
