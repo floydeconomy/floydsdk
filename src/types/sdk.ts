@@ -1,6 +1,6 @@
 type TypeProvider = {
-  network?: TypeNetwork;
-  timeout?: number;
+  timeout?: number | 0;
+  uri: string;
 };
 
 type TypeDLT = {
@@ -8,13 +8,6 @@ type TypeDLT = {
   privateKeys?: [String],
   provider?: TypeProvider
 };
-
-/** Note: 
- * network must not be restricted to just mainnet and testnet, it can be anything,
- * however, in the event that provider is omitted, and default configurations run,
- * then, only mainnet or testnet exists.
- */
-type TypeNetwork = "mainnet" | "testnet" | string;
 
 type TypeSDK = {
   dlts: TypeDLT[];
@@ -25,4 +18,4 @@ type TypeAccount = {
   address: string;
 }
 
-export { TypeSDK, TypeNetwork, TypeProvider, TypeDLT, TypeAccount };
+export { TypeSDK, TypeProvider, TypeDLT, TypeAccount };

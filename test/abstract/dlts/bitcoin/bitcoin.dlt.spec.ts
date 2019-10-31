@@ -4,7 +4,6 @@ import Bitcoin from "../../../../src/abstract/dlts/bitcoin/bitcoin.dlt";
 import { TypeDLT, TypeAccount } from '../../../../src/types';
 import AbstractProvider from '../../../../src/abstract/dlts/provider';
 import 'jest-extended';
-import AbstractDLT from '../../../../src/abstract/dlts/dlt';
 
 describe("bitcoin", () => {
   var sdk;

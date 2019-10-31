@@ -1,25 +1,23 @@
-import { TypeNetwork, TypeProvider } from '../../types';
-
-export const TESTNET: TypeNetwork = 'testnet';
-export const MAINNET: TypeNetwork = 'mainnet';
+import { TypeProvider } from '../../types';
 
 abstract class AbstractProvider {
-  settings: TypeProvider;
-  network: TypeNetwork;
+  /** URI endpoint for the provider  */
+  uri: string;
+
+  /** Timeout in milliseconds (ms) */
+  timeout: number;
 
   constructor(options: TypeProvider) {
-      // defaults to testnet if not provided
-      this.network = (options.network) || "testnet";
-      
-    // this.net = this.settings.network || TESTNET;
-    // this.createProvider(options);
+      this.uri = options.uri;
+      this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
+      this.setProvider(options);
   }
 
   /**
    * This creates the provider based on the options given.
    * @param options
    */
-  abstract createProvider(options: Object): void;
+  abstract setProvider(options: TypeProvider): void;
 }
 
 export default AbstractProvider;
