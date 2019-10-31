@@ -1,22 +1,22 @@
 import FloydSDK from "../../../../src/core/index";
-import Ethereum from "../../../../src/abstract/dlts/ethereum/ethereum.dlt";
-import { TypeDLT, TypeAccount } from '../../../../src/types';
-import AbstractProvider from '../../../../src/abstract/dlts/provider';
+import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
+import { TypeDLT } from '../../../../src/types';
 
 import 'jest-extended';
+import VechainProvider from '../../../../src/abstract/dlts/vechain/vechain.provider';
 
-describe("ethereum", () => {
+describe("vechain", () => {
   var sdk;
   beforeEach(() => {
     const options = {
-      dlts: [{ name: "ethereum" }]
+      dlts: [{ name: "vechain" }]
     };
     sdk = new FloydSDK(options);
   });
 
   describe("dlt", () => {
-    it("should instantiate ethereum as abstracdlt", () => {
-      expect(sdk.dlts.ethereum).toBeInstanceOf(Ethereum);
+    it("should instantiate vechain as abstracdlt", () => {
+      expect(sdk.dlts.vechain).toBeInstanceOf(Vechain);
     });
   })
 
@@ -26,7 +26,7 @@ describe("ethereum", () => {
         name: "notvechain"
       }
       try {
-        new Ethereum(sdk, dltOptions);
+        new Vechain(sdk, dltOptions);
       } catch (e) {
         expect(e).toEqual(Error("[Provider] The Provider for this DLT is not present, please add the provider for notvechain manually."));
       }
@@ -34,10 +34,10 @@ describe("ethereum", () => {
 
     test("should return a provider object", () => {
       const dltOptions: TypeDLT = {
-        name: "ethereum"
+        name: "vechain"
       }
-      const ethereum = new Ethereum(sdk, dltOptions);
-      expect(ethereum.provider).toBeInstanceOf(AbstractProvider);
+      const vechain = new Vechain(sdk, dltOptions);
+      expect(vechain.provider).toBeInstanceOf(VechainProvider);
     });
   });
 });
