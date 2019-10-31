@@ -17,7 +17,7 @@
     "bitcoin-core": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
     "typescript": "^3.6.3",
-    "web3": "^1.2.1"
+    "web3": "^1.2.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
