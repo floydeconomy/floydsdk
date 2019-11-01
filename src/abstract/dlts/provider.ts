@@ -16,7 +16,8 @@ abstract class AbstractProvider {
       throw new URIError();
     }
     this.uri = options.uri;
-    this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
+    this.timeout =
+      !options.timeout || options.timeout < 0 ? 0 : options.timeout;
 
     try {
       this.setProvider(this.uri, this.timeout);

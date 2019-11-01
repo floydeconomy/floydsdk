@@ -12,6 +12,11 @@ export class EthereumProvider extends AbstactProvider {
   /** @inheritdoc */
   setProvider(uri: string, timeout: number): void {
     try {
+      if (timeout < 0) {
+        throw new RangeError(
+          `[Ethereum] Timeout must be more than or equal to 0`
+        );
+      }
       const url = new URL(uri).toString();
       this.instance = new Web3(
         new Web3.providers.HttpProvider(url, { timeout })
@@ -21,6 +26,8 @@ export class EthereumProvider extends AbstactProvider {
         throw new Error(
           `[Ethereum] The URI provided for this DLT is not valid`
         );
+      } else {
+          throw e;
       }
     }
   }
