@@ -1,54 +1,56 @@
 import { TypeProvider } from "../../../../src/types";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
-import Web3 from 'web3';
+import Web3 from "web3";
 
 describe("Vechain provider", () => {
   describe("timeout", () => {
-    test("should default timeout to 0 if not provided", () => {
-      var options: TypeProvider = {
-        uri: "http://localhost:8545"
-      };
+    describe("attribute", () => {
+      test("should default to 0 if not provided", () => {
+        var options: TypeProvider = {
+          uri: "http://localhost:8545"
+        };
 
-      var provider = new VechainProvider(options);
+        var provider = new VechainProvider(options);
 
-      expect(provider.timeout).toBe(0);
-    });
-
-    test("should timeout should be able to be set to an arbritary number", () => {
-      var provider = new VechainProvider({
-        uri: "http://localhost:8545",
-        timeout: 100
+        expect(provider.timeout).toBe(0);
       });
 
-      expect(provider.timeout).toBe(100);
+      test("should be able to be set to an arbritary number", () => {
+        var provider = new VechainProvider({
+          uri: "http://localhost:8545",
+          timeout: 100
+        });
 
-      var provider2 = new VechainProvider({
-        uri: "http://localhost:8545",
-        timeout: 1000
-      });
-      expect(provider2.timeout).toBe(1000);
-    });
+        expect(provider.timeout).toBe(100);
 
-    test("should timeout should not be able to set less than 0", () => {
-      var provider = new VechainProvider({
-        uri: "http://localhost:8545",
-        timeout: 0
-      });
-
-      expect(provider.timeout).toBe(0);
-
-      var provider2 = new VechainProvider({
-        uri: "http://localhost:8545",
-        timeout: 1
+        var provider2 = new VechainProvider({
+          uri: "http://localhost:8545",
+          timeout: 1000
+        });
+        expect(provider2.timeout).toBe(1000);
       });
 
-      expect(provider2.timeout).toBe(1);
+      test("should be able to be set to more than or equal to 0", () => {
+        var provider = new VechainProvider({
+          uri: "http://localhost:8545",
+          timeout: 0
+        });
 
-      var provider2 = new VechainProvider({
-        uri: "http://localhost:8545",
-        timeout: -1
+        expect(provider.timeout).toBe(0);
+
+        var provider2 = new VechainProvider({
+          uri: "http://localhost:8545",
+          timeout: 1
+        });
+
+        expect(provider2.timeout).toBe(1);
+
+        var provider2 = new VechainProvider({
+          uri: "http://localhost:8545",
+          timeout: -1
+        });
+        expect(provider2.timeout).toBe(0);
       });
-      expect(provider2.timeout).toBe(0);
     });
   });
 

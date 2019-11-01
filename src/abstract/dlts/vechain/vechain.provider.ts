@@ -10,9 +10,9 @@ export class VechainProvider extends AbstactProvider {
     }
 
     /** @inheritdoc */
-    setProvider(options: TypeProvider): void {
+    setProvider(uri: string, timeout: number): void {
         try {
-            this.instance = thorify(new Web3(options.uri), options.uri);
+            this.instance = thorify(new Web3(uri), uri, timeout);
         } catch (e) {
             throw new Error(`[Vechain] The URI provided for this DLT is not valid`);
         }

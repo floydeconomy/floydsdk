@@ -17,14 +17,14 @@ abstract class AbstractProvider {
     }
     this.uri = options.uri;
     this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
-    this.setProvider(options);
+    this.setProvider(this.uri, this.timeout);
   }
 
   /**
    * This creates the provider based on the options given.
    * @param options
    */
-  abstract setProvider(options: TypeProvider): void;
+  abstract setProvider(uri: string, timeout: number): void;
 }
 
 export default AbstractProvider;
