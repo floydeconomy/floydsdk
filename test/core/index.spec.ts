@@ -32,12 +32,6 @@ describe("core", () => {
       let options = {
         dlts: [
           {
-            name: "bitcoin",
-            provider: {
-              uri: "http://localhost:4444"
-            }
-          },
-          {
             name: "vechain",
             provider: {
               uri: "http://localhost:4444"
@@ -53,11 +47,9 @@ describe("core", () => {
       };
 
       var sdk = new FloydSDK(options);
-      expect(sdk.dlts.bitcoin).toBeDefined();
       expect(sdk.dlts.vechain).toBeDefined();
       expect(sdk.dlts.ethereum).toBeDefined();
 
-      expect(sdk.dlts.bitcoin.provider).toBeDefined();
       expect(sdk.dlts.vechain.provider).toBeDefined();
       expect(sdk.dlts.ethereum.provider).toBeDefined();
     });
