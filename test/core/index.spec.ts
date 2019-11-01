@@ -105,9 +105,7 @@ describe("core", () => {
         new FloydSDK(options);
       } catch (e) {
         expect(e).toEqual(
-          Error(
-            "[Provider] The URI provided for this provider is invalid, please retry with a valid URI for vechain"
-          )
+          URIError("[Vechain] The URI provided for this DLT is not valid")
         );
       }
     });

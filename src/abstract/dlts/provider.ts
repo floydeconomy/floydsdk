@@ -12,9 +12,6 @@ abstract class AbstractProvider {
   instance: Web3;
 
   constructor(options: TypeProvider) {
-    if (options.uri == undefined || options.uri.length == 0) {
-      throw new URIError();
-    }
     this.uri = options.uri;
     this.timeout =
       !options.timeout || options.timeout < 0 ? 0 : options.timeout;

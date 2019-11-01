@@ -39,9 +39,8 @@ abstract class AbstractDLT {
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
         throw new Error(`[Provider] The Provider for this DLT is not present, please add the provider for ${name} manually.`);
-      } 
-      if (e instanceof URIError) {
-        throw new URIError(`[Provider] The URI provided for this provider is invalid, please retry with a valid URI for ${name}`);
+      } else {
+        throw e;
       }
     }
   }

@@ -78,13 +78,17 @@ describe("Ethereum provider", () => {
     });
 
     test("should throw error when if anything is wrong with the provider", () => {
+      // create tests for the provider
+    });
+
+    test("should throw error when if timeout less than 0", () => {
       var options: TypeProvider = {
-        uri: "localhost:4444"
+        uri: "http://localhost:4444"
       };
 
       try {
         var provider = new EthereumProvider(options);
-        provider.setProvider("localhost:4444", -1);
+        provider.setProvider("http://localhost:4444", -1);
       } catch (e) {
         expect(e).toEqual(
           RangeError(`[Ethereum] Timeout must be more than or equal to 0`)

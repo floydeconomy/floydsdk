@@ -65,16 +65,47 @@ describe("Vechain provider", () => {
     });
 
     test("should throw error when invalid uri provided", () => {
-      var options: TypeProvider = {
-        uri: "localhost:8545"
-      };
-      try {
-        new VechainProvider(options);
-      } catch (e) {
-        expect(e).toEqual(
-          Error("[Vechain] The URI provided for this DLT is not valid")
-        );
-      }
-    });
+        var options: TypeProvider = {
+          uri: "xx"
+        };
+  
+        try {
+          new VechainProvider(options);
+        } catch (e) {
+          expect(e).toEqual(
+            Error("[Vechain] The URI provided for this DLT is not valid")
+          );
+        }
+      });
+  
+      test("should throw error when if anything is wrong with the provider", () => {
+        var options: TypeProvider = {
+          uri: "localhost:4444"
+        };
+  
+        try {
+          new VechainProvider(options);
+        } catch (e) {
+          expect(e).toEqual(
+            Error(`[Vechain] There was an issue creating the provider`)
+          );
+        }
+      });
+
+      test("should throw error when if timeout less than 0", () => {
+        var options: TypeProvider = {
+          uri: "http://localhost:4444"
+        };
+  
+        try {
+          var provider = new VechainProvider(options);
+          provider.setProvider("http://localhost:4444", -1);
+        } catch (e) {
+          expect(e).toEqual(
+            RangeError(`[Vechain] Timeout must be more than or equal to 0`)
+          );
+        }
+      });
+
   });
 });
