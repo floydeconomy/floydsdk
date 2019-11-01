@@ -1,5 +1,5 @@
-import { TypeProvider } from '../../types';
-import Web3 from 'web3';
+import { TypeProvider } from "../../types";
+import Web3 from "web3";
 
 abstract class AbstractProvider {
   /** URI endpoint for the provider  */
@@ -12,9 +12,12 @@ abstract class AbstractProvider {
   instance: Web3;
 
   constructor(options: TypeProvider) {
-      this.uri = options.uri;
-      this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
-      this.setProvider(options);
+    if (options.uri == undefined || options.uri.length == 0) {
+      throw new URIError();
+    }
+    this.uri = options.uri;
+    this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
+    this.setProvider(options);
   }
 
   /**

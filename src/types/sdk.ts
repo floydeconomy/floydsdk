@@ -6,7 +6,7 @@ type TypeProvider = {
 type TypeDLT = {
   name: string,
   privateKeys?: [String],
-  provider?: TypeProvider
+  provider: TypeProvider
 };
 
 type TypeSDK = {

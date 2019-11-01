@@ -15,7 +15,7 @@ describe("core", () => {
 
     test("should throw error if wrong dlt name", () => {
       let options = {
-        dlts: [{ name: "wrongdlt" }]
+        dlts: [{ name: "wrongdlt", provider: { uri: "" } }]
       };
 
       try {
@@ -30,7 +30,26 @@ describe("core", () => {
     });
     test("should be able to instantiate multiple dlts", () => {
       let options = {
-        dlts: [{ name: "bitcoin" }, { name: "vechain"}, { name: "ethereum"}]
+        dlts: [
+          {
+            name: "bitcoin",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          },
+          {
+            name: "vechain",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          },
+          {
+            name: "ethereum",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          }
+        ]
       };
 
       var sdk = new FloydSDK(options);
@@ -41,7 +60,26 @@ describe("core", () => {
 
     test("should fail if one of the dlts is wrong", () => {
       let options = {
-        dlts: [{ name: "bitcoin" }, { name: "wrongdlt"}, { name: "ethereum"}]
+        dlts: [
+          {
+            name: "vechain",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          },
+          {
+            name: "wrongdlt",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          },
+          {
+            name: "ethereum",
+            provider: {
+              uri: "http://localhost:4444"
+            }
+          }
+        ]
       };
 
       try {
@@ -51,7 +89,30 @@ describe("core", () => {
           Error(
             "[DLT] The DLT name provided is not valid, please add wrongdlt manually"
           )
-        );        
+        );
+      }
+    });
+
+    test("should fail if uri not provided with dlt", () => {
+      let options = {
+        dlts: [
+          {
+            name: "vechain",
+            provider: {
+              uri: ""
+            }
+          }
+        ]
+      };
+
+      try {
+        new FloydSDK(options);
+      } catch (e) {
+        expect(e).toEqual(
+          Error(
+            "[Provider] The URI provided for this provider is invalid, please retry with a valid URI for vechain"
+          )
+        );
       }
     });
   });

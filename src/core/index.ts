@@ -50,6 +50,8 @@ class FloydSDK {
     } catch (e) {
       if (e.code === 'MODULE_NOT_FOUND') {
         throw new Error(`[DLT] The DLT name provided is not valid, please add ${dltName} manually`);
+      } else {
+        throw e;
       }
     }
   }
