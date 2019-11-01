@@ -11,7 +11,7 @@ export class EthereumProvider extends AbstactProvider {
     /** @inheritdoc */
     setProvider(uri: string, timeout: number): void {
         try {
-            this.instance = new Web3(uri);
+            this.instance = new Web3(new Web3.providers.HttpProvider(uri, { timeout }));
         } catch (e) {
             throw new Error(`[Ethereum] The URI provided for this DLT is not valid`);
         }
