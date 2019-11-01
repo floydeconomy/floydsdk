@@ -65,7 +65,7 @@ describe("Ethereum provider", () => {
 
     test("should throw error when invalid uri provided", () => {
       var options: TypeProvider = {
-        uri: "localhost:8545"
+        uri: "xx"
       };
 
       try {

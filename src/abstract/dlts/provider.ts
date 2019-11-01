@@ -17,7 +17,12 @@ abstract class AbstractProvider {
     }
     this.uri = options.uri;
     this.timeout = !options.timeout || options.timeout < 0 ? 0 : options.timeout;
-    this.setProvider(this.uri, this.timeout);
+
+    try {
+      this.setProvider(this.uri, this.timeout);
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**
