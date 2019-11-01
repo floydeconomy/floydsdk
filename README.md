@@ -1,11 +1,12 @@
 # FloydSDK - Interoperabilty Typescript API
 
 This is the FloydSDK [JavaScript API]
-which connects to the [web3](https://github.com/ethereum/web3.js).
+which connects to the [web3](https://github.com/ethereum/web3.js),
+which connects to the [thorify](https://github.com/vechain/thorify).
 
-You need to run a local or remote Ethereum node to use this library.
-
-Please read the [documentation][docs] for more.
+You need to run a local or remote node to use this library.
+- Vechain node
+- Ethereum node
 
 ## Installation
 
@@ -21,6 +22,11 @@ npm install floyd
 yarn add floyd
 ```
 
+### Test
+```bash
+yarn test
+```
+
 ### Usage with TypeScript
 
 We support types within the repo itself. Please open an issue here if you find any wrong types.
@@ -32,9 +38,9 @@ import FloydSDK from 'floyd';
 const options = {
     dlts: [
     { 
-        name: "ethereum", 
+        name: "bitcoin", 
         provider: {
-            uri: "http://localhost:4444
+            uri: "http://localhost:4444"
         }
     }
 ]};
