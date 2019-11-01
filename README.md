@@ -30,8 +30,14 @@ You can use `web3.js` as follows:
 ```typescript
 import FloydSDK from 'floyd';
 const options = {
-    dlts: [{ name: "bitcoin" }]
-};
+    dlts: [
+    { 
+        name: "ethereum", 
+        provider: {
+            uri: "http://localhost:4444
+        }
+    }
+]};
 const floyd = new FloydSDK(options);
 ```
 

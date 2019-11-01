@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "repository": {
-    "url": "https://github.com/lpfloyd/floyd",
+    "url": "https://github.com/floydeconomy/floyd",
     "type": "git"
   },
-  "main": "src/index.ts",
+  "main": "src/core/index.ts",
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",

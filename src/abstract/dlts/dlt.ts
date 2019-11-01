@@ -1,6 +1,6 @@
-import { TypeAccount, TypeProvider, TypeDLT } from '../../types/sdk';
-import FloydSDK from '../../core';
-import AbstractProvider from './provider';
+import { TypeAccount, TypeProvider, TypeDLT } from "../../types/sdk";
+import FloydSDK from "../../core";
+import AbstractProvider from "./provider";
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
@@ -9,7 +9,7 @@ abstract class AbstractDLT {
   /** Name of the DLT */
   name: string;
 
-    /** Symbol used by the DLT */
+  /** Symbol used by the DLT */
   symbol: string;
 
   /** Instance of the FloydSDK  */
@@ -32,19 +32,21 @@ abstract class AbstractDLT {
    * @param {Object} config
    * @return { AbstractDLT }
    */
-  public loadProvider(name: string, provider: TypeProvider) : AbstractProvider {
+  public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
     try {
-      const dltprovider = require(`../../abstract/dlts/${name}/${name}.provider`).default;
+      const dltprovider = require(`../../abstract/dlts/${name}/${name}.provider`)
+        .default;
       return new dltprovider(provider);
     } catch (e) {
-      if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`[Provider] The Provider for this DLT is not present, please add the provider for ${name} manually.`);
+      if (e.code === "MODULE_NOT_FOUND") {
+        throw new Error(
+          `[Provider] The Provider for this DLT is not present, please add the provider for ${name} manually.`
+        );
       } else {
         throw e;
       }
     }
   }
-
 }
 
 export default AbstractDLT;
