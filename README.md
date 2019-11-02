@@ -48,7 +48,7 @@ const options = {
     }
 ]};
 const floyd = new FloydSDK(options);
-``
+```
 
 ## Contributing
 
