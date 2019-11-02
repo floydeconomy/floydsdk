@@ -1,9 +1,8 @@
 import AbstactProvider from "../provider";
 import { TypeProvider } from "../../../types";
-import Web3 from "web3";
-import { thorify } from "thorify";
+import BncClient from "@binance-chain/javascript-sdk";
 
-export class VechainProvider extends AbstactProvider {
+export class BinanceProvider extends AbstactProvider {
   /** @inheritdoc */
   constructor(options: TypeProvider) {
     super(options);
@@ -11,8 +10,8 @@ export class VechainProvider extends AbstactProvider {
 
   /** @inheritdoc */
   setProvider(url: string, timeout: number): void {
-    this.instance = thorify(new Web3(url), url, timeout);
+    this.instance = new BncClient(url);
   }
 }
 
-export default VechainProvider;
+export default BinanceProvider;

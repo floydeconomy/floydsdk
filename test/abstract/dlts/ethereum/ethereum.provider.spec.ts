@@ -72,26 +72,7 @@ describe("Ethereum provider", () => {
         new EthereumProvider(options);
       } catch (e) {
         expect(e).toEqual(
-          Error("[Ethereum] The URI provided for this DLT is not valid")
-        );
-      }
-    });
-
-    test("should throw error when if anything is wrong with the provider", () => {
-      // create tests for the provider
-    });
-
-    test("should throw error when if timeout less than 0", () => {
-      var options: TypeProvider = {
-        uri: "http://localhost:4444"
-      };
-
-      try {
-        var provider = new EthereumProvider(options);
-        provider.setProvider("http://localhost:4444", -1);
-      } catch (e) {
-        expect(e).toEqual(
-          RangeError(`[Ethereum] Timeout must be more than or equal to 0`)
+          Error("[Provider]-[uri:xx] The URI provided for this DLT is not valid")
         );
       }
     });

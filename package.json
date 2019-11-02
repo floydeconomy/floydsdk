@@ -10,9 +10,11 @@
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",
+    "test:binance": "jest 'test/abstract/dlts/binance/binance.provider.spec.ts'",
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
+    "@binance-chain/javascript-sdk": "^2.16.1",
     "@types/node": "^12.7.11",
     "bitcoin-core": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
@@ -25,7 +27,6 @@
     "chai": "^4.2.0",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
-    "rewiremock": "^3.13.7",
     "ts-jest": "^24.1.0"
   },
   "jest": {
