@@ -1,0 +1,99 @@
+import { TypeProvider } from "../../../../src/types";
+import BinanceProvider from "../../../../src/abstract/dlts/binance/binance.provider";
+import BnbApiClient from '@binance-chain/javascript-sdk';
+
+describe("Binance provider", () => {
+  describe("timeout", () => {
+    test("should default timeout to 0 if not provided", () => {
+      var options: TypeProvider = {
+        uri: "http://localhost:8545"
+      };
+
+      var provider = new BinanceProvider(options);
+
+      expect(provider.timeout).toBe(0);
+    });
+
+    test("should timeout should be able to be set to an arbritary number", () => {
+      var provider = new BinanceProvider({
+        uri: "http://localhost:8545",
+        timeout: 100
+      });
+
+      expect(provider.timeout).toBe(100);
+
+      var provider2 = new BinanceProvider({
+        uri: "http://localhost:8545",
+        timeout: 1000
+      });
+      expect(provider2.timeout).toBe(1000);
+    });
+
+    test("should timeout should not be able to set less than 0", () => {
+      var provider = new BinanceProvider({
+        uri: "http://localhost:8545",
+        timeout: 0
+      });
+
+      expect(provider.timeout).toBe(0);
+
+      var provider2 = new BinanceProvider({
+        uri: "http://localhost:8545",
+        timeout: 1
+      });
+
+      expect(provider2.timeout).toBe(1);
+
+      var provider2 = new BinanceProvider({
+        uri: "http://localhost:8545",
+        timeout: -1
+      });
+      expect(provider2.timeout).toBe(0);
+    });
+  });
+
+  describe("web3", () => {
+    test("should be instantiated when uri is provided", () => {
+      var options: TypeProvider = {
+        uri: "http://localhost:8545"
+      };
+
+      var provider = new BinanceProvider(options);
+
+      expect(provider.instance).toBeInstanceOf(BnbApiClient);
+    });
+
+    test("should throw error when invalid uri provided", () => {
+      var options: TypeProvider = {
+        uri: "xx"
+      };
+
+      try {
+        new BinanceProvider(options);
+      } catch (e) {
+        expect(e).toEqual(
+          Error("[Binance] The URI provided for this DLT is not valid")
+        );
+      }
+    });
+
+    test("should throw error when if anything is wrong with the provider", () => {
+      // create tests for the provider
+    });
+
+    test("should throw error when if timeout less than 0", () => {
+      var options: TypeProvider = {
+        uri: "http://localhost:4444"
+      };
+
+      try {
+        var provider = new BinanceProvider(options);
+        provider.setProvider("http://localhost:4444", -1);
+      } catch (e) {
+        expect(e).toEqual(
+          RangeError(`[Binance] Timeout must be more than or equal to 0`)
+        );
+      }
+    });
+  });
+});
