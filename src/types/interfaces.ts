@@ -1,31 +1,50 @@
 interface InterfaceTransactionOptions {
   nonce?: number;
-  amount: string;
-}
-
-interface InterfaceEthereumTransactionOptions extends InterfaceTransactionOptions {
-  feePrice: string;
-  feeLimit: string;
-  amount: string;
 }
 
 interface InterfaceTransaction {
   nonce: number;
   to: string;
-  value: string;
   data: string;
+}
+
+interface InterfaceTransactionReceipt {
+
+}
+
+interface InterfaceEthereumTransactionOptions extends InterfaceTransactionOptions {
+  gasPrice: string;
+  gas: string;
+  amount: string;
 }
 
 interface InterfaceEthereumTransaction extends InterfaceTransaction {
   gas: string;
   gasPrice: string;
+  value: string;
 }
 
-interface InterfaceVechainTransaction extends InterfaceTransaction {}
+interface InterfaceVechainTransaction extends InterfaceTransaction {
+  from: string;
+  gas: number;
+  gasPriceCoef: number;
+  chainTag?: number;
+  blockRef?: string;
+  expiration?: number;
+  dependsOn?: string;
+  value: number;
+}
 
-interface InterfaceVechainTransactionOptions extends InterfaceTransactionOptions {}
+interface InterfaceVechainTransactionOptions extends InterfaceTransactionOptions {
+  from: string;
+  gasPriceCoef: number;
+  gas: number;
+  amount: number;
+}
 
-interface InterfaceBinanceTransaction extends InterfaceTransaction {}
+interface InterfaceBinanceTransaction extends InterfaceTransaction {
+
+}
 
 interface InterfaceBinanceTransactionOptions extends InterfaceTransactionOptions {}
 

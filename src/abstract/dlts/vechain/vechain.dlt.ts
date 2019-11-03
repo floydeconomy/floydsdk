@@ -15,11 +15,27 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public buildTransaction(to: string, message: string, options: InterfaceVechainTransactionOptions): InterfaceVechainTransaction {
+    if (options.nonce && options.nonce < 0) {
+      throw new Error("[Vechain] The nonce provided is invalid")
+    }
+    if (options.amount < 0) {
+      throw new Error("[Vechain] The amount provided is invalid")
+    }
+    if (options.gas <= 0) {
+      throw new Error("[Vechain] The gas provided is invalid")
+    }
+    if(options.gasPriceCoef <= 0) {
+      throw new Error("[Vechain] The gasPriceCoef provided is invalid")
+    }
+
     const transaction: InterfaceVechainTransaction = {
-      nonce: options.nonce,
+      from: options.from,
       to: to,
       value: options.amount,
+      gas: options.gas,
       data: this.provider.instance.utils.asciiToHex(message),
+      nonce: options.nonce ? options.nonce : 0,
+      gasPriceCoef: options.gasPriceCoef,
     };
     return transaction;  
   }

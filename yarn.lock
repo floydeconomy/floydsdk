@@ -5510,7 +5510,7 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-thor-devkit@^1.1.0:
+thor-devkit@^1.1.0, thor-devkit@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/thor-devkit/-/thor-devkit-1.2.2.tgz#3009288ce85e26b63fa1f6166c9403d8d7b26b3c"
   integrity sha512-p9ZmeE/e90Ovtr2UA43282PzaNGcL/y2i0KEao8Gajb0iMcglt5jwIdtJaQrq19kOotOTLmRQ09RpOvgF7x1SA==

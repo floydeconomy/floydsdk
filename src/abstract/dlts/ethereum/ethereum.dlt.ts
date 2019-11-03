@@ -18,8 +18,8 @@ class Ethereum extends AbstractDLT {
     const transaction: InterfaceEthereumTransaction = {
       nonce: options.nonce,
       to: to,
-      gas: options.feeLimit,
-      gasPrice: options.feePrice,
+      gas: options.gas,
+      gasPrice: options.gasPrice,
       value: options.amount,
       data: this.provider.instance.utils.asciiToHex(message),
     };
