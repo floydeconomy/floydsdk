@@ -37,8 +37,8 @@ interface InterfaceVechainTransaction extends InterfaceTransaction {
 
 interface InterfaceVechainTransactionOptions extends InterfaceTransactionOptions {
   from: string;
-  gasPriceCoef: number;
-  gas: number;
+  gasPriceCoef?: number;
+  gas?: number;
   amount: number;
 }
 

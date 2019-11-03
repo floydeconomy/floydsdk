@@ -32,10 +32,10 @@ class Vechain extends AbstractDLT {
       from: options.from,
       to: to,
       value: options.amount,
-      gas: options.gas,
+      gas: options.gas ? options.gas : 21000,
       data: this.provider.instance.utils.asciiToHex(message),
       nonce: options.nonce ? options.nonce : 0,
-      gasPriceCoef: options.gasPriceCoef,
+      gasPriceCoef: options.gasPriceCoef ? options.gasPriceCoef : 128,
     };
     return transaction;  
   }

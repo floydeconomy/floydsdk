@@ -1,9 +1,13 @@
 import FloydSDK from "../../../../src/core/index";
 import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
-import { TypeDLT, InterfaceVechainTransactionOptions, InterfaceVechainTransaction } from "../../../../src/types/index";
+import {
+  TypeDLT,
+  InterfaceVechainTransactionOptions,
+  InterfaceVechainTransaction
+} from "../../../../src/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
-import 'jest-extended';
+import "jest-extended";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -62,23 +66,27 @@ describe("vechain", () => {
       let toAddress;
       let fromAddress;
       beforeEach(() => {
-        toAddress = cry.publicKeyToAddress(cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey()));
-        fromAddress = cry.publicKeyToAddress(cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey()));
+        toAddress = cry.publicKeyToAddress(
+          cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
+        );
+        fromAddress = cry.publicKeyToAddress(
+          cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
+        );
       });
       test("should build a vechain transaction", () => {
         const options: InterfaceVechainTransactionOptions = {
           nonce: 12345678,
           amount: 21000,
-          from: fromAddress.toString('hex'),
+          from: fromAddress.toString("hex"),
           gasPriceCoef: 128,
-          gas: 21000,
-        }
-  
-        const transaction = vechain.buildTransaction(toAddress,"", options);
-  
+          gas: 21000
+        };
+
+        const transaction = vechain.buildTransaction(toAddress, "", options);
+
         expect(transaction.nonce).toBe(12345678);
         expect(transaction.value).toBe(21000);
-        expect(transaction.from).toBe(fromAddress.toString('hex'));
+        expect(transaction.from).toBe(fromAddress.toString("hex"));
         expect(transaction.to).toBe(toAddress);
         expect(transaction.gasPriceCoef).toBe(128);
         expect(transaction.gas).toBe(21000);
@@ -87,87 +95,125 @@ describe("vechain", () => {
         expect(transaction.blockRef).toBe(undefined);
         expect(transaction.chainTag).toBe(undefined);
       });
-      test("should fail if nonce less than 0", () => {
-        const options: InterfaceVechainTransactionOptions = {
-          nonce: -1,
-          amount: 21000,
-          from: fromAddress.toString('hex'),
-          gasPriceCoef: 128,
-          gas: 21000,
-        }
-        expect(() => {
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The nonce provided is invalid'));
-      });
-      test("should set nonce to null if not provided", () => {
-        const options: InterfaceVechainTransactionOptions = {
-          amount: 21000,
-          from: fromAddress.toString('hex'),
-          gasPriceCoef: 128,
-          gas: 21000,
-        }
-        const transaction = vechain.buildTransaction(toAddress,"", options)
-        expect(transaction.nonce).toBe(0);
-      });
-      test("should fail if amount less than 0", () => {
-        const options: InterfaceVechainTransactionOptions = {
-          nonce: 123,
-          amount: -1,
-          from: fromAddress.toString('hex'),
-          gasPriceCoef: 128,
-          gas: 21000,
-        }
 
-        expect(() => {
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The amount provided is invalid'));
-      });
-      test("should fail if gas less than or equal to 0", () => {
-        expect(() => {
+      describe("nonce", () => {
+        test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
-            nonce: 123,
-            amount: 123,
-            from: fromAddress.toString('hex'),
+            nonce: -1,
+            amount: 21000,
+            from: fromAddress.toString("hex"),
             gasPriceCoef: 128,
-            gas: 0,
-          }   
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The gas provided is invalid'));
-
-        expect(() => {
+            gas: 21000
+          };
+          expect(() => {
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Vechain] The nonce provided is invalid"));
+        });
+        test("should default to null if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
-            nonce: 123,
-            amount: 123,
-            from: fromAddress.toString('hex'),
+            amount: 21000,
+            from: fromAddress.toString("hex"),
             gasPriceCoef: 128,
-            gas: -1,
-          }
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The gas provided is invalid'));
+            gas: 21000
+          };
+          const transaction = vechain.buildTransaction(toAddress, "", options);
+          expect(transaction.nonce).toBe(0);
+        });
       });
-      test("should fail if gasPriceCoef less than or equal to 0", () => {
-        expect(() => {
-          const options: InterfaceVechainTransactionOptions = {
-            nonce: 123,
-            amount: 123,
-            from: fromAddress.toString('hex'),
-            gasPriceCoef: -1,
-            gas: 21000,
-          }   
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The gasPriceCoef provided is invalid'));
 
-        expect(() => {
+      describe("amount", () => {
+        test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 123,
-            amount: 123,
-            from: fromAddress.toString('hex'),
-            gasPriceCoef: 0,
-            gas: 21000,
-          }
-          vechain.buildTransaction(toAddress,"", options)
-        }).toThrowError(new Error('[Vechain] The gasPriceCoef provided is invalid'));
+            amount: -1,
+            from: fromAddress.toString("hex"),
+            gasPriceCoef: 128,
+            gas: 21000
+          };
+
+          expect(() => {
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Vechain] The amount provided is invalid")
+          );
+        });
       });
-    })
+      describe("gas", () => {
+        test("should fail if less than or equal to 0", () => {
+          expect(() => {
+            const options: InterfaceVechainTransactionOptions = {
+              nonce: 123,
+              amount: 123,
+              from: fromAddress.toString("hex"),
+              gasPriceCoef: 128,
+              gas: 0
+            };
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Vechain] The gas provided is invalid"));
+
+          expect(() => {
+            const options: InterfaceVechainTransactionOptions = {
+              nonce: 123,
+              amount: 123,
+              from: fromAddress.toString("hex"),
+              gasPriceCoef: 128,
+              gas: -1
+            };
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Vechain] The gas provided is invalid"));
+        });
+
+        test("should default to 21000 if not provided", () => {
+          const options: InterfaceVechainTransactionOptions = {
+            nonce: 210122,
+            amount: 69,
+            from: fromAddress.toString("hex"),
+            gasPriceCoef: 128,
+          };
+          const transaction = vechain.buildTransaction(toAddress, "", options);
+          expect(transaction.gas).toBe(21000);
+        })
+      });
+      describe("gasPriceCoef", () => {
+        test("should fail if less than or equal to 0", () => {
+          expect(() => {
+            const options: InterfaceVechainTransactionOptions = {
+              nonce: 123,
+              amount: 123,
+              from: fromAddress.toString("hex"),
+              gasPriceCoef: -1,
+              gas: 21000
+            };
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Vechain] The gasPriceCoef provided is invalid")
+          );
+
+          expect(() => {
+            const options: InterfaceVechainTransactionOptions = {
+              nonce: 123,
+              amount: 123,
+              from: fromAddress.toString("hex"),
+              gasPriceCoef: 0,
+              gas: 21000
+            };
+            vechain.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Vechain] The gasPriceCoef provided is invalid")
+          );
+        });
+
+        test("should default to 128 if not provided", () => {
+          const options: InterfaceVechainTransactionOptions = {
+            nonce: 210122,
+            amount: 69,
+            from: fromAddress.toString("hex"),
+            gas: 11111
+          };
+          const transaction = vechain.buildTransaction(toAddress, "", options);
+          expect(transaction.gasPriceCoef).toBe(128);
+        })
+      });
+    });
   });
 });
