@@ -11,6 +11,9 @@ abstract class AbstractProvider {
   /** Instance of the Web3 provider */
   instance: any;
 
+  /**
+   * @param {TypeProvider} options
+   */  
   constructor(options: TypeProvider) {
     this.uri = options.uri;
     this.timeout =
@@ -23,6 +26,9 @@ abstract class AbstractProvider {
     }
   }
 
+  /**
+   * This is the method that creates the provider for a given uri.
+   */
   private _createProvider(): void {
     try {
       const url = new URL(this.uri).toString();
