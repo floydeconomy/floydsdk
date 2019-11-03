@@ -1,4 +1,4 @@
-import { TypeProvider } from "../../../../src/types";
+import { TypeProvider } from "../../../../src/utils/types/index";
 import EthereumProvider from "../../../../src/abstract/dlts/ethereum/ethereum.provider";
 import Web3 from "web3";
 

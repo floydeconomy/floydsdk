@@ -1,4 +1,4 @@
-import { TypeProvider } from "../../../../src/types";
+import { TypeProvider } from "../../../../src/utils/types";
 import BinanceProvider from "../../../../src/abstract/dlts/binance/binance.provider";
 import BnbApiClient from '@binance-chain/javascript-sdk';
 

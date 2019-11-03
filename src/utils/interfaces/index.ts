@@ -1,30 +1,19 @@
 import {
-  TypeSDK,
-  TypeProvider,
-  TypeDLT,
-  TypeAccount,
-} from "./types";
-
-import {
   InterfaceTransaction,
-  InterfaceTransactionOptions,
-  InterfaceTransactionReceipt,
   InterfaceEthereumTransaction,
-  InterfaceEthereumTransactionOptions,
-  InterfaceEthereumTransactionReceipt,
   InterfaceVechainTransaction,
-  InterfaceVechainTransactionOptions,
-  InterfaceVechainTransactionReceipt,
   InterfaceBinanceTransaction,
+  InterfaceTransactionOptions,
+  InterfaceEthereumTransactionOptions,
+  InterfaceVechainTransactionOptions,
   InterfaceBinanceTransactionOptions,
+  InterfaceTransactionReceipt,
+  InterfaceEthereumTransactionReceipt,
+  InterfaceVechainTransactionReceipt,
   InterfaceBinanceTransactionReceipt
-} from "./interfaces"
+} from "./transaction/index";
 
 export {
-  TypeDLT,
-  TypeSDK,
-  TypeProvider,
-  TypeAccount,
   InterfaceTransaction,
   InterfaceTransactionOptions,
   InterfaceTransactionReceipt,

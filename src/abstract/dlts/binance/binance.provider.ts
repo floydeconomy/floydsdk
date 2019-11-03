@@ -1,6 +1,6 @@
 import AbstactProvider from "../provider";
-import { TypeProvider } from "../../../types";
 import BncClient from "@binance-chain/javascript-sdk";
+import { TypeProvider } from '../../../utils/types';
 
 export class BinanceProvider extends AbstactProvider {
   /** @inheritdoc */

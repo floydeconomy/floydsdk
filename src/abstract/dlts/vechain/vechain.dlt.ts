@@ -1,5 +1,6 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceVechainTransaction, InterfaceVechainTransactionOptions, InterfaceVechainTransactionReceipt } from "../../../types/index";
+import { TypeDLT  } from "../../../utils/types/index";
+import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt } from '../../../utils/interfaces';
 
 class Vechain extends AbstractDLT {
   /** @inheritdoc */

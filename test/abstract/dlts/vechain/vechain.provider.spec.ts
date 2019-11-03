@@ -1,5 +1,5 @@
-import { TypeProvider } from "../../../../src/types";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
+import { TypeProvider } from '../../../../src/utils/types';
 import Web3 from "web3";
 
 describe("Vechain provider", () => {

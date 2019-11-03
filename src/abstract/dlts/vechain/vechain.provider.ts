@@ -1,5 +1,5 @@
 import AbstactProvider from "../provider";
-import { TypeProvider } from "../../../types";
+import { TypeProvider } from "../../../utils/types/index";
 import Web3 from "web3";
 import { thorify } from "thorify";
 

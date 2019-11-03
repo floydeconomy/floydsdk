@@ -1,4 +1,4 @@
-import { TypeProvider } from "../../types";
+import { TypeProvider } from "../../utils/types";
 import { URL } from "url";
 
 abstract class AbstractProvider {

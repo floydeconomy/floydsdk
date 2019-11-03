@@ -1,6 +1,7 @@
-import { TypeAccount, TypeProvider, TypeDLT, InterfaceTransaction, InterfaceTransactionOptions, InterfaceTransactionReceipt } from "../../types/index";
+import { TypeAccount, TypeProvider, TypeDLT } from "../../utils/types/index";
 import FloydSDK from "../../core";
 import AbstractProvider from "./provider";
+import { InterfaceTransactionOptions, InterfaceTransaction, InterfaceTransactionReceipt } from '../../utils/interfaces';
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */

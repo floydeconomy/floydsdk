@@ -1,5 +1,6 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction, InterfaceEthereumTransactionReceipt } from "../../../types/index";
+import { TypeDLT } from '../../../utils/types';
+import { InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction, InterfaceEthereumTransactionReceipt } from '../../../utils/interfaces';
 
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */

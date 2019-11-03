@@ -1,13 +1,10 @@
 import FloydSDK from "../../../../src/core/index";
 import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
-import {
-  TypeDLT,
-  InterfaceVechainTransactionOptions,
-  InterfaceVechainTransaction
-} from "../../../../src/types/index";
+import { TypeDLT } from "../../../../src/utils/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
 import "jest-extended";
+import { InterfaceVechainTransactionOptions } from '../../../../src/utils/interfaces';
 
 describe("vechain", () => {
   const vechainDLTOptions = {

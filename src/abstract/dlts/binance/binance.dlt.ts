@@ -1,5 +1,6 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceBinanceTransaction, InterfaceBinanceTransactionOptions, InterfaceBinanceTransactionReceipt } from "../../../types/index";
+import { TypeDLT } from '../../../utils/types';
+import { InterfaceBinanceTransactionOptions, InterfaceBinanceTransaction, InterfaceBinanceTransactionReceipt } from '../../../utils/interfaces';
 
 class Binance extends AbstractDLT {
   /** @inheritdoc */

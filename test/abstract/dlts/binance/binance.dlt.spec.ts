@@ -1,5 +1,5 @@
 import FloydSDK from "../../../../src/core/index";
-import { TypeDLT } from "../../../../src/types";
+import { TypeDLT } from "../../../../src/utils/types";
 import AbstractProvider from "../../../../src/abstract/dlts/provider";
 import Binance from '../../../../src/abstract/dlts/binance/binance.dlt';
 

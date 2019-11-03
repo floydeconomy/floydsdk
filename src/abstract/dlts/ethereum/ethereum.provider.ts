@@ -1,6 +1,6 @@
 import AbstactProvider from "../provider";
-import { TypeProvider } from "../../../types";
 import Web3 from "web3";
+import { TypeProvider } from '../../../utils/types';
 
 export class EthereumProvider extends AbstactProvider {
   /** @inheritdoc */

@@ -1,4 +1,4 @@
-import { TypeDLT, TypeSDK } from "../types";
+import { TypeDLT, TypeSDK } from "../utils/types/index";
 import AbstractDLT from "../abstract/dlts/dlt";
 
 /**
