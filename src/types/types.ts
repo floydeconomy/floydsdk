@@ -4,9 +4,9 @@ type TypeProvider = {
 };
 
 type TypeDLT = {
-  name: string,
-  privateKeys?: [String],
-  provider: TypeProvider
+  name: string;
+  privateKeys?: [String];
+  provider: TypeProvider;
 };
 
 type TypeSDK = {
@@ -16,6 +16,6 @@ type TypeSDK = {
 type TypeAccount = {
   privateKey: string;
   address: string;
-}
+};
 
 export { TypeSDK, TypeProvider, TypeDLT, TypeAccount };

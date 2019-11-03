@@ -10,7 +10,6 @@
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",
-    "test:binance": "jest 'test/abstract/dlts/binance/binance.provider.spec.ts'",
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { TypeAccount, TypeProvider, TypeDLT } from "../../types/sdk";
+import { TypeAccount, TypeProvider, TypeDLT, InterfaceTransaction, InterfaceTransactionOptions } from "../../types/index";
 import FloydSDK from "../../core";
 import AbstractProvider from "./provider";
 
@@ -47,6 +47,20 @@ abstract class AbstractDLT {
       }
     }
   }
+
+  /**
+   * Build the transaction
+   * @param {string} to
+   * @param {string} message
+   * @param {TransactionOptions} options
+   */
+  public abstract buildTransaction(to: string, message: string, options: InterfaceTransactionOptions): InterfaceTransaction;
+
+  /**
+   * Creates transaction based on parameters provided
+   * @param {TypeTransaction} options
+   */
+  public abstract sendSignedTransaction(transaction: InterfaceTransaction);
 }
 
 export default AbstractDLT;
