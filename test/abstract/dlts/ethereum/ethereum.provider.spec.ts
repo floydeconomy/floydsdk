@@ -1,5 +1,5 @@
 import { TypeProvider } from "../../../../src/types";
-import EthereumProvider from "../../../../src/abstract/dlts/ethereum/Ethereum.provider";
+import EthereumProvider from "../../../../src/abstract/dlts/ethereum/ethereum.provider";
 import Web3 from "web3";
 
 describe("Ethereum provider", () => {
