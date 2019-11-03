@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceBinanceTransaction, InterfaceBinanceTransactionOptions } from "../../../types/index";
+import { TypeDLT, InterfaceBinanceTransaction, InterfaceBinanceTransactionOptions, InterfaceBinanceTransactionReceipt } from "../../../types/index";
 
 class Binance extends AbstractDLT {
   /** @inheritdoc */
@@ -19,7 +19,7 @@ class Binance extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(transaction: InterfaceBinanceTransaction) {
+  public sendSignedTransaction(transaction: InterfaceBinanceTransaction): InterfaceBinanceTransactionReceipt {
     throw new Error('Method not implemented.');
   }
 }

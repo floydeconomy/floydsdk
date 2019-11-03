@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceVechainTransaction, InterfaceVechainTransactionOptions } from "../../../types/index";
+import { TypeDLT, InterfaceVechainTransaction, InterfaceVechainTransactionOptions, InterfaceVechainTransactionReceipt } from "../../../types/index";
 
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
@@ -24,7 +24,7 @@ class Vechain extends AbstractDLT {
     if (options.gas <= 0) {
       throw new Error("[Vechain] The gas provided is invalid")
     }
-    if(options.gasPriceCoef <= 0) {
+    if (options.gasPriceCoef <= 0) {
       throw new Error("[Vechain] The gasPriceCoef provided is invalid")
     }
 
@@ -41,7 +41,7 @@ class Vechain extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(transaction: InterfaceVechainTransaction) {
+  public sendSignedTransaction(transaction: InterfaceVechainTransaction): InterfaceVechainTransactionReceipt {
     throw new Error('Method not implemented.');
   }
 }

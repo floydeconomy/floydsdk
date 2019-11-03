@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction } from "../../../types/index";
+import { TypeDLT, InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction, InterfaceEthereumTransactionReceipt } from "../../../types/index";
 
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */
@@ -27,7 +27,7 @@ class Ethereum extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(transaction: InterfaceEthereumTransaction) {
+  public sendSignedTransaction(transaction: InterfaceEthereumTransaction): InterfaceEthereumTransactionReceipt {
     throw new Error('Method not implemented.');
   }
 }

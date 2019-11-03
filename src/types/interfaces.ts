@@ -12,6 +12,17 @@ interface InterfaceTransactionReceipt {
 
 }
 
+interface InterfaceVechainTransactionReceipt {
+
+}
+
+interface InterfaceBinanceTransactionReceipt {
+
+}
+interface InterfaceEthereumTransactionReceipt {
+
+}
+
 interface InterfaceEthereumTransactionOptions extends InterfaceTransactionOptions {
   gasPrice: string;
   gas: string;
@@ -51,10 +62,14 @@ interface InterfaceBinanceTransactionOptions extends InterfaceTransactionOptions
 export {
   InterfaceTransaction,
   InterfaceTransactionOptions,
+  InterfaceTransactionReceipt,
   InterfaceEthereumTransaction,
   InterfaceEthereumTransactionOptions,
+  InterfaceEthereumTransactionReceipt,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionOptions,
+  InterfaceVechainTransactionReceipt,
   InterfaceBinanceTransaction,
-  InterfaceBinanceTransactionOptions
+  InterfaceBinanceTransactionOptions,
+  InterfaceBinanceTransactionReceipt
 };

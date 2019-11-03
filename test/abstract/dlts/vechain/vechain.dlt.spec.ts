@@ -61,7 +61,7 @@ describe("vechain", () => {
     });
   });
 
-  describe("transaction", () => {
+  describe("transactions", () => {
     describe("buildTransaction", () => {
       let toAddress;
       let fromAddress;
@@ -95,7 +95,6 @@ describe("vechain", () => {
         expect(transaction.blockRef).toBe(undefined);
         expect(transaction.chainTag).toBe(undefined);
       });
-
       describe("nonce", () => {
         test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
@@ -120,7 +119,6 @@ describe("vechain", () => {
           expect(transaction.nonce).toBe(0);
         });
       });
-
       describe("amount", () => {
         test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
