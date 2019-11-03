@@ -1,6 +1,6 @@
 import FloydSDK from "../../../../src/core/index";
 import Ethereum from "../../../../src/abstract/dlts/ethereum/ethereum.dlt";
-import { TypeDLT } from "../../../../src/types";
+import { TypeDLT } from "../../../../src/utils/types/index";
 import AbstractProvider from "../../../../src/abstract/dlts/provider";
 
 import "jest-extended";
