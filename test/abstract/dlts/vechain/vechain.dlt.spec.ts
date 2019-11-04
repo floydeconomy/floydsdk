@@ -73,9 +73,9 @@ describe("vechain", () => {
       test("should build a vechain transaction", () => {
         const options: InterfaceVechainTransactionOptions = {
           nonce: 12345678,
-          amount: 21000,
+          value: 21000,
           from: fromAddress.toString("hex"),
-          gasPriceCoef: 128,
+          gasPrice: 128,
           gas: 21000
         };
 
@@ -96,9 +96,9 @@ describe("vechain", () => {
         test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: -1,
-            amount: 21000,
+            value: 21000,
             from: fromAddress.toString("hex"),
-            gasPriceCoef: 128,
+            gasPrice: 128,
             gas: 21000
           };
           expect(() => {
@@ -107,22 +107,22 @@ describe("vechain", () => {
         });
         test("should default to null if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
-            amount: 21000,
+            value: 21000,
             from: fromAddress.toString("hex"),
-            gasPriceCoef: 128,
+            gasPrice: 128,
             gas: 21000
           };
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.nonce).toBe(0);
         });
       });
-      describe("amount", () => {
+      describe("value", () => {
         test("should fail if less than 0", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 123,
-            amount: -1,
+            value: -1,
             from: fromAddress.toString("hex"),
-            gasPriceCoef: 128,
+            gasPrice: 128,
             gas: 21000
           };
 
@@ -138,9 +138,9 @@ describe("vechain", () => {
           expect(() => {
             const options: InterfaceVechainTransactionOptions = {
               nonce: 123,
-              amount: 123,
+              value: 123,
               from: fromAddress.toString("hex"),
-              gasPriceCoef: 128,
+              gasPrice: 128,
               gas: 0
             };
             vechain.buildTransaction(toAddress, "", options);
@@ -149,9 +149,9 @@ describe("vechain", () => {
           expect(() => {
             const options: InterfaceVechainTransactionOptions = {
               nonce: 123,
-              amount: 123,
+              value: 123,
               from: fromAddress.toString("hex"),
-              gasPriceCoef: 128,
+              gasPrice: 128,
               gas: -1
             };
             vechain.buildTransaction(toAddress, "", options);
@@ -161,9 +161,9 @@ describe("vechain", () => {
         test("should default to 21000 if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 210122,
-            amount: 69,
+            value: 69,
             from: fromAddress.toString("hex"),
-            gasPriceCoef: 128
+            gasPrice: 128
           };
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.gas).toBe(21000);
@@ -174,9 +174,9 @@ describe("vechain", () => {
           expect(() => {
             const options: InterfaceVechainTransactionOptions = {
               nonce: 123,
-              amount: 123,
+              value: 123,
               from: fromAddress.toString("hex"),
-              gasPriceCoef: -1,
+              gasPrice: -1,
               gas: 21000
             };
             vechain.buildTransaction(toAddress, "", options);
@@ -187,9 +187,9 @@ describe("vechain", () => {
           expect(() => {
             const options: InterfaceVechainTransactionOptions = {
               nonce: 123,
-              amount: 123,
+              value: 123,
               from: fromAddress.toString("hex"),
-              gasPriceCoef: 0,
+              gasPrice: 0,
               gas: 21000
             };
             vechain.buildTransaction(toAddress, "", options);
@@ -201,7 +201,7 @@ describe("vechain", () => {
         test("should default to 128 if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 210122,
-            amount: 69,
+            value: 69,
             from: fromAddress.toString("hex"),
             gas: 11111
           };
@@ -214,10 +214,10 @@ describe("vechain", () => {
         test("should default to 0x9a if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 210122,
-            amount: 69,
+            value: 69,
             from: fromAddress.toString("hex"),
             gas: 11111,
-            gasPriceCoef: 128
+            gasPrice: 128
           };
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.chainTag).toBe(0x9a);
@@ -228,10 +228,10 @@ describe("vechain", () => {
         test("should default to 0x0000000000000000 if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 210122,
-            amount: 69,
+            value: 69,
             from: fromAddress.toString("hex"),
             gas: 11111,
-            gasPriceCoef: 128
+            gasPrice: 128
           };
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.blockRef).toBe("0x0000000000000000");
@@ -242,10 +242,10 @@ describe("vechain", () => {
         test("should default to 32 if not provided", () => {
           const options: InterfaceVechainTransactionOptions = {
             nonce: 210122,
-            amount: 69,
+            value: 69,
             from: fromAddress.toString("hex"),
             gas: 11111,
-            gasPriceCoef: 128
+            gasPrice: 128
           };
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.expiration).toBe(32);
@@ -266,9 +266,9 @@ describe("vechain", () => {
       test("should sign the transaction", () => {
         const options: InterfaceVechainTransactionOptions = {
           nonce: 12345678,
-          amount: 21000,
+          value: 21000,
           from: fromAddress.toString("hex"),
-          gasPriceCoef: 128,
+          gasPrice: 128,
           gas: 21000
         };
 
@@ -310,9 +310,9 @@ describe("vechain", () => {
       test("should fail", () => {
         const options: InterfaceVechainTransactionOptions = {
           nonce: 12345678,
-          amount: 21000,
+          value: 21000,
           from: fromAddress.toString("hex"),
-          gasPriceCoef: 128,
+          gasPrice: 128,
           gas: 21000
         };
 
