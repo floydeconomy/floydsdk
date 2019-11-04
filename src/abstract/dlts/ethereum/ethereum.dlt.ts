@@ -28,7 +28,17 @@ class Ethereum extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(transaction: InterfaceEthereumTransaction): InterfaceEthereumTransactionReceipt {
+  public sendSignedTransaction(signature: string):  Promise<InterfaceEthereumTransactionReceipt> {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public sendTransaction(transaction: InterfaceEthereumTransaction): Promise<InterfaceEthereumTransactionReceipt> {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public signTransaction(transaction: InterfaceEthereumTransaction, pk: string) {
     throw new Error('Method not implemented.');
   }
 }

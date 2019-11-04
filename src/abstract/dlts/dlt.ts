@@ -58,10 +58,22 @@ abstract class AbstractDLT {
   public abstract buildTransaction(to: string, message: string, options: InterfaceTransactionOptions): InterfaceTransaction;
 
   /**
-   * Sends the transaction based on parameters provided
+   * Sends a singed transaction to the blockchain
    * @param {TypeTransaction} options
    */
-  public abstract sendSignedTransaction(transaction: InterfaceTransaction): InterfaceTransactionReceipt;
+  public abstract sendSignedTransaction(signature: string): Promise<InterfaceTransactionReceipt>;
+
+  /**
+   * Sends a transaction to the blockchain
+   * @param transaction 
+   */
+  public abstract sendTransaction(transaction: InterfaceTransaction): Promise<InterfaceTransactionReceipt>;
+
+  /**
+   * Signs a transaction with the private key
+   * @param {TypeTransaction} options
+   */
+  public abstract signTransaction(transaction: InterfaceTransaction, pk: Buffer): any;
 }
 
 export default AbstractDLT;

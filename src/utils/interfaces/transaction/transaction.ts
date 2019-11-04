@@ -14,11 +14,12 @@ interface InterfaceVechainTransaction extends InterfaceTransaction {
   from: string;
   gas: number;
   gasPriceCoef: number;
-  chainTag?: number;
-  blockRef?: string;
-  expiration?: number;
-  dependsOn?: string;
+  chainTag: number;
+  blockRef: string;
+  expiration: number;
+  dependsOn: string;
   value: number;
+  clauses: []
 }
 
 interface InterfaceBinanceTransaction extends InterfaceTransaction {}

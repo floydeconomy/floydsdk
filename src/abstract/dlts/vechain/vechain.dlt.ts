@@ -1,6 +1,10 @@
 import AbstractDLT from "../dlt";
 import { TypeDLT  } from "../../../utils/types/index";
-import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt } from '../../../utils/interfaces';
+import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt, InterfaceTransaction } from '../../../utils/interfaces';
+import {
+  cry,
+  Transaction,
+} from 'thor-devkit'
 
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
@@ -34,16 +38,41 @@ class Vechain extends AbstractDLT {
       to: to,
       value: options.amount,
       gas: options.gas ? options.gas : 21000,
+      gasPriceCoef: options.gasPriceCoef ? options.gasPriceCoef : 128,
       data: this.provider.instance.utils.asciiToHex(message),
       nonce: options.nonce ? options.nonce : 0,
-      gasPriceCoef: options.gasPriceCoef ? options.gasPriceCoef : 128,
+      clauses: [],
+      chainTag: 0x9a,
+      expiration: 32,
+      dependsOn: null,
+      blockRef: "0x0000000000000000",
     };
     return transaction;  
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(transaction: InterfaceVechainTransaction): InterfaceVechainTransactionReceipt {
+  public sendSignedTransaction(signature: string):  Promise<InterfaceVechainTransactionReceipt> {
     throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public sendTransaction(transaction: InterfaceVechainTransaction): Promise<InterfaceVechainTransactionReceipt> {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public signTransaction(transaction: InterfaceVechainTransaction, pk: Buffer): Buffer {
+    // const pub = cry.secp256k1.derivePublicKey(pk);
+    // const address = '0x' + cry.publicKeyToAddress(pub).toString('hex');
+    // if (!cry.isAddress(address)) {
+    //   console.log(address);
+    //   throw new Error('[Vechain] Private key provided is invalid')
+    // }
+    let body: Transaction.Body = transaction
+    let tx = new Transaction(body)
+    let signingHash = cry.blake2b256(tx.encode())
+    tx.signature = cry.secp256k1.sign(signingHash, pk)
+    return tx.signature;
   }
 }
 
