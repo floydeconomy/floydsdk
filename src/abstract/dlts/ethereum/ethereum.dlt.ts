@@ -49,7 +49,7 @@ class Ethereum extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public signTransaction(transaction: InterfaceEthereumTransaction,pk: Buffer): Buffer {
+  public signTransaction(transaction: InterfaceEthereumTransaction, pk: Buffer): Buffer {
     var tx = new Transaction(transaction);
     tx.sign(pk);
     const serializedTx = tx.serialize();
