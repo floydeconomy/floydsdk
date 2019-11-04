@@ -58,10 +58,23 @@ describe("binance", () => {
   });
 
   describe("transaction", () => {
+    let toAddress;
+    let fromAddress;
+    beforeEach(() => {
+      toAddress = "binance.provider.instance.eth.accounts.create().address;"
+      fromAddress = "binance.provider.instance.eth.accounts.create().address;"
+    });
+
     describe("buildTransaction", () => {
       test("should fail", () => {
         expect(() => {
-          binance.buildTransaction("", "", {});
+          binance.buildTransaction("", "", {
+            nonce: 123,
+            value: 123,
+            from: fromAddress.toString("hex"),
+            gasPrice: 128,
+            gas: 0
+          });
         }).toThrowError(new Error("Method not implemented."));
       });
     });

@@ -8,7 +8,7 @@ import {
   InterfaceEthereumTransactionReceipt
 } from "../../../../src/utils/interfaces/index";
 import "jest-extended";
-import Accounts from 'web3-eth-accounts';
+
 describe("ethereum", () => {
   const ethereumDLTOptions = {
     name: "ethereum",
@@ -73,17 +73,135 @@ describe("ethereum", () => {
       test("should build a transaction", () => {
         const options: InterfaceEthereumTransactionOptions = {
           nonce: 0,
-          gasPrice: '0x09184e72a000',
-          gas: '0x2710',
-          value: '0x00',
+          gasPrice: 0x09184e72a000,
+          gas: 0x2710,
+          value: 0,
           from: fromAddress
         };
         const transaction = ethereum.buildTransaction(toAddress, "", options);
         expect(transaction.nonce).toBe(0);
-        expect(transaction.value).toBe('0x00');
+        expect(transaction.value).toBe(0);
         expect(transaction.to).toBe(toAddress);
-        expect(transaction.gas).toBe('0x2710');
-        expect(transaction.gasPrice).toBe('0x09184e72a000');
+        expect(transaction.gas).toBe(0x2710);
+        expect(transaction.gasPrice).toBe(0x09184e72a000);
+      });
+
+      describe("nonce", () => {
+        test("should fail if less than 0", () => {
+          const options: InterfaceEthereumTransactionOptions = {
+            nonce: -1,
+            value: 21000,
+            from: fromAddress.toString("hex"),
+            gasPrice: 128,
+            gas: 21000
+          };
+          expect(() => {
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Ethereum] The nonce provided is invalid"));
+        });
+        test("should default to null if not provided", () => {
+          const options: InterfaceEthereumTransactionOptions = {
+            value: 21000,
+            from: fromAddress.toString("hex"),
+            gasPrice: 128,
+            gas: 21000
+          };
+          const transaction = ethereum.buildTransaction(toAddress, "", options);
+          expect(transaction.nonce).toBe(0);
+        });
+      });
+      describe("value", () => {
+        test("should fail if less than 0", () => {
+          const options: InterfaceEthereumTransactionOptions = {
+            nonce: 123,
+            value: -1,
+            from: fromAddress.toString("hex"),
+            gasPrice: 128,
+            gas: 21000
+          };
+
+          expect(() => {
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Ethereum] The amount provided is invalid")
+          );
+        });
+      });
+      describe("gas", () => {
+        test("should fail if less than or equal to 0", () => {
+          expect(() => {
+            const options: InterfaceEthereumTransactionOptions = {
+              nonce: 123,
+              value: 123,
+              from: fromAddress.toString("hex"),
+              gasPrice: 128,
+              gas: 0
+            };
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Ethereum] The gas provided is invalid"));
+
+          expect(() => {
+            const options: InterfaceEthereumTransactionOptions = {
+              nonce: 123,
+              value: 123,
+              from: fromAddress.toString("hex"),
+              gasPrice: 128,
+              gas: -1
+            };
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(new Error("[Ethereum] The gas provided is invalid"));
+        });
+
+        test("should default to 1 if not provided", () => {
+          const options: InterfaceEthereumTransactionOptions = {
+            nonce: 210122,
+            value: 69,
+            from: fromAddress.toString("hex"),
+            gasPrice: 128
+          };
+          const transaction = ethereum.buildTransaction(toAddress, "", options);
+          expect(transaction.gas).toBe(1);
+        });
+      });
+      describe("gasPrice", () => {
+        test("should fail if less than or equal to 0", () => {
+          expect(() => {
+            const options: InterfaceEthereumTransactionOptions = {
+              nonce: 123,
+              value: 123,
+              from: fromAddress.toString("hex"),
+              gasPrice: -1,
+              gas: 21000
+            };
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Ethereum] The gasPrice provided is invalid")
+          );
+
+          expect(() => {
+            const options: InterfaceEthereumTransactionOptions = {
+              nonce: 123,
+              value: 123,
+              from: fromAddress.toString("hex"),
+              gas: 21000,
+              gasPrice: 0,
+            };
+            ethereum.buildTransaction(toAddress, "", options);
+          }).toThrowError(
+            new Error("[Ethereum] The gasPrice provided is invalid")
+          );
+        });
+
+        test("should default to 1e9 if not provided", () => {
+          const options: InterfaceEthereumTransactionOptions = {
+            nonce: 210122,
+            value: 69,
+            from: fromAddress.toString("hex"),
+            gas: 11111
+          };
+          const transaction = ethereum.buildTransaction(toAddress, "", options);
+          expect(transaction.gasPrice).toBe(1e9);
+        });
       });
     });
 
