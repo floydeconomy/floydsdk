@@ -1,14 +1,16 @@
+import { BN } from 'ethereumjs-util';
+
 interface InterfaceTransactionOptions {
 }
 
 interface InterfaceEthereumTransactionOptions
   extends InterfaceTransactionOptions {
-  nonce: string;
-  gasPrice: string;
-  gas: string;
-  amount: string;
-  from: string;
-}
+    nonce?: number;
+    gasPrice?: number | string | BN;
+    gas?: number | string;
+    value?: number | string | BN;
+    from?: string | number;
+  }
 
 interface InterfaceVechainTransactionOptions
   extends InterfaceTransactionOptions {
