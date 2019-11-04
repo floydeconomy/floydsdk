@@ -51,7 +51,7 @@ class Vechain extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(signature: string):  Promise<InterfaceVechainTransactionReceipt> {
+  public sendSignedTransaction(signature: Buffer):  Promise<InterfaceVechainTransactionReceipt> {
     throw new Error('Method not implemented.');
   }
 

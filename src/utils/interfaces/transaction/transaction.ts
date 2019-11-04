@@ -1,5 +1,4 @@
 interface InterfaceTransaction {
-  nonce: number;
   to: string;
   data: string;
 }
@@ -8,11 +7,14 @@ interface InterfaceEthereumTransaction extends InterfaceTransaction {
   gas: string;
   gasPrice: string;
   value: string;
+  nonce: string;
 }
 
+
 interface InterfaceVechainTransaction extends InterfaceTransaction {
-  from: string;
+  nonce: number;
   gas: number;
+  from: string;
   gasPriceCoef: number;
   chainTag: number;
   blockRef: string;

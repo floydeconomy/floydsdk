@@ -20,7 +20,7 @@ class Binance extends AbstractDLT {
   }
   
   /** @inheritdoc */
-  public sendSignedTransaction(signature: string):  Promise<InterfaceBinanceTransactionReceipt> {
+  public sendSignedTransaction(signature: Buffer): Promise<InterfaceBinanceTransactionReceipt> {
     throw new Error('Method not implemented.');
   }
 
@@ -30,7 +30,7 @@ class Binance extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public signTransaction(transaction: InterfaceBinanceTransaction, pk: string) {
+  public signTransaction(transaction: InterfaceBinanceTransaction, pk: Buffer): Buffer {
     throw new Error('Method not implemented.');
   }
 }

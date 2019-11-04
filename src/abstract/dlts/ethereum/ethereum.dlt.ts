@@ -1,11 +1,12 @@
 import AbstractDLT from "../dlt";
 import { TypeDLT } from '../../../utils/types';
 import { InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction, InterfaceEthereumTransactionReceipt } from '../../../utils/interfaces';
+import { Transaction } from 'ethereumjs-tx'
 
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */
   name: string = "ethereum";
-  
+
   /** @inheritdoc */
   symbol: string = "eth";
 
@@ -22,24 +23,37 @@ class Ethereum extends AbstractDLT {
       gas: options.gas,
       gasPrice: options.gasPrice,
       value: options.amount,
-      data: this.provider.instance.utils.asciiToHex(message),
+      data: this.provider.instance.utils.asciiToHex(message)
     };
     return transaction;
   }
-  
+
   /** @inheritdoc */
-  public sendSignedTransaction(signature: string):  Promise<InterfaceEthereumTransactionReceipt> {
-    throw new Error('Method not implemented.');
+  public sendSignedTransaction(signature: Buffer): Promise<InterfaceEthereumTransactionReceipt> {
+    return new Promise((resolve, reject) => {
+      this.provider.instance.eth
+        .sendSignedTransaction("0x" + signature.toString("hex"))
+        .then((data) => {
+          const receipt: InterfaceEthereumTransactionReceipt = data;
+          return resolve(receipt);
+        })
+        .catch((err) => {
+          return reject(new Error('[Ethereum] Something went wrong when sending the signed transaction.'));
+        });
+    });
   }
 
   /** @inheritdoc */
   public sendTransaction(transaction: InterfaceEthereumTransaction): Promise<InterfaceEthereumTransactionReceipt> {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
-  public signTransaction(transaction: InterfaceEthereumTransaction, pk: string) {
-    throw new Error('Method not implemented.');
+  public signTransaction(transaction: InterfaceEthereumTransaction,pk: Buffer): Buffer {
+    var tx = new Transaction(transaction);
+    tx.sign(pk);
+    const serializedTx = tx.serialize();
+    return serializedTx;
   }
 }
 

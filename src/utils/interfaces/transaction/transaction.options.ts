@@ -1,16 +1,18 @@
 interface InterfaceTransactionOptions {
-  nonce?: number;
 }
 
 interface InterfaceEthereumTransactionOptions
   extends InterfaceTransactionOptions {
+  nonce: string;
   gasPrice: string;
   gas: string;
   amount: string;
+  from: string;
 }
 
 interface InterfaceVechainTransactionOptions
   extends InterfaceTransactionOptions {
+  nonce?: number;
   from: string;
   gasPriceCoef?: number;
   gas?: number;

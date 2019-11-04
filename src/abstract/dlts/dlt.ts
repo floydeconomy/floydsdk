@@ -61,7 +61,7 @@ abstract class AbstractDLT {
    * Sends a singed transaction to the blockchain
    * @param {TypeTransaction} options
    */
-  public abstract sendSignedTransaction(signature: string): Promise<InterfaceTransactionReceipt>;
+  public abstract sendSignedTransaction(signature: Buffer): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
