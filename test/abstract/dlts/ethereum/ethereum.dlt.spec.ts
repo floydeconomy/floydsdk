@@ -4,10 +4,11 @@ import { TypeDLT } from "../../../../src/utils/types/index";
 import AbstractProvider from "../../../../src/abstract/dlts/provider";
 import {
   InterfaceEthereumTransaction,
+  InterfaceEthereumTransactionOptions,
   InterfaceEthereumTransactionReceipt
 } from "../../../../src/utils/interfaces/index";
 import "jest-extended";
-
+import Accounts from 'web3-eth-accounts';
 describe("ethereum", () => {
   const ethereumDLTOptions = {
     name: "ethereum",
@@ -61,36 +62,28 @@ describe("ethereum", () => {
   });
 
   describe("transactions", () => {
+    let toAddress;
+    let fromAddress;
+    beforeEach(() => {
+      toAddress = ethereum.provider.instance.eth.accounts.create().address;
+      fromAddress = ethereum.provider.instance.eth.accounts.create().address;
+    });
+
     describe("buildTransaction", () => {
-      let toAddress;
-      let fromAddress;
-      beforeEach(() => {
-        // toAddress = cry.publicKeyToAddress(
-        //   cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
-        // );
-        // fromAddress = cry.publicKeyToAddress(
-        //   cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
-        // );
-      });
       test("should build a ethereum transaction", () => {
-        // const options: InterfaceEthereumTransactionOptions = {
-        //   nonce: 12345678,
-        //   amount: 21000,
-        //   from: fromAddress.toString("hex"),
-        //   gasPriceCoef: 128,
-        //   gas: 21000
-        // };
-        // const transaction = ethereum.buildTransaction(toAddress, "", options);
-        // expect(transaction.nonce).toBe(12345678);
-        // expect(transaction.value).toBe(21000);
-        // expect(transaction.from).toBe(fromAddress.toString("hex"));
-        // expect(transaction.to).toBe(toAddress);
-        // expect(transaction.gasPriceCoef).toBe(128);
-        // expect(transaction.gas).toBe(21000);
-        // expect(transaction.dependsOn).toBe(null);
-        // expect(transaction.expiration).toBe(32);
-        // expect(transaction.blockRef).toBe("0x0000000000000000");
-        // expect(transaction.chainTag).toBe(0x9a);
+        const options: InterfaceEthereumTransactionOptions = {
+          nonce: "0x00",
+          gasPrice: '0x09184e72a000',
+          gas: '0x2710',
+          amount: '0x00',
+          from: fromAddress
+        };
+        const transaction = ethereum.buildTransaction(toAddress, "", options);
+        expect(transaction.nonce).toBe( "0x00");
+        expect(transaction.value).toBe('0x00');
+        expect(transaction.to).toBe(toAddress);
+        expect(transaction.gas).toBe('0x2710');
+        expect(transaction.gasPrice).toBe('0x09184e72a000');
       });
     });
 
@@ -195,6 +188,23 @@ describe("ethereum", () => {
           expect(receipt.to).toBe("0x3535353535353535353535353535353535353535");
           expect(receipt.logsBloom).toBe("");
         });
+      });
+    });
+
+    describe("sendTransaction", () => {
+      test("should fail", () => {
+        const options: InterfaceEthereumTransactionOptions = {
+          nonce: "0x00",
+          gasPrice: '0x09184e72a000',
+          gas: '0x2710',
+          amount: '0x00',
+          from: fromAddress
+        };
+        const transaction = ethereum.buildTransaction(toAddress, "", options);
+
+        expect(() => {
+          ethereum.sendTransaction(transaction);
+        }).toThrowError(new Error("Method not implemented."));
       });
     });
   });

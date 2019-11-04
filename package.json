@@ -18,8 +18,6 @@
   "dependencies": {
     "@binance-chain/javascript-sdk": "^2.16.1",
     "@types/node": "^12.7.11",
-    "bitcoin-core": "^3.0.0",
-    "bitcoinjs-lib": "^5.1.6",
     "thor-devkit": "^1.2.2",
     "thorify": "^1.4.0",
     "typescript": "^3.6.3",

@@ -4,7 +4,7 @@ import { TypeDLT } from "../../../../src/utils/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
 import "jest-extended";
-import { InterfaceVechainTransactionOptions } from "../../../../src/utils/interfaces";
+import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction } from "../../../../src/utils/interfaces";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -59,17 +59,17 @@ describe("vechain", () => {
   });
 
   describe("transactions", () => {
+    let toAddress;
+    let fromAddress;
+    beforeEach(() => {
+      toAddress = cry.publicKeyToAddress(
+        cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
+      );
+      fromAddress = cry.publicKeyToAddress(
+        cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
+      );
+    });
     describe("buildTransaction", () => {
-      let toAddress;
-      let fromAddress;
-      beforeEach(() => {
-        toAddress = cry.publicKeyToAddress(
-          cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
-        );
-        fromAddress = cry.publicKeyToAddress(
-          cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
-        );
-      });
       test("should build a vechain transaction", () => {
         const options: InterfaceVechainTransactionOptions = {
           nonce: 12345678,
@@ -305,7 +305,23 @@ describe("vechain", () => {
         }).toThrowError(new Error("Method not implemented."));
       });
     });
+
     describe("sendTransaction", () => {
+      test("should fail", () => {
+        const options: InterfaceVechainTransactionOptions = {
+          nonce: 12345678,
+          amount: 21000,
+          from: fromAddress.toString("hex"),
+          gasPriceCoef: 128,
+          gas: 21000
+        };
+
+        const transaction = vechain.buildTransaction(toAddress, "", options);
+
+        expect(() => {
+          vechain.sendTransaction(transaction);
+        }).toThrowError(new Error("Method not implemented."));
+      });
     });
   });
 });
