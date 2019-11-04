@@ -37,9 +37,7 @@ class Vechain extends AbstractDLT {
     if (options.gas <= 0) {
       throw new Error("[Vechain] The gas provided is invalid");
     }
-    
     if (options.gasPrice <= 0) {
-      console.log(options.gasPrice,'test');
       throw new Error("[Vechain] The gasPriceCoef provided is invalid");
     }
 
@@ -62,22 +60,60 @@ class Vechain extends AbstractDLT {
   
   /** @inheritdoc */
   public sendSignedTransaction(signature: Buffer):  Promise<InterfaceVechainTransactionReceipt> {
-    throw new Error('Method not implemented.');
+    return new Promise((resolve, reject) => {
+      this.provider.instance.eth
+        .sendSignedTransaction("0x" + signature.toString("hex"))
+        .then(data => {
+          const receipt: InterfaceVechainTransactionReceipt = {
+            gasUsed: data.gasUsed,
+            blockHash: data.blockHash,
+            blockNumber: data.blockNumber,
+            status: data.status,
+            cumulativeGasUsed: data.cumulativeGasUsed,
+            from: data.from,
+            to: data.to,
+            transactionHash: data.transactionHash,
+            transactionIndex: data.transactionIndex
+          };
+          return resolve(receipt);
+        })
+        .catch(err => {
+          return reject(
+            new Error(
+              "[Vechain] Something went wrong when sending the signed transaction."
+            )
+          );
+        });
+    });
   }
 
   /** @inheritdoc */
   public sendTransaction(transaction: InterfaceVechainTransaction): Promise<InterfaceVechainTransactionReceipt> {
-    throw new Error('Method not implemented.');
+    return new Promise((resolve, reject) => {
+      this.provider.instance.eth
+        .sendTransaction(transaction)
+        .then((data) => {
+          const receipt: InterfaceVechainTransactionReceipt = {
+            gasUsed: data.gasUsed,
+            blockHash: data.blockHash,
+            blockNumber: data.blockNumber,
+            status: data.status,
+            cumulativeGasUsed: data.cumulativeGasUsed,
+            from: data.from,
+            to: data.to,
+            transactionHash: data.transactionHash,
+            transactionIndex: data.transactionIndex
+          };
+          return resolve(receipt);
+        })
+        .catch((err) => {
+          return reject(new Error('[Vechain] Something went wrong when sending the transaction.'));
+        });
+    });  
   }
 
   /** @inheritdoc */
   public signTransaction(transaction: InterfaceVechainTransaction, pk: Buffer): Buffer {
-    // const pub = cry.secp256k1.derivePublicKey(pk);
-    // const address = '0x' + cry.publicKeyToAddress(pub).toString('hex');
-    // if (!cry.isAddress(address)) {
-    //   console.log(address);
-    //   throw new Error('[Vechain] Private key provided is invalid')
-    // }
     let body: Transaction.Body = transaction
     let tx = new Transaction(body)
     let signingHash = cry.blake2b256(tx.encode())
