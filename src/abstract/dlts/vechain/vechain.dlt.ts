@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT  } from "../../../utils/types/index";
+import { TypeDLT, TypeAccount  } from "../../../utils/types/index";
 import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt, InterfaceTransaction } from '../../../utils/interfaces';
 import {
   cry,
@@ -119,6 +119,36 @@ class Vechain extends AbstractDLT {
     let signingHash = cry.blake2b256(tx.encode())
     tx.signature = cry.secp256k1.sign(signingHash, pk)
     return tx.signature;
+  }
+
+  /** @inheritdoc */
+  public createContract(contract: Buffer) {
+    throw new Error('Method not implemented.');
+  }
+  
+  /** @inheritdoc */
+  public deployContract(contract: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public createAccount(): TypeAccount {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public privateKeyToAccount(key: Buffer): TypeAccount {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public subscribe(event: string): boolean {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public clearSubscriptions(): boolean {
+    throw new Error('Method not implemented.');
   }
 }
 

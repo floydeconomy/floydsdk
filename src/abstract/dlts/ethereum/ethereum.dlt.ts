@@ -1,5 +1,5 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT } from '../../../utils/types';
+import { TypeDLT, TypeAccount } from '../../../utils/types';
 import { InterfaceEthereumTransactionOptions, InterfaceEthereumTransaction, InterfaceEthereumTransactionReceipt } from '../../../utils/interfaces';
 import { Transaction } from 'ethereumjs-tx'
 
@@ -89,6 +89,36 @@ class Ethereum extends AbstractDLT {
     tx.sign(pk);
     const serializedTx = tx.serialize();
     return serializedTx;
+  }
+
+  /** @inheritdoc */
+  public createContract(contract: Buffer) {
+    throw new Error('Method not implemented.');
+  }
+  
+  /** @inheritdoc */
+  public deployContract(contract: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public createAccount(): TypeAccount {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public privateKeyToAccount(key: Buffer): TypeAccount {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public subscribe(event: string): boolean {
+    throw new Error('Method not implemented.');
+  }
+
+  /** @inheritdoc */
+  public clearSubscriptions(): boolean {
+    throw new Error('Method not implemented.');
   }
 }
 

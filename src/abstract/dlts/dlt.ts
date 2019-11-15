@@ -30,8 +30,9 @@ abstract class AbstractDLT {
 
   /**
    * Load the dlt to the Overledger SDK
-   * @param {Object} config
-   * @return { AbstractDLT }
+   * @param {name} string
+   * @param {provider} TypeProvider
+   * @return {AbstractProvider}
    */
   public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
     try {
@@ -59,21 +60,61 @@ abstract class AbstractDLT {
 
   /**
    * Sends a singed transaction to the blockchain
-   * @param {TypeTransaction} options
+   * @param {signature} Buffer
+   * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendSignedTransaction(signature: Buffer): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
-   * @param transaction 
+   * @param {transaction} InterfaceTransaction
+   * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendTransaction(transaction: InterfaceTransaction): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Signs a transaction with the private key
-   * @param {TypeTransaction} options
+   * @param {transaction} InterfaceTransaction
+   * @param {pk} Buffer
+   * @return {any}
    */
   public abstract signTransaction(transaction: InterfaceTransaction, pk: Buffer): any;
+
+  /**
+   * Creates a new contract
+   * @return {InterfaceContract}
+   */
+  public abstract createContract(contract: Buffer): any;
+
+  /**
+   * Deploys the contract
+   * @return {any}
+   */
+  public abstract deployContract(contract: any): any
+
+  /**
+   * Creates a new account
+   * @return {TypeAccount} 
+   */
+  public abstract createAccount(): TypeAccount
+
+  /**
+   * Convert private key to account
+   * @return {TypeAccount}
+   */
+  public abstract privateKeyToAccount(key: Buffer): TypeAccount
+
+  /**
+   * Subscribe to certain blockchain events
+   * @param {event} string
+   * @return {boolean}
+   */
+  public abstract subscribe(event: string): boolean
+
+  /**
+   * Clear all the subscriptions
+   */
+  public abstract clearSubscriptions(): boolean
 }
 
 export default AbstractDLT;
