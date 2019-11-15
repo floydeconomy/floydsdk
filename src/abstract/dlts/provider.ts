@@ -12,6 +12,9 @@ abstract class AbstractProvider {
   /** Instance of the Web3 provider */
   instance: Web3;
 
+  /** The network that is connected */
+  network: string;
+
   /**
    * @param {TypeProvider} options
    */  
