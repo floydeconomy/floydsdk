@@ -1,6 +1,6 @@
 import AbstractDLT from "../dlt";
 import { TypeDLT, TypeAccount  } from "../../../utils/types/index";
-import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt, InterfaceTransaction } from '../../../utils/interfaces';
+import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt } from '../../../utils/interfaces';
 import {
   cry,
   Transaction,

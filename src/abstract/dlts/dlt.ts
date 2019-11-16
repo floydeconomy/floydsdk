@@ -21,7 +21,7 @@ abstract class AbstractDLT {
 
   /**
    * @param {FloydSDK} sdk
-   * @param {TypeProvider} options
+   * @param {TypeDLT} options
    */
   constructor(sdk: FloydSDK, options: TypeDLT) {
     this.sdk = sdk;
@@ -30,8 +30,8 @@ abstract class AbstractDLT {
 
   /**
    * Load the dlt to the Overledger SDK
-   * @param {name} string
-   * @param {provider} TypeProvider
+   * @param {string} name
+   * @param {TypeProvider} provider
    * @return {AbstractProvider}
    */
   public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
@@ -55,40 +55,39 @@ abstract class AbstractDLT {
    * @param {string} to
    * @param {string} message
    * @param {TransactionOptions} options
+   * @return {InterfaceTransaction}
    */
   public abstract buildTransaction(to: string, message: string, options: InterfaceTransactionOptions): InterfaceTransaction;
 
   /**
    * Sends a singed transaction to the blockchain
-   * @param {signature} Buffer
+   * @param {Buffer} signature
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendSignedTransaction(signature: Buffer): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
-   * @param {transaction} InterfaceTransaction
+   * @param {InterfaceTransaction} transaction
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendTransaction(transaction: InterfaceTransaction): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Signs a transaction with the private key
-   * @param {transaction} InterfaceTransaction
-   * @param {pk} Buffer
-   * @return {any}
+   * @param {InterfaceTransaction} transaction
+   * @param {Buffer} pk
    */
   public abstract signTransaction(transaction: InterfaceTransaction, pk: Buffer): any;
 
   /**
    * Creates a new contract
-   * @return {InterfaceContract}
+   * @param {Buffer} contract
    */
   public abstract createContract(contract: Buffer): any;
 
   /**
    * Deploys the contract
-   * @return {any}
    */
   public abstract deployContract(contract: any): any
 
@@ -100,19 +99,21 @@ abstract class AbstractDLT {
 
   /**
    * Convert private key to account
+   * @param {Buffer} key
    * @return {TypeAccount}
    */
   public abstract privateKeyToAccount(key: Buffer): TypeAccount
 
   /**
    * Subscribe to certain blockchain events
-   * @param {event} string
+   * @param {string} event
    * @return {boolean}
    */
   public abstract subscribe(event: string): boolean
 
   /**
    * Clear all the subscriptions
+   * @return {boolean}
    */
   public abstract clearSubscriptions(): boolean
 }
