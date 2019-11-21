@@ -4,7 +4,10 @@ import { TypeDLT } from "../../../../src/utils/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
 import "jest-extended";
-import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction } from "../../../../src/utils/interfaces";
+import {
+  InterfaceVechainTransactionOptions,
+  InterfaceVechainTransaction
+} from "../../../../src/utils/interfaces";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -67,36 +70,52 @@ describe("vechain", () => {
       paid: "0x39facb2d5afc30000",
       reward: "0x1164d68d9b4ba8000",
       reverted: false,
-      meta:
-          { blockID: "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-          blockNumber: 2257,
-          blockTimestamp: 1528451320,
-          txID: "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-          txOrigin: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e" },
-      outputs:[
-          { contractAddress: null,
-            events:
-             [ { address: "0x0000000000000000000000000000456E65726779",
-                 topics: [Array],
-                 data: "0x00000000000000000000000000000000000000000000010f0cf064dd59200000" } ],
-            transfers: [] },
-          { contractAddress: null,
-            events: [],
-            transfers:
-             [ { sender: "0x4f6fc409e152d33843cf4982d414c1dd0879277e",
-                 recipient: "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed",
-                 amount: "0x10f0cf064dd59200000" } ] }
-          ],
+      meta: {
+        blockID:
+          "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
         blockNumber: 2257,
-        blockHash: "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-        transactionHash: "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-        status: true,
-        transactionIndex: 0x123,
-        logsBloom: "",
-        from: "",
-        to: "",
-        logs: [],
-        cumulativeGasUsed: 0x9
+        blockTimestamp: 1528451320,
+        txID:
+          "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
+        txOrigin: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e"
+      },
+      outputs: [
+        {
+          contractAddress: null,
+          events: [
+            {
+              address: "0x0000000000000000000000000000456E65726779",
+              topics: [Array],
+              data:
+                "0x00000000000000000000000000000000000000000000010f0cf064dd59200000"
+            }
+          ],
+          transfers: []
+        },
+        {
+          contractAddress: null,
+          events: [],
+          transfers: [
+            {
+              sender: "0x4f6fc409e152d33843cf4982d414c1dd0879277e",
+              recipient: "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed",
+              amount: "0x10f0cf064dd59200000"
+            }
+          ]
+        }
+      ],
+      blockNumber: 2257,
+      blockHash:
+        "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
+      transactionHash:
+        "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
+      status: true,
+      transactionIndex: 0x123,
+      logsBloom: "",
+      from: "",
+      to: "",
+      logs: [],
+      cumulativeGasUsed: 0x9
     };
     beforeEach(() => {
       toAddress = cry.publicKeyToAddress(
@@ -259,7 +278,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.chainTag).toBe(0x9a);
         });
-      })
+      });
 
       describe("blockRef", () => {
         test("should default to 0x0000000000000000 if not provided", () => {
@@ -273,7 +292,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.blockRef).toBe("0x0000000000000000");
         });
-      })
+      });
 
       describe("expiration", () => {
         test("should default to 32 if not provided", () => {
@@ -287,7 +306,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.expiration).toBe(32);
         });
-      })
+      });
     });
 
     describe("signTransaction", () => {
@@ -310,7 +329,7 @@ describe("vechain", () => {
         };
 
         const transaction = vechain.buildTransaction(toAddress, "", options);
-        const signature  = vechain.signTransaction(transaction, fromAddress);
+        const signature = vechain.signTransaction(transaction, fromAddress);
         expect(signature).toBeInstanceOf(Buffer);
       });
 
@@ -360,7 +379,11 @@ describe("vechain", () => {
         vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
 
         vechain.sendSignedTransaction(signature).catch(err => {
-          expect(err).toStrictEqual(new Error('[Vechain] Something went wrong when sending the signed transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Vechain] Something went wrong when sending the signed transaction."
+            )
+          );
         });
       });
 
@@ -411,7 +434,11 @@ describe("vechain", () => {
         vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
 
         vechain.sendTransaction(transaction).catch(err => {
-          expect(err).toStrictEqual(new Error('[Vechain] Something went wrong when sending the transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Vechain] Something went wrong when sending the transaction."
+            )
+          );
         });
       });
 
@@ -437,6 +464,18 @@ describe("vechain", () => {
           expect(receipt.from).toBe("");
           expect(receipt.to).toBe("");
         });
+      });
+    });
+  });
+
+  describe("contracts", () => {
+    describe("createContract", () => {
+      describe("should create contract instance", () => {
+        let buffer = new Buffer("contract_test");
+        let contractInstance = vechain.createContract(buffer);
+        expect(contractInstance).toBeInstanceOf(InterfaceContract);
+        expect(contractInstance.address).toBeInstanceOf(String);
+        expect(contractInstance.jsonInterface).toBeInstanceOf(Array);
       });
     });
   });
