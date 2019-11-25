@@ -1,6 +1,6 @@
 import FloydSDK from "../../../../src/core/index";
 import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
-import { TypeDLT } from "../../../../src/utils/types/index";
+import { TypeDLT, TypeAccount } from "../../../../src/utils/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
 import "jest-extended";
@@ -470,18 +470,22 @@ describe("vechain", () => {
 
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
+    const pk =
+      "0a8e0d478567c732e9e1a0aa1f7e9616415f09fe96415212b15b120855f736f2";
     describe("createAccount", () => {
-      describe("throw error", () => {
-        expect(() => {
-          vechain.createAccount();
-        }).toThrowError(new Error("Method not implemented."));
+      describe("should return an account object", () => {
+        const account: TypeAccount = vechain.createAccount();
+        expect(account.privateKey).toBeString();
+        expect(account.address).toBeString();
+        expect(account.address).toStartWith("0x");
       });
     });
     describe("privateKeyToAccount", () => {
-      describe("throw error", () => {
-        expect(() => {
-          vechain.privateKeyToAccount(new Buffer("wtf"));
-        }).toThrowError(new Error("Method not implemented."));
+      describe("should return an account object", () => {
+        const account: TypeAccount = vechain.privateKeyToAccount(pk);
+        expect(account.privateKey).toBeString();
+        expect(account.address).toBeString();
+        expect(account.address).toStartWith("0x");
       });
     });
     describe("addAccount", () => {

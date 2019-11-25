@@ -117,7 +117,7 @@ abstract class AbstractDLT {
    * Convert private key to account
    * @return {TypeAccount}
    */
-  public abstract privateKeyToAccount(key: Buffer): TypeAccount;
+  public abstract privateKeyToAccount(pk: string): TypeAccount;
 
   /**
    * Adds account to the wallet manager

@@ -150,12 +150,29 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
-    throw new Error("Method not implemented.");
+    const privKey = cry.secp256k1.generatePrivateKey();
+    return this._generateAccountFromPrivateKey(privKey);
   }
 
   /** @inheritdoc */
-  public privateKeyToAccount(key: Buffer): TypeAccount {
-    throw new Error("Method not implemented.");
+  public privateKeyToAccount(pk: string): TypeAccount {
+    const pkBuffer = Buffer.from(pk);
+    return this._generateAccountFromPrivateKey(pkBuffer);
+  }
+
+  /**
+   * Generate an account based on pk provided
+   * @param {Buffer} pk
+   * @return {TypeAccount}
+   */
+  private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
+    const hex = "hex";
+    const pubKey = cry.secp256k1.derivePublicKey(pk);
+    const addr = cry.publicKeyToAddress(pubKey);
+    return {
+      privateKey: pk.toString(hex),
+      address: "0x" + addr.toString(hex)
+    };
   }
 
   /** @inheritdoc */
