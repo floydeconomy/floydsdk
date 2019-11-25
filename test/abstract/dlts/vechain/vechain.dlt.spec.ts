@@ -353,7 +353,7 @@ describe("vechain", () => {
       let signature;
       let transaction;
       beforeEach(() => {
-        let fromAddress = new Buffer(
+        let fromAddress = Buffer.from(
           "e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109",
           "hex"
         );
@@ -508,7 +508,7 @@ describe("vechain", () => {
     describe("createContract", () => {
       it("throw error", () => {
         expect(() => {
-          vechain.createContract(new Buffer("error"));
+          vechain.createContract(Buffer.from("error", "hex"));
         }).toThrowError(new Error("Method not implemented."));
       });
     });

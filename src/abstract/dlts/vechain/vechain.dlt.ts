@@ -7,6 +7,7 @@ import {
   InterfaceTransaction
 } from "../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
+import { HEX } from "../../../utils/constants/index";
 
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
@@ -150,16 +151,14 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
-    const format = "hex";
     const privKey = cry.secp256k1.generatePrivateKey();
-    return this._generateAccountFromPrivateKey(privKey, format);
+    return this._generateAccountFromPrivateKey(privKey);
   }
 
   /** @inheritdoc */
   public privateKeyToAccount(pk: string): TypeAccount {
-    const format = "hex";
-    const pkBuffer = Buffer.from(pk, format);
-    return this._generateAccountFromPrivateKey(pkBuffer, format);
+    const pkBuffer = Buffer.from(pk, HEX);
+    return this._generateAccountFromPrivateKey(pkBuffer);
   }
 
   /**
@@ -168,15 +167,12 @@ class Vechain extends AbstractDLT {
    * @param {string} addrType
    * @return {TypeAccount}
    */
-  private _generateAccountFromPrivateKey(
-    pk: Buffer,
-    addrType: string
-  ): TypeAccount {
+  private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
     const pubKey = cry.secp256k1.derivePublicKey(pk);
     const addr = cry.publicKeyToAddress(pubKey);
     return {
-      privateKey: pk.toString(addrType),
-      address: "0x" + addr.toString(addrType)
+      privateKey: pk.toString(HEX),
+      address: "0x" + addr.toString(HEX)
     };
   }
 
