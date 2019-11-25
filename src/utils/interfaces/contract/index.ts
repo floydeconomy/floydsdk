@@ -1,3 +1,11 @@
-import { InterfaceContract } from "./contract";
+import {
+  InterfaceContract,
+  InterfaceContractReceipt,
+  InterfaceContractOptions
+} from "./contract";
 
-export { InterfaceContract };
+export {
+  InterfaceContract,
+  InterfaceContractReceipt,
+  InterfaceContractOptions
+};

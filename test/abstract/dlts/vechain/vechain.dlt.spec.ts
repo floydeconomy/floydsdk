@@ -6,7 +6,10 @@ import { cry } from "thor-devkit";
 import "jest-extended";
 import {
   InterfaceVechainTransactionOptions,
-  InterfaceVechainTransaction
+  InterfaceVechainTransaction,
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractReceipt
 } from "../../../../src/utils/interfaces";
 
 describe("vechain", () => {
@@ -24,8 +27,8 @@ describe("vechain", () => {
     }
   };
 
-  var sdk;
-  var vechain: Vechain;
+  let sdk: FloydSDK;
+  let vechain: Vechain;
   beforeEach(() => {
     const options = {
       dlts: [vechainDLTOptions]
@@ -469,13 +472,74 @@ describe("vechain", () => {
   });
 
   describe("contracts", () => {
+    vechain = new Vechain(sdk, vechainDLTOptions);
+
     describe("createContract", () => {
+      const abi = [
+        {
+          type: "constructor",
+          payable: false,
+          stateMutability: "nonpayable",
+          inputs: [{ name: "testInt", type: "uint256" }]
+        },
+        {
+          type: "function",
+          name: "foo",
+          constant: false,
+          payable: false,
+          stateMutability: "nonpayable",
+          inputs: [
+            { name: "b", type: "uint256" },
+            { name: "c", type: "bytes32" }
+          ],
+          outputs: [{ name: "", type: "address" }]
+        },
+        {
+          type: "event",
+          name: "Event",
+          inputs: [
+            { indexed: true, name: "b", type: "uint256" },
+            { indexed: false, name: "c", type: "bytes32" }
+          ],
+          anonymous: false
+        },
+        {
+          type: "event",
+          name: "Event2",
+          inputs: [
+            { indexed: true, name: "b", type: "uint256" },
+            { indexed: false, name: "c", type: "bytes32" }
+          ],
+          anonymous: false
+        }
+      ];
+      const addr = "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe";
+      const fromAddress = "0x1234567890123456789012345678901234567891";
+      const gasPrice = "20000000000";
+      const contractOptions: InterfaceContractOptions = {
+        jsonInterface: abi,
+        address: addr,
+        options: {
+          from: fromAddress,
+          gasPrice: gasPrice
+        }
+      };
+
       describe("should create contract instance", () => {
-        let buffer = new Buffer("contract_test");
-        let contractInstance = vechain.createContract(buffer);
-        expect(contractInstance).toBeInstanceOf(InterfaceContract);
-        expect(contractInstance.address).toBeInstanceOf(String);
-        expect(contractInstance.jsonInterface).toBeInstanceOf(Array);
+        let contract = vechain.createContract(contractOptions);
+        expect(contract.options.address).toBe(addr);
+        expect(contract.options.jsonInterface).toEqual(abi);
+        expect(contract.options.from).toBe(fromAddress);
+        expect(contract.options.gasPrice).toBe(gasPrice);
+        expect(contract.options.gas).toBe(undefined);
+      });
+
+      describe("should throw error if something goes wrong", () => {
+        // expect(() => {
+        //   // vechain.createContract();
+        // }).toThrowError(
+        //   new Error("[Vechain] The contract creation has failed")
+        // );
       });
     });
   });

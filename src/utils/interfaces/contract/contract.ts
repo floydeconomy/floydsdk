@@ -1,6 +1,21 @@
-interface InterfaceContract {
-  address: string;
-  jsonInterface: string;
+interface InterfaceContractOptions {
+  jsonInterface: Array;
+  address?: string;
+  options?: Object;
 }
 
-export { InterfaceContract };
+interface InterfaceContract {
+  address: string;
+  jsonInterface: [];
+  from: string;
+  gasPrice: string;
+  gas: number;
+}
+
+interface InterfaceContractReceipt {}
+
+export {
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractReceipt
+};

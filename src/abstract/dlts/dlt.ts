@@ -1,7 +1,13 @@
 import { TypeAccount, TypeProvider, TypeDLT } from "../../utils/types/index";
 import FloydSDK from "../../core";
 import AbstractProvider from "./provider";
-import { InterfaceTransactionOptions, InterfaceTransaction, InterfaceTransactionReceipt } from '../../utils/interfaces';
+import {
+  InterfaceTransactionOptions,
+  InterfaceTransaction,
+  InterfaceTransactionReceipt,
+  InterfaceContractOptions,
+  InterfaceContractReceipt
+} from "../../utils/interfaces";
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
@@ -57,65 +63,79 @@ abstract class AbstractDLT {
    * @param {TransactionOptions} options
    * @return {InterfaceTransaction}
    */
-  public abstract buildTransaction(to: string, message: string, options: InterfaceTransactionOptions): InterfaceTransaction;
+  public abstract buildTransaction(
+    to: string,
+    message: string,
+    options: InterfaceTransactionOptions
+  ): InterfaceTransaction;
 
   /**
    * Sends a singed transaction to the blockchain
    * @param {Buffer} signature
    * @return {Promise<InterfaceTransactionReceipt>}
    */
-  public abstract sendSignedTransaction(signature: Buffer): Promise<InterfaceTransactionReceipt>;
+  public abstract sendSignedTransaction(
+    signature: Buffer
+  ): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
    * @param {InterfaceTransaction} transaction
    * @return {Promise<InterfaceTransactionReceipt>}
    */
-  public abstract sendTransaction(transaction: InterfaceTransaction): Promise<InterfaceTransactionReceipt>;
+  public abstract sendTransaction(
+    transaction: InterfaceTransaction
+  ): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Signs a transaction with the private key
    * @param {InterfaceTransaction} transaction
    * @param {Buffer} pk
    */
-  public abstract signTransaction(transaction: InterfaceTransaction, pk: Buffer): any;
+  public abstract signTransaction(
+    transaction: InterfaceTransaction,
+    pk: Buffer
+  ): any;
 
   /**
    * Creates a new contract
-   * @param {Buffer} contract
+   * @param {InterfaceContractOptions} options
+   * @return {InterfaceContract}
    */
-  public abstract createContract(contract: Buffer): any;
+  public abstract createContract(options: InterfaceContractOptions): any;
 
   /**
    * Deploys the contract
+   * @param {InterfaceContract} contract
+   * @return {InterfaceContractReceipt}
    */
-  public abstract deployContract(contract: any): any
+  public abstract deployContract(contract: any): InterfaceContractReceipt;
 
   /**
    * Creates a new account
-   * @return {TypeAccount} 
+   * @return {TypeAccount}
    */
-  public abstract createAccount(): TypeAccount
+  public abstract createAccount(): TypeAccount;
 
   /**
    * Convert private key to account
    * @param {Buffer} key
    * @return {TypeAccount}
    */
-  public abstract privateKeyToAccount(key: Buffer): TypeAccount
+  public abstract privateKeyToAccount(key: Buffer): TypeAccount;
 
   /**
    * Subscribe to certain blockchain events
    * @param {string} event
    * @return {boolean}
    */
-  public abstract subscribe(event: string): boolean
+  public abstract subscribe(event: string): boolean;
 
   /**
    * Clear all the subscriptions
    * @return {boolean}
    */
-  public abstract clearSubscriptions(): boolean
+  public abstract clearSubscriptions(): boolean;
 }
 
 export default AbstractDLT;
