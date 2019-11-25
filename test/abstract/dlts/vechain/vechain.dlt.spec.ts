@@ -470,7 +470,7 @@ describe("vechain", () => {
 
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
-    const fakeAccount: TypeAccount = {
+    const goodAccount: TypeAccount = {
       privateKey:
         "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca",
       address: "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
@@ -486,19 +486,47 @@ describe("vechain", () => {
     describe("privateKeyToAccount", () => {
       describe("should return an account object", () => {
         const account: TypeAccount = vechain.privateKeyToAccount(
-          fakeAccount.privateKey
+          goodAccount.privateKey
         );
         expect(account.privateKey).toBeString();
         expect(account.address).toBeString();
         expect(account.address).toStartWith("0x");
-        expect(account).toEqual(fakeAccount);
+        expect(account).toEqual(goodAccount);
       });
     });
     describe("addAccount", () => {
-      describe("throw error", () => {
+      describe("should throw error if empty privKey provided", () => {
         expect(() => {
-          vechain.addAccount();
-        }).toThrowError(new Error("Method not implemented."));
+          const badAccount: TypeAccount = {
+            privateKey: "",
+            address: "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
+          };
+          vechain.addAccount(badAccount);
+        }).toThrowError(new Error("[Vechain] The account provided is invalid"));
+      });
+
+      describe("should throw error if empty address provided", () => {
+        expect(() => {
+          const badAccount: TypeAccount = {
+            privateKey:
+              "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca",
+            address: ""
+          };
+          vechain.addAccount(badAccount);
+        }).toThrowError(new Error("[Vechain] The account provided is invalid"));
+      });
+
+      describe("should add account if address and privateKey is passed in as args", () => {
+        const account = vechain.addAccount(goodAccount);
+        expect(account).toEqual(goodAccount);
+        expect(account.address).toStartWith("0x");
+        expect(account).toBeOneOf(vechain.accounts);
+      });
+
+      describe("should add account empty argumnents", () => {
+        const account = vechain.addAccount();
+        expect(account.address).toStartWith("0x");
+        expect(account).toBeOneOf(vechain.accounts);
       });
     });
   });

@@ -164,7 +164,6 @@ class Vechain extends AbstractDLT {
   /**
    * Generate an account based on pk provided
    * @param {Buffer} pk
-   * @param {string} addrType
    * @return {TypeAccount}
    */
   private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
@@ -176,9 +175,20 @@ class Vechain extends AbstractDLT {
     };
   }
 
-  /** @inheritdoc */
-  public addAccount(): TypeAccount {
-    throw new Error("Method not implemented.");
+  /**
+   * @inheritdoc
+   * // TODO: check if address in account starts with0x
+   */
+  public addAccount(account?: TypeAccount): TypeAccount {
+    if (
+      account &&
+      (account.privateKey.length == 0 || account.address.length == 0)
+    ) {
+      throw new Error("[Vechain] The account provided is invalid");
+    }
+    const newAccount: TypeAccount = account ? account : this.createAccount();
+    this.accounts.push(newAccount);
+    return newAccount;
   }
 
   /** @inheritdoc */

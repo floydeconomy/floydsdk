@@ -9,19 +9,19 @@ import {
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
-  provider: AbstractProvider;
+  public provider: AbstractProvider;
 
   /** Name of the DLT */
-  name: string;
+  public name: string;
 
   /** Symbol used by the DLT */
-  symbol: string;
+  public symbol: string;
 
   /** Instance of the FloydSDK  */
-  sdk: any;
+  public sdk: any;
 
   /** This handles all the accounts in the DLT, whereby, the key is the address */
-  accounts: TypeAccount[] = new Array<TypeAccount>();
+  public accounts: TypeAccount[] = new Array<TypeAccount>();
 
   /**
    * @param {FloydSDK} sdk
@@ -121,8 +121,10 @@ abstract class AbstractDLT {
 
   /**
    * Adds account to the wallet manager
+   * @param {TypeAccount?} account
+   * @return {TypeAccount}
    */
-  public abstract addAccount(): TypeAccount;
+  public abstract addAccount(account?: TypeAccount): TypeAccount;
 
   /**
    * Subscribe to certain blockchain events
