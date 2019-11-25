@@ -470,8 +470,11 @@ describe("vechain", () => {
 
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
-    const pk =
-      "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca";
+    const fakeAccount: TypeAccount = {
+      privateKey:
+        "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca",
+      address: "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
+    };
     describe("createAccount", () => {
       describe("should return an account object", () => {
         const account: TypeAccount = vechain.createAccount();
@@ -482,14 +485,13 @@ describe("vechain", () => {
     });
     describe("privateKeyToAccount", () => {
       describe("should return an account object", () => {
-        const account: TypeAccount = vechain.privateKeyToAccount(pk);
+        const account: TypeAccount = vechain.privateKeyToAccount(
+          fakeAccount.privateKey
+        );
         expect(account.privateKey).toBeString();
         expect(account.address).toBeString();
         expect(account.address).toStartWith("0x");
-        expect(account.privateKey).toBe(pk);
-        expect(account.address).toBe(
-          "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
-        );
+        expect(account).toEqual(fakeAccount);
       });
     });
     describe("addAccount", () => {
