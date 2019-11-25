@@ -97,7 +97,9 @@ describe("ethereum", () => {
           };
           expect(() => {
             ethereum.buildTransaction(toAddress, "", options);
-          }).toThrowError(new Error("[Ethereum] The nonce provided is invalid"));
+          }).toThrowError(
+            new Error("[Ethereum] The nonce provided is invalid")
+          );
         });
         test("should default to null if not provided", () => {
           const options: InterfaceEthereumTransactionOptions = {
@@ -184,7 +186,7 @@ describe("ethereum", () => {
               value: 123,
               from: fromAddress.toString("hex"),
               gas: 21000,
-              gasPrice: 0,
+              gasPrice: 0
             };
             ethereum.buildTransaction(toAddress, "", options);
           }).toThrowError(
@@ -227,6 +229,7 @@ describe("ethereum", () => {
         };
 
         const signature = ethereum.signTransaction(transaction, fromAddress);
+        console.log(signature);
         expect(signature).toBeInstanceOf(Buffer);
       });
     });
@@ -258,7 +261,11 @@ describe("ethereum", () => {
         ethereum.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
 
         ethereum.sendSignedTransaction(signature).catch(err => {
-          expect(err).toStrictEqual(new Error('[Ethereum] Something went wrong when sending the signed transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Ethereum] Something went wrong when sending the signed transaction."
+            )
+          );
         });
       });
 
@@ -331,7 +338,11 @@ describe("ethereum", () => {
         ethereum.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
 
         ethereum.sendTransaction(transaction).catch(err => {
-          expect(err).toStrictEqual(new Error('[Ethereum] Something went wrong when sending the transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Ethereum] Something went wrong when sending the transaction."
+            )
+          );
         });
       });
 
@@ -379,6 +390,44 @@ describe("ethereum", () => {
           expect(receipt.to).toBe("0x3535353535353535353535353535353535353535");
           expect(receipt.logsBloom).toBe("");
         });
+      });
+    });
+  });
+
+  describe("contracts", () => {
+    let ethereum = new Ethereum(sdk, ethereumDLTOptions);
+    describe("createContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          ethereum.createContract(new Buffer("error"));
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("deployContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          ethereum.deployContract(123);
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
+
+  describe("subscriptions", () => {
+    let vechain = new Ethereum(sdk, ethereumDLTOptions);
+    describe("subscribe", () => {
+      it("throw error", () => {
+        expect(() => {
+          ethereum.subscribe("error");
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("clearSubscriptions", () => {
+      it("throw error", () => {
+        expect(() => {
+          ethereum.clearSubscriptions();
+        }).toThrowError(new Error("Method not implemented."));
       });
     });
   });

@@ -5,6 +5,8 @@ import AbstractDLT from "../abstract/dlts/dlt";
  * This class is the base class the software development kit. It facilitates the methods
  * that can be carried out using this kit. It's a library that allows developers to create
  * transactions on different blockchains, using a single interface.
+ *
+ * @author Jeevan Pillay
  */
 class FloydSDK {
   /**
@@ -14,7 +16,7 @@ class FloydSDK {
 
   /**
    * Constructor
-   * @param options 
+   * @param options
    */
   constructor(options: TypeSDK) {
     // validate
@@ -42,14 +44,16 @@ class FloydSDK {
    * @param {Object} config
    * @return { AbstractDLT }
    */
-  private loadDLT(dltConfig: TypeDLT) : AbstractDLT {
+  private loadDLT(dltConfig: TypeDLT): AbstractDLT {
     const dltName = `${dltConfig.name}`;
     try {
       const dlt = require(`../abstract/dlts/${dltName}/${dltName}.dlt`).default;
       return new dlt(this, dltConfig);
     } catch (e) {
-      if (e.code === 'MODULE_NOT_FOUND') {
-        throw new Error(`[DLT] The DLT name provided is not valid, please add ${dltName} manually`);
+      if (e.code === "MODULE_NOT_FOUND") {
+        throw new Error(
+          `[DLT] The DLT name provided is not valid, please add ${dltName} manually`
+        );
       } else {
         throw e;
       }

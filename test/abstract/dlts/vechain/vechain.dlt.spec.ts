@@ -1,10 +1,13 @@
 import FloydSDK from "../../../../src/core/index";
 import Vechain from "../../../../src/abstract/dlts/vechain/vechain.dlt";
-import { TypeDLT } from "../../../../src/utils/types/index";
+import { TypeDLT, TypeAccount } from "../../../../src/utils/types/index";
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
 import { cry } from "thor-devkit";
 import "jest-extended";
-import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction } from "../../../../src/utils/interfaces";
+import {
+  InterfaceVechainTransactionOptions,
+  InterfaceVechainTransaction
+} from "../../../../src/utils/interfaces";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -67,36 +70,52 @@ describe("vechain", () => {
       paid: "0x39facb2d5afc30000",
       reward: "0x1164d68d9b4ba8000",
       reverted: false,
-      meta:
-          { blockID: "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-          blockNumber: 2257,
-          blockTimestamp: 1528451320,
-          txID: "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-          txOrigin: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e" },
-      outputs:[
-          { contractAddress: null,
-            events:
-             [ { address: "0x0000000000000000000000000000456E65726779",
-                 topics: [Array],
-                 data: "0x00000000000000000000000000000000000000000000010f0cf064dd59200000" } ],
-            transfers: [] },
-          { contractAddress: null,
-            events: [],
-            transfers:
-             [ { sender: "0x4f6fc409e152d33843cf4982d414c1dd0879277e",
-                 recipient: "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed",
-                 amount: "0x10f0cf064dd59200000" } ] }
-          ],
+      meta: {
+        blockID:
+          "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
         blockNumber: 2257,
-        blockHash: "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-        transactionHash: "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-        status: true,
-        transactionIndex: 0x123,
-        logsBloom: "",
-        from: "",
-        to: "",
-        logs: [],
-        cumulativeGasUsed: 0x9
+        blockTimestamp: 1528451320,
+        txID:
+          "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
+        txOrigin: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e"
+      },
+      outputs: [
+        {
+          contractAddress: null,
+          events: [
+            {
+              address: "0x0000000000000000000000000000456E65726779",
+              topics: [Array],
+              data:
+                "0x00000000000000000000000000000000000000000000010f0cf064dd59200000"
+            }
+          ],
+          transfers: []
+        },
+        {
+          contractAddress: null,
+          events: [],
+          transfers: [
+            {
+              sender: "0x4f6fc409e152d33843cf4982d414c1dd0879277e",
+              recipient: "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed",
+              amount: "0x10f0cf064dd59200000"
+            }
+          ]
+        }
+      ],
+      blockNumber: 2257,
+      blockHash:
+        "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
+      transactionHash:
+        "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
+      status: true,
+      transactionIndex: 0x123,
+      logsBloom: "",
+      from: "",
+      to: "",
+      logs: [],
+      cumulativeGasUsed: 0x9
     };
     beforeEach(() => {
       toAddress = cry.publicKeyToAddress(
@@ -259,7 +278,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.chainTag).toBe(0x9a);
         });
-      })
+      });
 
       describe("blockRef", () => {
         test("should default to 0x0000000000000000 if not provided", () => {
@@ -273,7 +292,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.blockRef).toBe("0x0000000000000000");
         });
-      })
+      });
 
       describe("expiration", () => {
         test("should default to 32 if not provided", () => {
@@ -287,7 +306,7 @@ describe("vechain", () => {
           const transaction = vechain.buildTransaction(toAddress, "", options);
           expect(transaction.expiration).toBe(32);
         });
-      })
+      });
     });
 
     describe("signTransaction", () => {
@@ -310,7 +329,7 @@ describe("vechain", () => {
         };
 
         const transaction = vechain.buildTransaction(toAddress, "", options);
-        const signature  = vechain.signTransaction(transaction, fromAddress);
+        const signature = vechain.signTransaction(transaction, fromAddress);
         expect(signature).toBeInstanceOf(Buffer);
       });
 
@@ -334,7 +353,7 @@ describe("vechain", () => {
       let signature;
       let transaction;
       beforeEach(() => {
-        let fromAddress = new Buffer(
+        let fromAddress = Buffer.from(
           "e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109",
           "hex"
         );
@@ -360,7 +379,11 @@ describe("vechain", () => {
         vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
 
         vechain.sendSignedTransaction(signature).catch(err => {
-          expect(err).toStrictEqual(new Error('[Vechain] Something went wrong when sending the signed transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Vechain] Something went wrong when sending the signed transaction."
+            )
+          );
         });
       });
 
@@ -411,7 +434,11 @@ describe("vechain", () => {
         vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
 
         vechain.sendTransaction(transaction).catch(err => {
-          expect(err).toStrictEqual(new Error('[Vechain] Something went wrong when sending the transaction.'))
+          expect(err).toStrictEqual(
+            new Error(
+              "[Vechain] Something went wrong when sending the transaction."
+            )
+          );
         });
       });
 
@@ -437,6 +464,107 @@ describe("vechain", () => {
           expect(receipt.from).toBe("");
           expect(receipt.to).toBe("");
         });
+      });
+    });
+  });
+
+  describe("accounts", () => {
+    vechain = new Vechain(sdk, vechainDLTOptions);
+    const goodAccount: TypeAccount = {
+      privateKey:
+        "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca",
+      address: "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
+    };
+    describe("createAccount", () => {
+      describe("should return an account object", () => {
+        const account: TypeAccount = vechain.createAccount();
+        expect(account.privateKey).toBeString();
+        expect(account.address).toBeString();
+        expect(account.address).toStartWith("0x");
+      });
+    });
+    describe("privateKeyToAccount", () => {
+      describe("should return an account object", () => {
+        const account: TypeAccount = vechain.privateKeyToAccount(
+          goodAccount.privateKey
+        );
+        expect(account.privateKey).toBeString();
+        expect(account.address).toBeString();
+        expect(account.address).toStartWith("0x");
+        expect(account).toEqual(goodAccount);
+      });
+    });
+    describe("addAccount", () => {
+      describe("should throw error if empty privKey provided", () => {
+        expect(() => {
+          const badAccount: TypeAccount = {
+            privateKey: "",
+            address: "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
+          };
+          vechain.addAccount(badAccount);
+        }).toThrowError(new Error("[Vechain] The account provided is invalid"));
+      });
+
+      describe("should throw error if empty address provided", () => {
+        expect(() => {
+          const badAccount: TypeAccount = {
+            privateKey:
+              "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca",
+            address: ""
+          };
+          vechain.addAccount(badAccount);
+        }).toThrowError(new Error("[Vechain] The account provided is invalid"));
+      });
+
+      describe("should add account if address and privateKey is passed in as args", () => {
+        const account = vechain.addAccount(goodAccount);
+        expect(account).toEqual(goodAccount);
+        expect(account.address).toStartWith("0x");
+        expect(account).toBeOneOf(vechain.accounts);
+      });
+
+      describe("should add account empty argumnents", () => {
+        const account = vechain.addAccount();
+        expect(account.address).toStartWith("0x");
+        expect(account).toBeOneOf(vechain.accounts);
+      });
+    });
+  });
+
+  describe("contracts", () => {
+    let vechain = new Vechain(sdk, vechainDLTOptions);
+    describe("createContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.createContract(Buffer.from("error", "hex"));
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("deployContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.deployContract(123);
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
+
+  describe("subscriptions", () => {
+    let vechain = new Vechain(sdk, vechainDLTOptions);
+    describe("subscribe", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.subscribe("error");
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("clearSubscriptions", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.clearSubscriptions();
+        }).toThrowError(new Error("Method not implemented."));
       });
     });
   });

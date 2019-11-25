@@ -1,15 +1,19 @@
 import AbstractDLT from "../dlt";
-import { TypeDLT, TypeAccount  } from "../../../utils/types/index";
-import { InterfaceVechainTransactionOptions, InterfaceVechainTransaction, InterfaceVechainTransactionReceipt, InterfaceTransaction } from '../../../utils/interfaces';
+import { TypeDLT, TypeAccount } from "../../../utils/types/index";
 import {
-  cry,
-  Transaction,
-} from 'thor-devkit'
+  InterfaceVechainTransactionOptions,
+  InterfaceVechainTransaction,
+  InterfaceVechainTransactionReceipt,
+  InterfaceTransaction
+} from "../../../utils/interfaces";
+import { cry, Transaction } from "thor-devkit";
+import { HEX } from "../../../utils/constants/index";
 
+/** @inheritdoc */
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
   name: string = "vechain";
-  
+
   /** @inheritdoc */
   symbol: string = "vet";
 
@@ -18,16 +22,20 @@ class Vechain extends AbstractDLT {
     super(sdk, options);
   }
 
-  /** 
+  /**
    * @inheritdoc
-   * Current implementation only supports 
+   * Current implementation only supports
    *   nonce: number
    *   from: string
    *   gasPriceCoef: number
    *   gas: number
    *   amount: number
    */
-  public buildTransaction(to: string, message: string, options: InterfaceVechainTransactionOptions): InterfaceVechainTransaction {
+  public buildTransaction(
+    to: string,
+    message: string,
+    options: InterfaceVechainTransactionOptions
+  ): InterfaceVechainTransaction {
     if (options.nonce && options.nonce < 0) {
       throw new Error("[Vechain] The nonce provided is invalid");
     }
@@ -53,13 +61,18 @@ class Vechain extends AbstractDLT {
       chainTag: 0x9a,
       expiration: 32,
       dependsOn: null,
-      blockRef: "0x0000000000000000",
+      blockRef: "0x0000000000000000"
     };
-    return transaction;  
+    return transaction;
   }
-  
-  /** @inheritdoc */
-  public sendSignedTransaction(signature: Buffer):  Promise<InterfaceVechainTransactionReceipt> {
+
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
+  public sendSignedTransaction(
+    signature: Buffer
+  ): Promise<InterfaceVechainTransactionReceipt> {
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
         .sendSignedTransaction("0x" + signature.toString("hex"))
@@ -88,11 +101,13 @@ class Vechain extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public sendTransaction(transaction: InterfaceVechainTransaction): Promise<InterfaceVechainTransactionReceipt> {
+  public sendTransaction(
+    transaction: InterfaceVechainTransaction
+  ): Promise<InterfaceVechainTransactionReceipt> {
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
         .sendTransaction(transaction)
-        .then((data) => {
+        .then(data => {
           const receipt: InterfaceVechainTransactionReceipt = {
             gasUsed: data.gasUsed,
             blockHash: data.blockHash,
@@ -106,49 +121,92 @@ class Vechain extends AbstractDLT {
           };
           return resolve(receipt);
         })
-        .catch((err) => {
-          return reject(new Error('[Vechain] Something went wrong when sending the transaction.'));
+        .catch(err => {
+          return reject(
+            new Error(
+              "[Vechain] Something went wrong when sending the transaction."
+            )
+          );
         });
-    });  
+    });
   }
 
-  /** @inheritdoc */
-  public signTransaction(transaction: InterfaceVechainTransaction, pk: Buffer): Buffer {
-    let body: Transaction.Body = transaction
-    let tx = new Transaction(body)
-    let signingHash = cry.blake2b256(tx.encode())
-    tx.signature = cry.secp256k1.sign(signingHash, pk)
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
+  public signTransaction(
+    transaction: InterfaceVechainTransaction,
+    pk: Buffer
+  ): Buffer {
+    let body: Transaction.Body = transaction;
+    let tx = new Transaction(body);
+    let signingHash = cry.blake2b256(tx.encode());
+    tx.signature = cry.secp256k1.sign(signingHash, pk);
     return tx.signature;
   }
 
   /** @inheritdoc */
   public createContract(contract: Buffer) {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
-  
+
   /** @inheritdoc */
   public deployContract(contract: any) {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
-    throw new Error('Method not implemented.');
+    const privKey = cry.secp256k1.generatePrivateKey();
+    return this._generateAccountFromPrivateKey(privKey);
   }
 
   /** @inheritdoc */
-  public privateKeyToAccount(key: Buffer): TypeAccount {
-    throw new Error('Method not implemented.');
+  public privateKeyToAccount(pk: string): TypeAccount {
+    const pkBuffer = Buffer.from(pk, HEX);
+    return this._generateAccountFromPrivateKey(pkBuffer);
+  }
+
+  /**
+   * Generate an account based on pk provided
+   * @param {Buffer} pk
+   * @return {TypeAccount}
+   */
+  private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
+    const pubKey = cry.secp256k1.derivePublicKey(pk);
+    const addr = cry.publicKeyToAddress(pubKey);
+    return {
+      privateKey: pk.toString(HEX),
+      address: "0x" + addr.toString(HEX)
+    };
+  }
+
+  /**
+   * @inheritdoc
+   * // TODO: params account must use address that starts w0x
+   * // TODO: add the account into web3.accounts as well
+   */
+  public addAccount(account?: TypeAccount): TypeAccount {
+    if (
+      account &&
+      (account.privateKey.length == 0 || account.address.length == 0)
+    ) {
+      throw new Error("[Vechain] The account provided is invalid");
+    }
+    const newAccount: TypeAccount = account ? account : this.createAccount();
+    this.accounts.push(newAccount);
+    return newAccount;
   }
 
   /** @inheritdoc */
   public subscribe(event: string): boolean {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
   public clearSubscriptions(): boolean {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 }
 
