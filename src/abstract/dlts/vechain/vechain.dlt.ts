@@ -150,28 +150,33 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
+    const format = "hex";
     const privKey = cry.secp256k1.generatePrivateKey();
-    return this._generateAccountFromPrivateKey(privKey);
+    return this._generateAccountFromPrivateKey(privKey, format);
   }
 
   /** @inheritdoc */
   public privateKeyToAccount(pk: string): TypeAccount {
-    const pkBuffer = Buffer.from(pk);
-    return this._generateAccountFromPrivateKey(pkBuffer);
+    const format = "hex";
+    const pkBuffer = Buffer.from(pk, format);
+    return this._generateAccountFromPrivateKey(pkBuffer, format);
   }
 
   /**
    * Generate an account based on pk provided
    * @param {Buffer} pk
+   * @param {string} addrType
    * @return {TypeAccount}
    */
-  private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
-    const hex = "hex";
+  private _generateAccountFromPrivateKey(
+    pk: Buffer,
+    addrType: string
+  ): TypeAccount {
     const pubKey = cry.secp256k1.derivePublicKey(pk);
     const addr = cry.publicKeyToAddress(pubKey);
     return {
-      privateKey: pk.toString(hex),
-      address: "0x" + addr.toString(hex)
+      privateKey: pk.toString(addrType),
+      address: "0x" + addr.toString(addrType)
     };
   }
 

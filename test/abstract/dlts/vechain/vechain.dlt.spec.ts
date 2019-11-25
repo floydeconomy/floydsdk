@@ -471,7 +471,7 @@ describe("vechain", () => {
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
     const pk =
-      "0a8e0d478567c732e9e1a0aa1f7e9616415f09fe96415212b15b120855f736f2";
+      "38860424dada37e66026d5a3e1af5f2a45e2b7cdb3641bc4ba6b3881cd11caca";
     describe("createAccount", () => {
       describe("should return an account object", () => {
         const account: TypeAccount = vechain.createAccount();
@@ -486,6 +486,10 @@ describe("vechain", () => {
         expect(account.privateKey).toBeString();
         expect(account.address).toBeString();
         expect(account.address).toStartWith("0x");
+        expect(account.privateKey).toBe(pk);
+        expect(account.address).toBe(
+          "0x7f4ab4b4b6a5c270c62997835baba027dde1ccb0"
+        );
       });
     });
     describe("addAccount", () => {
