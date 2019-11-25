@@ -502,4 +502,42 @@ describe("vechain", () => {
       });
     });
   });
+
+  describe("contracts", () => {
+    let vechain = new Vechain(sdk, vechainDLTOptions);
+    describe("createContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.createContract(new Buffer("error"));
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("deployContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.deployContract(123);
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
+
+  describe("subscriptions", () => {
+    let vechain = new Vechain(sdk, vechainDLTOptions);
+    describe("subscribe", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.subscribe("error");
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("clearSubscriptions", () => {
+      it("throw error", () => {
+        expect(() => {
+          vechain.clearSubscriptions();
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
 });
