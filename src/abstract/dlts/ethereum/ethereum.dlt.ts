@@ -7,6 +7,7 @@ import {
 } from "../../../utils/interfaces";
 import { Transaction } from "ethereumjs-tx";
 
+/** @inheritdoc */
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */
   name: string = "ethereum";

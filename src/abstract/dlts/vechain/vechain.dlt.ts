@@ -9,6 +9,7 @@ import {
 import { cry, Transaction } from "thor-devkit";
 import { HEX } from "../../../utils/constants/index";
 
+/** @inheritdoc */
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
   name: string = "vechain";
@@ -65,7 +66,10 @@ class Vechain extends AbstractDLT {
     return transaction;
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
   public sendSignedTransaction(
     signature: Buffer
   ): Promise<InterfaceVechainTransactionReceipt> {
@@ -127,7 +131,10 @@ class Vechain extends AbstractDLT {
     });
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
   public signTransaction(
     transaction: InterfaceVechainTransaction,
     pk: Buffer
@@ -177,7 +184,8 @@ class Vechain extends AbstractDLT {
 
   /**
    * @inheritdoc
-   * // TODO: check if address in account starts with0x
+   * // TODO: params account must use address that starts w0x
+   * // TODO: add the account into web3.accounts as well
    */
   public addAccount(account?: TypeAccount): TypeAccount {
     if (

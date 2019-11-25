@@ -6,6 +6,7 @@ import {
   InterfaceBinanceTransactionReceipt
 } from "../../../utils/interfaces";
 
+/** @inheritdoc */
 class Binance extends AbstractDLT {
   /** @inheritdoc */
   name: string = "binance";

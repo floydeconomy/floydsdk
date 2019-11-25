@@ -7,6 +7,14 @@ import {
   InterfaceTransactionReceipt
 } from "../../utils/interfaces";
 
+/**
+ * This class serves as the base class that maintains all implementation
+ * details related to the blockchain.
+ *
+ * It handles accounts, subscriptions, transactions and contracts.
+ *
+ * @author Jeevan Pillay
+ */
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
   public provider: AbstractProvider;
