@@ -99,17 +99,34 @@ abstract class AbstractDLT {
 
   /**
    * Creates a new contract
+   *
+   * // TODO: return should be an Interface
    * @param {InterfaceContractOptions} options
-   * @return {InterfaceContract}
+   * @return {any}
    */
   public abstract createContract(options: InterfaceContractOptions): any;
 
   /**
    * Deploys the contract
-   * @param {InterfaceContract} contract
+   *
+   * Safety: UNSAFE
+   * Current implementation only checks for fromAddress and data, however,
+   * it uses default values if they are not passed.
+   * // TODO: it should also ensure that gas and gasPrice is included.
+   * // TODO: it should accept a Interface as parameters
+   * // TODO: parameter contract should not be any
+   * // TODO: return should not be any
+   *
+   * @param {any} contract
+   * @param {data?} string
    * @return {InterfaceContractReceipt}
    */
-  public abstract deployContract(contract: any): InterfaceContractReceipt;
+  public abstract deployContract(
+    contract: any,
+    data?: string,
+    fromAddress?: string,
+    args?: Array<any>
+  ): any;
 
   /**
    * Creates a new account

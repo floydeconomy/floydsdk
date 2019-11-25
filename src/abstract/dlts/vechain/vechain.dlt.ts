@@ -140,8 +140,15 @@ class Vechain extends AbstractDLT {
     return tx.signature;
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   * // TODO: should use its own Interface called InterfaceVechainContractOptions
+   * // TODO: should return its own Interface or Class
+   */
   public createContract(options: InterfaceContractOptions): any {
+    if (options.jsonInterface.length < 1) {
+      throw new Error("[Vechain] The ABI provided is invalid");
+    }
     try {
       const contract = new this.provider.instance.eth.Contract(
         options.jsonInterface,
@@ -150,13 +157,43 @@ class Vechain extends AbstractDLT {
       );
       return contract;
     } catch {
-      throw new Error("[Vechain] The contract creation has failed");
+      throw new Error("[Vechain] Something went wrong with contract creation");
     }
   }
 
-  /** @inheritdoc */
-  public deployContract(contract: InterfaceContract): InterfaceContractReceipt {
-    throw new Error("Method not implemented.");
+  /**
+   * @inheritdoc
+   * defaults:
+   * - gas: 150000,
+   * - gasPrice: '30000000000000'
+   * // TODO: remove defaults
+   * // TODO: ensure that the fromAddress is in the web3 memory
+   */
+  public deployContract(
+    contract: any,
+    data?: string,
+    fromAddress?: string,
+    args?: Array<any>
+  ): any {
+    if (data == undefined && contract.options.data == undefined) {
+      throw new Error("[Vechain] Contract Data has not been provided");
+    }
+    if (fromAddress == undefined && contract.options.from == undefined) {
+      throw new Error("[Vechain] From address has not been provided");
+    }
+
+    // contract
+    //   .deploy({
+    //     data: contract.options.data ? contract.options.data : data,
+    //     arguments: args ? args : null
+    //   })
+    //   .send({
+    //     from: contract.options.from ? contract.options.from : fromAddress,
+    //     gas: contract.options.gas ? contract.options.gas : 150000
+    //   })
+    //   .then(newContractInstance => {
+    //     return newContractInstance;
+    //   });
   }
 
   /** @inheritdoc */
