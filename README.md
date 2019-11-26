@@ -2,9 +2,9 @@
 
 # FloydSDK - Interoperabilty Typescript API
 
-This is the FloydSDK [Typescript API] which serves as an multi-blockchain software development kit that allows developers to utilise multiple blockchain through a single interface. The issue is that when developing decentralised applications, developers tend to be coupled down to a single blockchain, for example, Ethereum (through web3). This SDK allows developers to leverage different blockchain and being able to change the blockchain layer through a single line.
+This is the FloydSDK [Typescript API] which serves as a multi-blockchain software development kit that allows developers to utilise multiple blockchain through a single interface. The issue is that when developing decentralised applications, developers tend to be coupled down to a single blockchain, for example, Ethereum (through web3). This SDK allows developers to leverage different blockchain and being able to change the blockchain layer through a single line.
 
-However, some methods that are described in the `dlt.ts` file like createContract are specific to the blockchains that allow contracts. For example, `Ethereum` and `Vechain` both use EVM as the virtual machine interface, whereas, `Binance Chain` does not offer such capabilities. Hence, Binance Chain will throw an error when using `createContract`.
+Note, some methods that are described in the `dlt.ts` file like createContract are specific to the blockchains that allow contracts. For example, `Ethereum` and `Vechain` both use EVM as the virtual machine interface, whereas, `Binance Chain` does not offer such capabilities. Hence, Binance Chain will throw an error when using `createContract`.
 
 Supported blockchains:
 
