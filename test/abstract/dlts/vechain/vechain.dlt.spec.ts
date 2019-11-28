@@ -9,8 +9,10 @@ import {
   InterfaceVechainTransaction,
   InterfaceContract,
   InterfaceContractOptions,
-  InterfaceContractReceipt
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
 } from "../../../../src/utils/interfaces";
+import Contract from "web3-eth-contract";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -532,6 +534,11 @@ describe("vechain", () => {
         expect(contract.options.gas).toBe(undefined);
       });
 
+      describe("should be instance of web3 contract", () => {
+        let contract = vechain.createContract(contractOptions);
+        expect(contract).toBeInstanceOf(Contract);
+      });
+
       describe("should fail if abi is invalid", () => {
         let contractOptionsAbiFail: InterfaceContractOptions = {
           jsonInterface: [],
@@ -544,71 +551,68 @@ describe("vechain", () => {
     });
 
     describe("deployContract", () => {
-      describe("should throw error if data not provided", () => {
-        expect(() => {
-          let contractInstance = vechain.createContract(contractOptions);
-          vechain.deployContract(contractInstance);
-        }).toThrowError(
-          new Error("[Vechain] Contract Data has not been provided")
-        );
+      let contractInstance: Contract.Contract = vechain.createContract(
+        contractOptions
+      );
+      let contractDeployOptions: InterfaceContractDeployOptions = {
+        contract: contractInstance
+      };
 
-        expect(() => {
-          let contractInstance = vechain.createContract(contractOptions);
-          contractInstance.options.data = "0x12345...";
-          vechain.deployContract(contractInstance);
-        }).not.toThrowError();
+      describe("data", () => {
+        describe("should throw error if not provided", () => {
+          expect(() => {
+            vechain.deployContract(contractDeployOptions);
+          }).toThrowError(
+            new Error("[Vechain] Contract Data has not been provided")
+          );
+        });
 
-        expect(() => {
-          let contractInstance = vechain.createContract(contractOptions);
-          vechain.deployContract(contractInstance, "0x12345...");
-        }).not.toThrowError();
+        describe("should deploy successfully if provided", () => {
+          // two ways to add data
+          expect(() => {
+            contractDeployOptions.contract.options.data = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+
+          expect(() => {
+            contractDeployOptions.data = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+        });
       });
 
-      describe("should throw error if from address not provided", () => {
-        expect(() => {
-          const contractOptions: InterfaceContractOptions = {
-            jsonInterface: abi,
-            address: addr,
-            options: {
-              gasPrice: gasPrice
-            }
-          };
-          let contractInstance = vechain.createContract(contractOptions);
-          vechain.deployContract(contractInstance, "0x12345...");
-        }).toThrowError(
-          new Error("[Vechain] From address has not been provided")
-        );
-
-        // ensure that it works if from address is provided
-        expect(() => {
-          const contractOptions: InterfaceContractOptions = {
-            jsonInterface: abi,
-            address: addr,
-            options: {
-              gasPrice: gasPrice
-            }
-          };
-          let contractInstance = vechain.createContract(contractOptions);
-          vechain.deployContract(
-            contractInstance,
-            "0x12345...",
-            "0x1234567890123456789012345678901234567891"
+      describe("from", () => {
+        let contractOptions: InterfaceContractOptions = {
+          jsonInterface: abi,
+          address: addr,
+          options: {
+            gasPrice: gasPrice
+          }
+        };
+        let contractInstance = vechain.createContract(contractOptions);
+        let contractDeployOptions: InterfaceContractDeployOptions = {
+          contract: contractInstance,
+          data: "0x12345..."
+        };
+        describe("should throw error if not provided", () => {
+          expect(() => {
+            vechain.deployContract(contractDeployOptions);
+          }).toThrowError(
+            new Error("[Vechain] From address has not been provided")
           );
-        }).not.toThrowError();
+        });
 
-        // ensure that it works if contract already has from field included
-        expect(() => {
-          const contractOptions: InterfaceContractOptions = {
-            jsonInterface: abi,
-            address: addr,
-            options: {
-              from: "0x1234567890123456789012345678901234567891",
-              gasPrice: gasPrice
-            }
-          };
-          let contractInstance = vechain.createContract(contractOptions);
-          vechain.deployContract(contractInstance, "0x12345...");
-        }).not.toThrowError();
+        describe("should deploy successfully if provided", () => {
+          expect(() => {
+            contractDeployOptions.contract.options.from = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+
+          expect(() => {
+            contractDeployOptions.fromAddress = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+        });
       });
     });
   });

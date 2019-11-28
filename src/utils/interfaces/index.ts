@@ -16,7 +16,8 @@ import {
 import {
   InterfaceContract,
   InterfaceContractReceipt,
-  InterfaceContractOptions
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "./contract/index";
 
 export {
@@ -34,5 +35,6 @@ export {
   InterfaceBinanceTransactionReceipt,
   InterfaceContract,
   InterfaceContractReceipt,
-  InterfaceContractOptions
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 };

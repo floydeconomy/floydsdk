@@ -6,8 +6,10 @@ import {
   InterfaceTransaction,
   InterfaceTransactionReceipt,
   InterfaceContractOptions,
-  InterfaceContractReceipt
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
 } from "../../utils/interfaces";
+import Contract from "web3-eth-contract";
 
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
@@ -100,11 +102,13 @@ abstract class AbstractDLT {
   /**
    * Creates a new contract
    *
-   * // TODO: return should be an Interface
+   * // TODO: return should not be Web3.eth.Contract
    * @param {InterfaceContractOptions} options
-   * @return {any}
+   * @return {Web3.eth.Contract}
    */
-  public abstract createContract(options: InterfaceContractOptions): any;
+  public abstract createContract(
+    options: InterfaceContractOptions
+  ): Contract.Contract;
 
   /**
    * Deploys the contract
@@ -113,20 +117,16 @@ abstract class AbstractDLT {
    * Current implementation only checks for fromAddress and data, however,
    * it uses default values if they are not passed.
    * // TODO: it should also ensure that gas and gasPrice is included.
-   * // TODO: it should accept a Interface as parameters
-   * // TODO: parameter contract should not be any
-   * // TODO: return should not be any
+   * TODO: it should accept a Interface as parameters
+   * TODO: parameter contract should not be any
+   * TODO: return should not be any
+   * TODO: remove Contrat.Contract from args
    *
    * @param {any} contract
    * @param {data?} string
    * @return {InterfaceContractReceipt}
    */
-  public abstract deployContract(
-    contract: any,
-    data?: string,
-    fromAddress?: string,
-    args?: Array<any>
-  ): any;
+  public abstract deployContract(args: InterfaceContractDeployOptions): any;
 
   /**
    * Creates a new account
