@@ -161,7 +161,6 @@ class Vechain extends AbstractDLT {
       );
       return contract;
     } catch {
-      ``;
       throw new Error("[Vechain] Something went wrong with contract creation");
     }
   }
@@ -174,7 +173,7 @@ class Vechain extends AbstractDLT {
    * // TODO: remove defaults
    * // TODO: ensure that the fromAddress is in the web3 memory
    */
-  public deployContract(args: InterfaceContractDeployOptions): any {
+  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
     if (args.data == undefined && args.contract.options.data == undefined) {
       throw new Error("[Vechain] Contract Data has not been provided");
     }
@@ -184,19 +183,36 @@ class Vechain extends AbstractDLT {
     ) {
       throw new Error("[Vechain] From address has not been provided");
     }
-    //
-    // options.contract
-    //   .deploy({
-    //     data: contract.options.data ? contract.options.data : data,
-    //     arguments: args ? args : null
-    //   })
-    //   .send({
-    //     from: contract.options.from ? contract.options.from : fromAddress,
-    //     gas: contract.options.gas ? contract.options.gas : 150000
-    //   })
-    //   .then(newContractInstance => {
-    //     return newContractInstance;
-    //   });
+
+    const data = args.contract.options.data
+      ? args.contract.options.data
+      : args.data;
+    const arguments = args.args ? args.args : null;
+    const fromAddress = args.contract.options.from
+      ? args.contract.options.from
+      : args.fromAddress;
+    const gas = args.contract.options.gas ? args.contract.options.gas : 150000;
+
+    return new Promise((resolve, reject) => {
+      args.contract
+        .deploy({
+          data: data,
+          arguments: arguments
+        })
+        .send({
+          from: fromAddress,
+          gas: gas
+        })
+        .then(newContractInstance => {
+          return resolve(newContractInstance);
+        })
+        .catch(error => {
+          return reject(
+            new Error("[Vechain] Something went wrong when deploying the contract.")
+          );
+        });
+      }
+    }
   }
 
   /** @inheritdoc */

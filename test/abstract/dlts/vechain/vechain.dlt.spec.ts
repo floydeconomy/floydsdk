@@ -614,6 +614,25 @@ describe("vechain", () => {
           }).not.toThrowError();
         });
       });
+
+      describe("should throw error if something fails", () => {
+        contractDeployOptions.data = "0x12345...";
+        contractDeployOptions.fromAddress = "0x98765...";
+
+        // const mockDeployContract = jest
+        //   .fn(contractDeployOptions.contract.deploy)
+        //   .mockImplementation();
+        //
+        // contractDeployOptions.contract.send = mockDeployContract;
+        //
+        // vechain.deployContract(contractDeployOptions).catch(err => {
+        //   expect(err).toStrictEqual(
+        //     new Error(
+        //       "[Vechain] Something went wrong when deploying the contract."
+        //     )
+        //   );
+        });
+      });
     });
   });
 });
