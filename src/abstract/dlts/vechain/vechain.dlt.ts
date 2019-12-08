@@ -4,6 +4,7 @@ import {
   InterfaceVechainTransactionOptions,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionReceipt,
+<<<<<<< HEAD
   InterfaceContract,
   InterfaceContractReceipt,
   InterfaceContractOptions,
@@ -11,7 +12,14 @@ import {
 } from "../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
 import Contract from "web3-eth-contract";
+=======
+  InterfaceTransaction
+} from "../../../utils/interfaces";
+import { cry, Transaction } from "thor-devkit";
+import { HEX } from "../../../utils/constants/index";
+>>>>>>> master
 
+/** @inheritdoc */
 class Vechain extends AbstractDLT {
   /** @inheritdoc */
   name: string = "vechain";
@@ -68,7 +76,14 @@ class Vechain extends AbstractDLT {
     return transaction;
   }
 
+<<<<<<< HEAD
   /** @inheritdoc */
+=======
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
+>>>>>>> master
   public sendSignedTransaction(
     signature: Buffer
   ): Promise<InterfaceVechainTransactionReceipt> {
@@ -130,7 +145,14 @@ class Vechain extends AbstractDLT {
     });
   }
 
+<<<<<<< HEAD
   /** @inheritdoc */
+=======
+  /**
+   * @inheritdoc
+   * // TODO: Remove Buffer as params instead use string
+   */
+>>>>>>> master
   public signTransaction(
     transaction: InterfaceVechainTransaction,
     pk: Buffer
@@ -142,6 +164,7 @@ class Vechain extends AbstractDLT {
     return tx.signature;
   }
 
+<<<<<<< HEAD
   /**
    * @inheritdoc
    * // TODO: should use its own Interface called InterfaceVechainContractOptions
@@ -213,16 +236,68 @@ class Vechain extends AbstractDLT {
         });
       }
     }
+=======
+  /** @inheritdoc */
+  public createContract(contract: Buffer) {
+    throw new Error("Method not implemented.");
+  }
+
+  /** @inheritdoc */
+  public deployContract(contract: any) {
+    throw new Error("Method not implemented.");
+>>>>>>> master
   }
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
+<<<<<<< HEAD
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
   public privateKeyToAccount(key: Buffer): TypeAccount {
     throw new Error("Method not implemented.");
+=======
+    const privKey = cry.secp256k1.generatePrivateKey();
+    return this._generateAccountFromPrivateKey(privKey);
+  }
+
+  /** @inheritdoc */
+  public privateKeyToAccount(pk: string): TypeAccount {
+    const pkBuffer = Buffer.from(pk, HEX);
+    return this._generateAccountFromPrivateKey(pkBuffer);
+  }
+
+  /**
+   * Generate an account based on pk provided
+   * @param {Buffer} pk
+   * @return {TypeAccount}
+   */
+  private _generateAccountFromPrivateKey(pk: Buffer): TypeAccount {
+    const pubKey = cry.secp256k1.derivePublicKey(pk);
+    const addr = cry.publicKeyToAddress(pubKey);
+    return {
+      privateKey: pk.toString(HEX),
+      address: "0x" + addr.toString(HEX)
+    };
+  }
+
+  /**
+   * @inheritdoc
+   * // TODO: params account must use address that starts w0x
+   * // TODO: add the account into web3.accounts as well
+   */
+  public addAccount(account?: TypeAccount): TypeAccount {
+    if (
+      account &&
+      (account.privateKey.length == 0 || account.address.length == 0)
+    ) {
+      throw new Error("[Vechain] The account provided is invalid");
+    }
+    const newAccount: TypeAccount = account ? account : this.createAccount();
+    this.accounts.push(newAccount);
+    return newAccount;
+>>>>>>> master
   }
 
   /** @inheritdoc */

@@ -61,8 +61,8 @@ describe("binance", () => {
     let toAddress;
     let fromAddress;
     beforeEach(() => {
-      toAddress = "binance.provider.instance.eth.accounts.create().address;"
-      fromAddress = "binance.provider.instance.eth.accounts.create().address;"
+      toAddress = "binance.provider.instance.eth.accounts.create().address;";
+      fromAddress = "binance.provider.instance.eth.accounts.create().address;";
     });
 
     describe("buildTransaction", () => {
@@ -113,6 +113,42 @@ describe("binance", () => {
               "hex"
             )
           );
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
+
+  describe("contracts", () => {
+    describe("createContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          binance.createContract(new Buffer("error"));
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("deployContract", () => {
+      it("throw error", () => {
+        expect(() => {
+          binance.deployContract(123);
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+  });
+
+  describe("subscriptions", () => {
+    describe("subscribe", () => {
+      it("throw error", () => {
+        expect(() => {
+          binance.subscribe("error");
+        }).toThrowError(new Error("Method not implemented."));
+      });
+    });
+
+    describe("clearSubscriptions", () => {
+      it("throw error", () => {
+        expect(() => {
+          binance.clearSubscriptions();
         }).toThrowError(new Error("Method not implemented."));
       });
     });
