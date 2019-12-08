@@ -3,19 +3,15 @@ import { TypeDLT, TypeAccount } from "../../../utils/types";
 import {
   InterfaceEthereumTransactionOptions,
   InterfaceEthereumTransaction,
-<<<<<<< HEAD
   InterfaceEthereumTransactionReceipt,
-  InterfaceContract
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "../../../utils/interfaces";
 import { Transaction } from "ethereumjs-tx";
-
-=======
-  InterfaceEthereumTransactionReceipt
-} from "../../../utils/interfaces";
-import { Transaction } from "ethereumjs-tx";
+import Contract from "web3-eth-contract";
 
 /** @inheritdoc */
->>>>>>> master
 class Ethereum extends AbstractDLT {
   /** @inheritdoc */
   name: string = "ethereum";
@@ -124,28 +120,18 @@ class Ethereum extends AbstractDLT {
   }
 
   /** @inheritdoc */
-<<<<<<< HEAD
-  public createContract(contract: Buffer): InterfaceContract {
-=======
-  public createContract(contract: Buffer) {
->>>>>>> master
+  public createContract(options: InterfaceContractOptions): Contract.Contract {
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
-  public deployContract(contract: any) {
+  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
     throw new Error("Method not implemented.");
-<<<<<<< HEAD
-  }
-
-  /** @inheritdoc */
-  public privateKeyToAccount(key: Buffer): TypeAccount {
-=======
   }
 
   /** @inheritdoc */
@@ -155,7 +141,6 @@ class Ethereum extends AbstractDLT {
 
   /** @inheritdoc */
   public addAccount(): TypeAccount {
->>>>>>> master
     throw new Error("Method not implemented.");
   }
 
