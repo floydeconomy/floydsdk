@@ -210,6 +210,15 @@ describe("ethereum", () => {
     describe("signTransaction", () => {
       let toAddress;
       let fromAddress;
+      const transaction: InterfaceEthereumTransaction = {
+        gasPrice: "0x09184e72a000",
+        gas: "0x2710",
+        to: toAddress,
+        value: "0x00",
+        data:
+          "0x7f7465737432000000000000000000000000000000000000000000000000000000600057",
+        nonce: "0x00"
+      };
       beforeEach(() => {
         toAddress = "0x3535353535353535353535353535353535353535";
         fromAddress = new Buffer(
@@ -219,41 +228,32 @@ describe("ethereum", () => {
       });
 
       test("should sign the transaction", () => {
-        const transaction: InterfaceEthereumTransaction = {
-          gasPrice: "20000000000",
-          gas: "21000",
-          to: toAddress,
-          value: "1000000000000000000",
-          data: "",
-          nonce: 0x0
-        };
-
         const signature = ethereum.signTransaction(transaction, fromAddress);
-        console.log(signature);
         expect(signature).toBeInstanceOf(Buffer);
       });
     });
 
     describe("sendSignedTransaction", () => {
       let signature;
+      const transaction: InterfaceEthereumTransaction = {
+        gasPrice: "0x09184e72a000",
+        gas: "0x2710",
+        to: toAddress,
+        value: "0x00",
+        data:
+          "0x7f7465737432000000000000000000000000000000000000000000000000000000600057",
+        nonce: "0x00"
+      };
       beforeEach(() => {
         let fromAddress = new Buffer(
           "e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109",
           "hex"
         );
-        const transaction: InterfaceEthereumTransaction = {
-          gasPrice: "20000000000",
-          gas: "21000",
-          to: "0x3535353535353535353535353535353535353535",
-          value: "1000000000000000000",
-          data: "",
-          nonce: 0x0
-        };
         signature = ethereum.signTransaction(transaction, fromAddress);
         ethereum = new Ethereum(sdk, ethereumDLTOptions);
       });
 
-      test("should fail if something goes wrong", async () => {
+      test("should fail if something goes wrong", async done => {
         const mockSendSignedTransaction = jest
           .fn(ethereum.provider.instance.eth.sendSignedTransaction)
           .mockRejectedValue(new Error());
@@ -267,9 +267,11 @@ describe("ethereum", () => {
             )
           );
         });
+
+        done();
       });
 
-      test("should return a transaction receipt", async () => {
+      test("should return a transaction receipt", async done => {
         const receipt1 = {
           status: true,
           transactionHash:
@@ -313,6 +315,8 @@ describe("ethereum", () => {
           expect(receipt.to).toBe("0x3535353535353535353535353535353535353535");
           expect(receipt.logsBloom).toBe("");
         });
+
+        done();
       });
     });
 
@@ -330,7 +334,7 @@ describe("ethereum", () => {
         ethereum = new Ethereum(sdk, ethereumDLTOptions);
       });
 
-      test("should fail if something goes wrong", async () => {
+      test("should fail if something goes wrong", async done => {
         const mockSendSignedTransaction = jest
           .fn(ethereum.provider.instance.eth.sendTransaction)
           .mockRejectedValue(new Error());
@@ -344,9 +348,11 @@ describe("ethereum", () => {
             )
           );
         });
+
+        done();
       });
 
-      test("should return a transaction receipt", async () => {
+      test("should return a transaction receipt", async done => {
         const receipt1 = {
           status: true,
           transactionHash:
@@ -390,6 +396,8 @@ describe("ethereum", () => {
           expect(receipt.to).toBe("0x3535353535353535353535353535353535353535");
           expect(receipt.logsBloom).toBe("");
         });
+
+        done();
       });
     });
   });
