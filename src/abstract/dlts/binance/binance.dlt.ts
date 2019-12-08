@@ -3,7 +3,8 @@ import { TypeDLT, TypeAccount } from "../../../utils/types";
 import {
   InterfaceBinanceTransactionOptions,
   InterfaceBinanceTransaction,
-  InterfaceBinanceTransactionReceipt
+  InterfaceBinanceTransactionReceipt,
+  InterfaceContract
 } from "../../../utils/interfaces";
 
 /** @inheritdoc */
@@ -51,12 +52,12 @@ class Binance extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public createContract(contract: Buffer): any {
+  public createContract(contract: Buffer): InterfaceContract {
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
-  public deployContract(contract: any): any {
+  public deployContract(contract: any) {
     throw new Error("Method not implemented.");
   }
 

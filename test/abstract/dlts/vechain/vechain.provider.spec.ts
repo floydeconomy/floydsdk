@@ -1,5 +1,5 @@
 import VechainProvider from "../../../../src/abstract/dlts/vechain/vechain.provider";
-import { TypeProvider } from '../../../../src/utils/types';
+import { TypeProvider } from "../../../../src/utils/types";
 import Web3 from "web3";
 
 describe("Vechain provider", () => {
@@ -65,31 +65,35 @@ describe("Vechain provider", () => {
     });
 
     test("should throw error when invalid uri provided", () => {
-        var options: TypeProvider = {
-          uri: "xx"
-        };
-  
-        try {
-          new VechainProvider(options);
-        } catch (e) {
-          expect(e).toEqual(
-            Error("[Provider]-[uri:xx] The URI provided for this DLT is not valid")
-          );
-        }
-      });
-  
-      test("should throw error when if anything is wrong with the provider", () => {
-        var options: TypeProvider = {
-          uri: "localhost:4444"
-        };
-  
-        try {
-          new VechainProvider(options);
-        } catch (e) {
-          expect(e).toEqual(
-            Error(`[Provider]-[uri:localhost:4444] There was an issue creating the provider`)
-          );
-        }
-      });
+      var options: TypeProvider = {
+        uri: "xx"
+      };
+
+      try {
+        new VechainProvider(options);
+      } catch (e) {
+        expect(e).toEqual(
+          Error(
+            "[Provider]-[uri:xx] The URI provided for this DLT is not valid"
+          )
+        );
+      }
+    });
+
+    test("should throw error when if anything is wrong with the provider", () => {
+      var options: TypeProvider = {
+        uri: "localhost:4444"
+      };
+
+      try {
+        new VechainProvider(options);
+      } catch (e) {
+        expect(e).toEqual(
+          Error(
+            `[Provider]-[uri:localhost:4444] There was an issue creating the provider`
+          )
+        );
+      }
+    });
   });
 });
