@@ -5,11 +5,7 @@ import AbstractDLT from "../abstract/dlts/dlt";
  * This class is the base class the software development kit. It facilitates the methods
  * that can be carried out using this kit. It's a library that allows developers to create
  * transactions on different blockchains, using a single interface.
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> master
  * @author Jeevan Pillay
  */
 class FloydSDK {
@@ -19,13 +15,8 @@ class FloydSDK {
   dlts: { [key: string]: AbstractDLT } = {};
 
   /**
-<<<<<<< HEAD
-   * Creates the required configurations for the DLT's provided.
-   * @param {TypeSDK} options 
-=======
    * Constructor
    * @param options
->>>>>>> master
    */
   constructor(options: TypeSDK) {
     // validate
@@ -40,7 +31,7 @@ class FloydSDK {
 
   /**
    * Validate the provided dlts options
-   * @param {TypeDLT[]} dlts
+   * @param dlts
    */
   private validateDLT(dlts: TypeDLT[]): void {
     if (!dlts || dlts.length === 0) {
@@ -50,8 +41,8 @@ class FloydSDK {
 
   /**
    * Load the dlt to the Overledger SDK
-   * @param {Object} dltConfig
-   * @return {AbstractDLT}
+   * @param {Object} config
+   * @return { AbstractDLT }
    */
   private loadDLT(dltConfig: TypeDLT): AbstractDLT {
     const dltName = `${dltConfig.name}`;
