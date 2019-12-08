@@ -1,7 +1,12 @@
 node_modules/
 dist/
 coverage/
+<<<<<<< HEAD
 .vscode
 yarn-error.log
 yarn.lock
 package-lock.json
+=======
+.vscode/
+yarn-error.log
+>>>>>>> master

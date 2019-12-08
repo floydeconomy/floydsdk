@@ -1,5 +1,3 @@
-import Contract from "web3-eth-contract";
-
 interface InterfaceContractOptions {
   jsonInterface: Array;
   address?: string;
@@ -14,13 +12,6 @@ interface InterfaceContract {
   gas: number;
 }
 
-interface InterfaceContractDeployOptions {
-  contract: Contract.Contract;
-  data?: string;
-  fromAddress?: string;
-  args?: Array<any>;
-}
-
 interface InterfaceContractReceipt {}
 
 export {
@@ -28,5 +19,4 @@ export {
   InterfaceContractOptions,
   InterfaceContractReceipt,
   InterfaceContractDeployOptions
-  InterfaceContractReceipt
 };

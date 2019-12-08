@@ -4,13 +4,17 @@ import AbstractProvider from "./provider";
 import {
   InterfaceTransactionOptions,
   InterfaceTransaction,
-  InterfaceTransactionReceipt,
-  InterfaceContractOptions,
-  InterfaceContractReceipt,
-  InterfaceContractDeployOptions
+  InterfaceTransactionReceipt
 } from "../../utils/interfaces";
-import Contract from "web3-eth-contract";
 
+/**
+ * This class serves as the base class that maintains all implementation
+ * details related to the blockchain.
+ *
+ * It handles accounts, subscriptions, transactions and contracts.
+ *
+ * @author Jeevan Pillay
+ */
 abstract class AbstractDLT {
   /** Provider configuration for the DLT */
   public provider: AbstractProvider;
@@ -29,7 +33,7 @@ abstract class AbstractDLT {
 
   /**
    * @param {FloydSDK} sdk
-   * @param {TypeDLT} options
+   * @param {TypeProvider} options
    */
   constructor(sdk: FloydSDK, options: TypeDLT) {
     this.sdk = sdk;
@@ -38,8 +42,8 @@ abstract class AbstractDLT {
 
   /**
    * Load the dlt to the Overledger SDK
-   * @param {string} name
-   * @param {TypeProvider} provider
+   * @param {name} string
+   * @param {provider} TypeProvider
    * @return {AbstractProvider}
    */
   public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
@@ -63,7 +67,6 @@ abstract class AbstractDLT {
    * @param {string} to
    * @param {string} message
    * @param {TransactionOptions} options
-   * @return {InterfaceTransaction}
    */
   public abstract buildTransaction(
     to: string,
@@ -73,7 +76,7 @@ abstract class AbstractDLT {
 
   /**
    * Sends a singed transaction to the blockchain
-   * @param {Buffer} signature
+   * @param {signature} Buffer
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendSignedTransaction(
@@ -82,7 +85,7 @@ abstract class AbstractDLT {
 
   /**
    * Sends a transaction to the blockchain
-   * @param {InterfaceTransaction} transaction
+   * @param {transaction} InterfaceTransaction
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendTransaction(
@@ -91,8 +94,9 @@ abstract class AbstractDLT {
 
   /**
    * Signs a transaction with the private key
-   * @param {InterfaceTransaction} transaction
-   * @param {Buffer} pk
+   * @param {transaction} InterfaceTransaction
+   * @param {pk} Buffer
+   * @return {any}
    */
   public abstract signTransaction(
     transaction: InterfaceTransaction,
@@ -101,32 +105,15 @@ abstract class AbstractDLT {
 
   /**
    * Creates a new contract
-   *
-   * // TODO: return should not be Web3.eth.Contract
-   * @param {InterfaceContractOptions} options
-   * @return {Web3.eth.Contract}
+   * @return {InterfaceContract}
    */
-  public abstract createContract(
-    options: InterfaceContractOptions
-  ): Contract.Contract;
+  public abstract createContract(contract: Buffer): any;
 
   /**
    * Deploys the contract
-   *
-   * Safety: UNSAFE
-   * Current implementation only checks for fromAddress and data, however,
-   * it uses default values if they are not passed.
-   * // TODO: it should also ensure that gas and gasPrice is included.
-   * TODO: it should accept a Interface as parameters
-   * TODO: parameter contract should not be any
-   * TODO: return should not be any
-   * TODO: remove Contrat.Contract from args
-   *
-   * @param {any} contract
-   * @param {data?} string
-   * @return {InterfaceContractReceipt}
+   * @return {any}
    */
-  public abstract deployContract(args: InterfaceContractDeployOptions): any;
+  public abstract deployContract(contract: any): any;
 
   /**
    * Creates a new account
@@ -136,7 +123,6 @@ abstract class AbstractDLT {
 
   /**
    * Convert private key to account
-   * @param {Buffer} key
    * @return {TypeAccount}
    */
   public abstract privateKeyToAccount(pk: string): TypeAccount;
@@ -150,14 +136,13 @@ abstract class AbstractDLT {
 
   /**
    * Subscribe to certain blockchain events
-   * @param {string} event
+   * @param {event} string
    * @return {boolean}
    */
   public abstract subscribe(event: string): boolean;
 
   /**
    * Clear all the subscriptions
-   * @return {boolean}
    */
   public abstract clearSubscriptions(): boolean;
 }
