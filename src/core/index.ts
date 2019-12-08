@@ -5,11 +5,7 @@ import AbstractDLT from "../abstract/dlts/dlt";
  * This class is the base class the software development kit. It facilitates the methods
  * that can be carried out using this kit. It's a library that allows developers to create
  * transactions on different blockchains, using a single interface.
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> master
  * @author Jeevan Pillay
  */
 class FloydSDK {
@@ -19,13 +15,8 @@ class FloydSDK {
   dlts: { [key: string]: AbstractDLT } = {};
 
   /**
-<<<<<<< HEAD
    * Creates the required configurations for the DLT's provided.
-   * @param {TypeSDK} options 
-=======
-   * Constructor
-   * @param options
->>>>>>> master
+   * @param {TypeSDK} options
    */
   constructor(options: TypeSDK) {
     // validate
