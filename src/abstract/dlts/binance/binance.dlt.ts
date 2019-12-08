@@ -3,8 +3,12 @@ import { TypeDLT, TypeAccount } from "../../../utils/types";
 import {
   InterfaceBinanceTransactionOptions,
   InterfaceBinanceTransaction,
-  InterfaceBinanceTransactionReceipt
+  InterfaceBinanceTransactionReceipt,
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "../../../utils/interfaces";
+import Contract from "web3-eth-contract";
 
 /** @inheritdoc */
 class Binance extends AbstractDLT {
@@ -51,12 +55,12 @@ class Binance extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public createContract(contract: Buffer): any {
+  public createContract(options: InterfaceContractOptions): Contract.Contract {
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
-  public deployContract(contract: any): any {
+  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
     throw new Error("Method not implemented.");
   }
 

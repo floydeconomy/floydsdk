@@ -6,8 +6,13 @@ import { cry } from "thor-devkit";
 import "jest-extended";
 import {
   InterfaceVechainTransactionOptions,
-  InterfaceVechainTransaction
+  InterfaceVechainTransaction,
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
 } from "../../../../src/utils/interfaces";
+import Contract from "web3-eth-contract";
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -24,8 +29,8 @@ describe("vechain", () => {
     }
   };
 
-  var sdk;
-  var vechain: Vechain;
+  let sdk: FloydSDK;
+  let vechain: Vechain;
   beforeEach(() => {
     const options = {
       dlts: [vechainDLTOptions]
@@ -468,6 +473,167 @@ describe("vechain", () => {
     });
   });
 
+  describe("contracts", () => {
+    vechain = new Vechain(sdk, vechainDLTOptions);
+    const abi = [
+      {
+        type: "constructor",
+        payable: false,
+        stateMutability: "nonpayable",
+        inputs: [{ name: "testInt", type: "uint256" }]
+      },
+      {
+        type: "function",
+        name: "foo",
+        constant: false,
+        payable: false,
+        stateMutability: "nonpayable",
+        inputs: [
+          { name: "b", type: "uint256" },
+          { name: "c", type: "bytes32" }
+        ],
+        outputs: [{ name: "", type: "address" }]
+      },
+      {
+        type: "event",
+        name: "Event",
+        inputs: [
+          { indexed: true, name: "b", type: "uint256" },
+          { indexed: false, name: "c", type: "bytes32" }
+        ],
+        anonymous: false
+      },
+      {
+        type: "event",
+        name: "Event2",
+        inputs: [
+          { indexed: true, name: "b", type: "uint256" },
+          { indexed: false, name: "c", type: "bytes32" }
+        ],
+        anonymous: false
+      }
+    ];
+    const addr = "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe";
+    const fromAddress = "0x1234567890123456789012345678901234567891";
+    const gasPrice = "20000000000";
+    const contractOptions: InterfaceContractOptions = {
+      jsonInterface: abi,
+      address: addr,
+      options: {
+        from: fromAddress,
+        gasPrice: gasPrice
+      }
+    };
+    describe("createContract", () => {
+      describe("should create contract instance", () => {
+        let contract = vechain.createContract(contractOptions);
+        expect(contract.options.address).toBe(addr);
+        expect(contract.options.jsonInterface).toEqual(abi);
+        expect(contract.options.from).toBe(fromAddress);
+        expect(contract.options.gasPrice).toBe(gasPrice);
+        expect(contract.options.gas).toBe(undefined);
+      });
+
+      describe("should be instance of web3 contract", () => {
+        let contract = vechain.createContract(contractOptions);
+        expect(contract).toBeInstanceOf(Contract);
+      });
+
+      describe("should fail if abi is invalid", () => {
+        let contractOptionsAbiFail: InterfaceContractOptions = {
+          jsonInterface: [],
+          address: addr
+        };
+        expect(() => {
+          let contract = vechain.createContract(contractOptionsAbiFail);
+        }).toThrowError(new Error("[Vechain] The ABI provided is invalid"));
+      });
+    });
+    describe("deployContract", () => {
+      let contractInstance: Contract.Contract = vechain.createContract(
+        contractOptions
+      );
+      let contractDeployOptions: InterfaceContractDeployOptions = {
+        contract: contractInstance
+      };
+
+      describe("data", () => {
+        describe("should throw error if not provided", () => {
+          expect(() => {
+            vechain.deployContract(contractDeployOptions);
+          }).toThrowError(
+            new Error("[Vechain] Contract Data has not been provided")
+          );
+        });
+
+        describe("should deploy successfully if provided", () => {
+          // two ways to add data
+          expect(() => {
+            contractDeployOptions.contract.options.data = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+
+          expect(() => {
+            contractDeployOptions.data = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+        });
+      });
+
+      describe("from", () => {
+        let contractOptions: InterfaceContractOptions = {
+          jsonInterface: abi,
+          address: addr,
+          options: {
+            gasPrice: gasPrice
+          }
+        };
+        let contractInstance = vechain.createContract(contractOptions);
+        let contractDeployOptions: InterfaceContractDeployOptions = {
+          contract: contractInstance,
+          data: "0x12345..."
+        };
+        describe("should throw error if not provided", () => {
+          expect(() => {
+            vechain.deployContract(contractDeployOptions);
+          }).toThrowError(
+            new Error("[Vechain] From address has not been provided")
+          );
+        });
+
+        describe("should deploy successfully if provided", () => {
+          expect(() => {
+            contractDeployOptions.contract.options.from = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+
+          expect(() => {
+            contractDeployOptions.fromAddress = "0x12345...";
+            vechain.deployContract(contractDeployOptions);
+          }).not.toThrowError();
+        });
+      });
+
+      describe("should throw error if something fails", () => {
+        contractDeployOptions.data = "0x12345...";
+        contractDeployOptions.fromAddress = "0x98765...";
+
+        // const mockDeployContract = jest
+        //   .fn(contractDeployOptions.contract.deploy)
+        //   .mockImplementation();
+        //
+        // contractDeployOptions.contract.send = mockDeployContract;
+        //
+        // vechain.deployContract(contractDeployOptions).catch(err => {
+        //   expect(err).toStrictEqual(
+        //     new Error(
+        //       "[Vechain] Something went wrong when deploying the contract."
+        //     )
+        //   );
+      });
+    });
+  });
+
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
     const goodAccount: TypeAccount = {
@@ -527,25 +693,6 @@ describe("vechain", () => {
         const account = vechain.addAccount();
         expect(account.address).toStartWith("0x");
         expect(account).toBeOneOf(vechain.accounts);
-      });
-    });
-  });
-
-  describe("contracts", () => {
-    let vechain = new Vechain(sdk, vechainDLTOptions);
-    describe("createContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          vechain.createContract(Buffer.from("error", "hex"));
-        }).toThrowError(new Error("Method not implemented."));
-      });
-    });
-
-    describe("deployContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          vechain.deployContract(123);
-        }).toThrowError(new Error("Method not implemented."));
       });
     });
   });

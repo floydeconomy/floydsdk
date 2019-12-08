@@ -17,5 +17,6 @@ interface InterfaceContractReceipt {}
 export {
   InterfaceContract,
   InterfaceContractOptions,
-  InterfaceContractReceipt
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
 };

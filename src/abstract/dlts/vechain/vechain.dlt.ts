@@ -4,9 +4,13 @@ import {
   InterfaceVechainTransactionOptions,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionReceipt,
-  InterfaceTransaction
+  InterfaceContract,
+  InterfaceContractReceipt,
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
+import Contract from "web3-eth-contract";
 import { HEX } from "../../../utils/constants/index";
 
 /** @inheritdoc */
@@ -146,14 +150,78 @@ class Vechain extends AbstractDLT {
     return tx.signature;
   }
 
-  /** @inheritdoc */
-  public createContract(contract: Buffer) {
-    throw new Error("Method not implemented.");
+  /**
+   * @inheritdoc
+   * // TODO: should use its own Interface called InterfaceVechainContractOptions
+   * // TODO: should return its own Interface or Class and not Web3.eth.Contract
+   * @param {InterfaceContractOptions} options
+   * @return {Web3.eth.Contract}
+   */
+  public createContract(options: InterfaceContractOptions): Contract.Contract {
+    if (options.jsonInterface.length < 1) {
+      throw new Error("[Vechain] The ABI provided is invalid");
+    }
+    try {
+      const contract = new this.provider.instance.eth.Contract(
+        options.jsonInterface,
+        options.address,
+        options.options
+      );
+      return contract;
+    } catch {
+      throw new Error("[Vechain] Something went wrong with contract creation");
+    }
   }
 
-  /** @inheritdoc */
-  public deployContract(contract: any) {
-    throw new Error("Method not implemented.");
+  /**
+   * @inheritdoc
+   * defaults:
+   * - gas: 150000,
+   * - gasPrice: '30000000000000'
+   * // TODO: remove defaults
+   * // TODO: ensure that the fromAddress is in the web3 memory
+   */
+  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
+    if (args.data == undefined && args.contract.options.data == undefined) {
+      throw new Error("[Vechain] Contract Data has not been provided");
+    }
+    if (
+      args.fromAddress == undefined &&
+      args.contract.options.from == undefined
+    ) {
+      throw new Error("[Vechain] From address has not been provided");
+    }
+
+    const data = args.contract.options.data
+      ? args.contract.options.data
+      : args.data;
+    const argument = args.args ? args.args : null;
+    const fromAddress = args.contract.options.from
+      ? args.contract.options.from
+      : args.fromAddress;
+    const gas = args.contract.options.gas ? args.contract.options.gas : 150000;
+
+    return new Promise((resolve, reject) => {
+      args.contract
+        .deploy({
+          data: data,
+          arguments: argument
+        })
+        .send({
+          from: fromAddress,
+          gas: gas
+        })
+        .then(newContractInstance => {
+          return resolve(newContractInstance);
+        })
+        .catch(error => {
+          return reject(
+            new Error(
+              "[Vechain] Something went wrong when deploying the contract."
+            )
+          );
+        });
+    });
   }
 
   /** @inheritdoc */

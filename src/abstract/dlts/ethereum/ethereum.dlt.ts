@@ -3,9 +3,13 @@ import { TypeDLT, TypeAccount } from "../../../utils/types";
 import {
   InterfaceEthereumTransactionOptions,
   InterfaceEthereumTransaction,
-  InterfaceEthereumTransactionReceipt
+  InterfaceEthereumTransactionReceipt,
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "../../../utils/interfaces";
 import { Transaction } from "ethereumjs-tx";
+import Contract from "web3-eth-contract";
 
 /** @inheritdoc */
 class Ethereum extends AbstractDLT {
@@ -116,12 +120,12 @@ class Ethereum extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public createContract(contract: Buffer) {
+  public createContract(options: InterfaceContractOptions): Contract.Contract {
     throw new Error("Method not implemented.");
   }
 
   /** @inheritdoc */
-  public deployContract(contract: any) {
+  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
     throw new Error("Method not implemented.");
   }
 

@@ -397,19 +397,19 @@ describe("ethereum", () => {
   describe("contracts", () => {
     let ethereum = new Ethereum(sdk, ethereumDLTOptions);
     describe("createContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          ethereum.createContract(new Buffer("error"));
-        }).toThrowError(new Error("Method not implemented."));
-      });
+      // it("throw error", () => {
+      //   expect(() => {
+      //     ethereum.createContract();
+      //   }).toThrowError(new Error("Method not implemented."));
+      // });
     });
 
     describe("deployContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          ethereum.deployContract(123);
-        }).toThrowError(new Error("Method not implemented."));
-      });
+      // it("throw error", () => {
+      //   expect(() => {
+      //     ethereum.deployContract(123);
+      //   }).toThrowError(new Error("Method not implemented."));
+      // });
     });
   });
 

@@ -15,8 +15,8 @@ class FloydSDK {
   dlts: { [key: string]: AbstractDLT } = {};
 
   /**
-   * Constructor
-   * @param options
+   * Creates the required configurations for the DLT's provided.
+   * @param {TypeSDK} options
    */
   constructor(options: TypeSDK) {
     // validate
