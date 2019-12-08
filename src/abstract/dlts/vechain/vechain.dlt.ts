@@ -4,7 +4,6 @@ import {
   InterfaceVechainTransactionOptions,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionReceipt,
-<<<<<<< HEAD
   InterfaceContract,
   InterfaceContractReceipt,
   InterfaceContractOptions,
@@ -12,12 +11,7 @@ import {
 } from "../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
 import Contract from "web3-eth-contract";
-=======
-  InterfaceTransaction
-} from "../../../utils/interfaces";
-import { cry, Transaction } from "thor-devkit";
 import { HEX } from "../../../utils/constants/index";
->>>>>>> master
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -76,14 +70,10 @@ class Vechain extends AbstractDLT {
     return transaction;
   }
 
-<<<<<<< HEAD
-  /** @inheritdoc */
-=======
   /**
    * @inheritdoc
    * // TODO: Remove Buffer as params instead use string
    */
->>>>>>> master
   public sendSignedTransaction(
     signature: Buffer
   ): Promise<InterfaceVechainTransactionReceipt> {
@@ -145,14 +135,10 @@ class Vechain extends AbstractDLT {
     });
   }
 
-<<<<<<< HEAD
-  /** @inheritdoc */
-=======
   /**
    * @inheritdoc
    * // TODO: Remove Buffer as params instead use string
    */
->>>>>>> master
   public signTransaction(
     transaction: InterfaceVechainTransaction,
     pk: Buffer
@@ -164,7 +150,6 @@ class Vechain extends AbstractDLT {
     return tx.signature;
   }
 
-<<<<<<< HEAD
   /**
    * @inheritdoc
    * // TODO: should use its own Interface called InterfaceVechainContractOptions
@@ -210,7 +195,7 @@ class Vechain extends AbstractDLT {
     const data = args.contract.options.data
       ? args.contract.options.data
       : args.data;
-    const arguments = args.args ? args.args : null;
+    const argument = args.args ? args.args : null;
     const fromAddress = args.contract.options.from
       ? args.contract.options.from
       : args.fromAddress;
@@ -220,7 +205,7 @@ class Vechain extends AbstractDLT {
       args.contract
         .deploy({
           data: data,
-          arguments: arguments
+          arguments: argument
         })
         .send({
           from: fromAddress,
@@ -231,33 +216,16 @@ class Vechain extends AbstractDLT {
         })
         .catch(error => {
           return reject(
-            new Error("[Vechain] Something went wrong when deploying the contract.")
+            new Error(
+              "[Vechain] Something went wrong when deploying the contract."
+            )
           );
         });
-      }
-    }
-=======
-  /** @inheritdoc */
-  public createContract(contract: Buffer) {
-    throw new Error("Method not implemented.");
-  }
-
-  /** @inheritdoc */
-  public deployContract(contract: any) {
-    throw new Error("Method not implemented.");
->>>>>>> master
+    });
   }
 
   /** @inheritdoc */
   public createAccount(): TypeAccount {
-<<<<<<< HEAD
-    throw new Error("Method not implemented.");
-  }
-
-  /** @inheritdoc */
-  public privateKeyToAccount(key: Buffer): TypeAccount {
-    throw new Error("Method not implemented.");
-=======
     const privKey = cry.secp256k1.generatePrivateKey();
     return this._generateAccountFromPrivateKey(privKey);
   }
@@ -297,7 +265,6 @@ class Vechain extends AbstractDLT {
     const newAccount: TypeAccount = account ? account : this.createAccount();
     this.accounts.push(newAccount);
     return newAccount;
->>>>>>> master
   }
 
   /** @inheritdoc */

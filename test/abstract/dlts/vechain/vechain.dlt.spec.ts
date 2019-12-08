@@ -6,7 +6,6 @@ import { cry } from "thor-devkit";
 import "jest-extended";
 import {
   InterfaceVechainTransactionOptions,
-<<<<<<< HEAD
   InterfaceVechainTransaction,
   InterfaceContract,
   InterfaceContractOptions,
@@ -14,10 +13,6 @@ import {
   InterfaceContractDeployOptions
 } from "../../../../src/utils/interfaces";
 import Contract from "web3-eth-contract";
-=======
-  InterfaceVechainTransaction
-} from "../../../../src/utils/interfaces";
->>>>>>> master
 
 describe("vechain", () => {
   const vechainDLTOptions = {
@@ -478,7 +473,6 @@ describe("vechain", () => {
     });
   });
 
-<<<<<<< HEAD
   describe("contracts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
     const abi = [
@@ -555,7 +549,6 @@ describe("vechain", () => {
         }).toThrowError(new Error("[Vechain] The ABI provided is invalid"));
       });
     });
-
     describe("deployContract", () => {
       let contractInstance: Contract.Contract = vechain.createContract(
         contractOptions
@@ -637,8 +630,10 @@ describe("vechain", () => {
         //       "[Vechain] Something went wrong when deploying the contract."
         //     )
         //   );
-        });
-=======
+      });
+    });
+  });
+
   describe("accounts", () => {
     vechain = new Vechain(sdk, vechainDLTOptions);
     const goodAccount: TypeAccount = {
@@ -702,25 +697,6 @@ describe("vechain", () => {
     });
   });
 
-  describe("contracts", () => {
-    let vechain = new Vechain(sdk, vechainDLTOptions);
-    describe("createContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          vechain.createContract(Buffer.from("error", "hex"));
-        }).toThrowError(new Error("Method not implemented."));
-      });
-    });
-
-    describe("deployContract", () => {
-      it("throw error", () => {
-        expect(() => {
-          vechain.deployContract(123);
-        }).toThrowError(new Error("Method not implemented."));
-      });
-    });
-  });
-
   describe("subscriptions", () => {
     let vechain = new Vechain(sdk, vechainDLTOptions);
     describe("subscribe", () => {
@@ -736,7 +712,6 @@ describe("vechain", () => {
         expect(() => {
           vechain.clearSubscriptions();
         }).toThrowError(new Error("Method not implemented."));
->>>>>>> master
       });
     });
   });
