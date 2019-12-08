@@ -7,6 +7,7 @@ import {
   InterfaceContract
 } from "../../../utils/interfaces";
 
+/** @inheritdoc */
 class Binance extends AbstractDLT {
   /** @inheritdoc */
   name: string = "binance";
@@ -66,7 +67,12 @@ class Binance extends AbstractDLT {
   }
 
   /** @inheritdoc */
-  public privateKeyToAccount(key: Buffer): TypeAccount {
+  public privateKeyToAccount(pk: string): TypeAccount {
+    throw new Error("Method not implemented.");
+  }
+
+  /** @inheritdoc */
+  public addAccount(): TypeAccount {
     throw new Error("Method not implemented.");
   }
 
