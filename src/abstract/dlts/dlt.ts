@@ -4,7 +4,9 @@ import AbstractProvider from "./provider";
 import {
   InterfaceTransactionOptions,
   InterfaceTransaction,
-  InterfaceTransactionReceipt
+  InterfaceTransactionReceipt,
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "../../utils/interfaces";
 
 /**
@@ -64,28 +66,27 @@ abstract class AbstractDLT {
 
   /**
    * Build the transaction
+   * // TODO: remove to and message params they should be included in TransactionOptions
    * @param {string} to
    * @param {string} message
    * @param {TransactionOptions} options
    */
   public abstract buildTransaction(
-    to: string,
-    message: string,
     options: InterfaceTransactionOptions
   ): InterfaceTransaction;
 
   /**
    * Sends a singed transaction to the blockchain
-   * @param {signature} Buffer
+   * @param {string | Buffer} signature if string, must be prefixed with 0x, buffers will be automatically converted
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendSignedTransaction(
-    signature: Buffer
+    signature: string | Buffer
   ): Promise<InterfaceTransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
-   * @param {transaction} InterfaceTransaction
+   * @param {InterfaceTransaction} transaction
    * @return {Promise<InterfaceTransactionReceipt>}
    */
   public abstract sendTransaction(
@@ -94,26 +95,30 @@ abstract class AbstractDLT {
 
   /**
    * Signs a transaction with the private key
-   * @param {transaction} InterfaceTransaction
-   * @param {pk} Buffer
-   * @return {any}
+   * @param {InterfaceTransaction} transaction the transaction to sign
+   * @param {string | Buffer} pk the private key
+   * @return {string} the raw transaction in string with 0x prefixed in front of it
    */
   public abstract signTransaction(
     transaction: InterfaceTransaction,
-    pk: Buffer
-  ): any;
+    pk: string | Buffer
+  ): string;
 
   /**
    * Creates a new contract
+   * // TODO: should return a standarised interface
    * @return {InterfaceContract}
    */
-  public abstract createContract(contract: Buffer): any;
+  public abstract createContract(options: InterfaceContractOptions): any;
 
   /**
    * Deploys the contract
+   * // TODO: should not return promise any instead a defined interface
    * @return {any}
    */
-  public abstract deployContract(contract: any): any;
+  public abstract deployContract(
+    args: InterfaceContractDeployOptions
+  ): Promise<any>;
 
   /**
    * Creates a new account

@@ -1,12 +1,11 @@
 import { BN } from "ethereumjs-util";
 import { Common } from "web3-core";
 
-interface InterfaceTransaction {
-  to?: string;
-  data: string;
-}
+interface InterfaceTransaction {}
 
 interface InterfaceEthereumTransaction extends InterfaceTransaction {
+  to?: string;
+  data: string;
   from?: string | number;
   value?: number | string | BN;
   gas?: number | string;
@@ -21,15 +20,19 @@ interface InterfaceEthereumTransaction extends InterfaceTransaction {
 interface InterfaceVechainTransaction extends InterfaceTransaction {
   nonce: number;
   gas: number;
-  from: string;
   gasPriceCoef: number;
   chainTag: number;
   blockRef: string;
   expiration: number;
   dependsOn: string;
-  value: number;
-  clauses: [];
+  clauses: Array<VechainClause>;
 }
+
+type VechainClause = {
+  to: string;
+  value: number;
+  data: string;
+};
 
 interface InterfaceBinanceTransaction extends InterfaceTransaction {}
 

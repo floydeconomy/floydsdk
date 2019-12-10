@@ -13,6 +13,13 @@ import {
   InterfaceBinanceTransactionReceipt
 } from "./transaction/index";
 
+import {
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
+} from "./contract/index";
+
 export {
   InterfaceTransaction,
   InterfaceTransactionOptions,
@@ -25,5 +32,9 @@ export {
   InterfaceVechainTransactionReceipt,
   InterfaceBinanceTransaction,
   InterfaceBinanceTransactionOptions,
-  InterfaceBinanceTransactionReceipt
+  InterfaceBinanceTransactionReceipt,
+  InterfaceContract,
+  InterfaceContractOptions,
+  InterfaceContractReceipt,
+  InterfaceContractDeployOptions
 };

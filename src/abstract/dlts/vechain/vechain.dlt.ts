@@ -4,14 +4,12 @@ import {
   InterfaceVechainTransactionOptions,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionReceipt,
-  InterfaceContract,
-  InterfaceContractReceipt,
   InterfaceContractOptions,
   InterfaceContractDeployOptions
 } from "../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
 import Contract from "web3-eth-contract";
-import { HEX } from "../../../utils/constants/index";
+import { HEX, PREFIX } from "../../../utils/constants/index";
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -29,15 +27,20 @@ class Vechain extends AbstractDLT {
   /**
    * @inheritdoc
    * Current implementation only supports
-   *   nonce: number
+   *   nonce: default to 0
    *   from: string
-   *   gasPriceCoef: number
-   *   gas: number
+   *   gasPriceCoef: default to 128
+   *   gas: default to 21000
    *   amount: number
+   *   blockRef: default to 0x0000000000000000
+   *   dependsOn: default to null
+   *   expiration: default to 32
+   *   chainTag: default to 0x9a
+        // TODO: chainTag should also check provider
+           TODO: calculate estimatedGas
+           TODO: better default values should be used
    */
   public buildTransaction(
-    to: string,
-    message: string,
     options: InterfaceVechainTransactionOptions
   ): InterfaceVechainTransaction {
     if (options.nonce && options.nonce < 0) {
@@ -54,32 +57,44 @@ class Vechain extends AbstractDLT {
     }
 
     const transaction: InterfaceVechainTransaction = {
-      from: options.from,
-      to: to,
-      value: options.value,
-      gas: options.gas ? options.gas : 21000,
+      chainTag: options.chainTag ? options.chainTag : 0x9a,
+      blockRef: options.blockRef ? options.blockRef : "0x0000000000000000",
+      expiration: options.expiration ? options.expiration : 32,
+      clauses: options.clauses,
       gasPriceCoef: options.gasPrice ? options.gasPrice : 128,
-      data: this.provider.instance.utils.asciiToHex(message),
-      nonce: options.nonce ? options.nonce : 0,
-      clauses: [],
-      chainTag: 0x9a,
-      expiration: 32,
-      dependsOn: null,
-      blockRef: "0x0000000000000000"
+      gas: options.gas ? options.gas : 21000,
+      dependsOn: options.dependsOn ? options.dependsOn : null,
+      nonce: options.nonce ? options.nonce : 0
     };
     return transaction;
   }
 
   /**
-   * @inheritdoc
-   * // TODO: Remove Buffer as params instead use string
-   */
+    * @inheritdoc
+    * // TODO: write test for String
+         TODO: write test for Buffer
+    */
   public sendSignedTransaction(
-    signature: Buffer
+    signature: string | Buffer
   ): Promise<InterfaceVechainTransactionReceipt> {
+    // convert Buffer to string
+    var sig: string;
+    if (signature instanceof Buffer) {
+      sig = PREFIX + signature.toString(HEX);
+    }
+
+    // ensure signature starts with 0x
+    if (typeof signature === "string" && signature.startsWith(PREFIX, 0)) {
+      sig = signature;
+    } else {
+      throw new Error(
+        "[Vechain] The signature provided must be prefixed with " + PREFIX
+      );
+    }
+
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
-        .sendSignedTransaction("0x" + signature.toString("hex"))
+        .sendSignedTransaction(sig)
         .then(data => {
           const receipt: InterfaceVechainTransactionReceipt = {
             gasUsed: data.gasUsed,
@@ -104,7 +119,11 @@ class Vechain extends AbstractDLT {
     });
   }
 
-  /** @inheritdoc */
+  /**
+   * @inheritdoc
+   * // TODO: ensure that private is included in web3.wallet
+        TODO: receipt should be more descriptive
+   */
   public sendTransaction(
     transaction: InterfaceVechainTransaction
   ): Promise<InterfaceVechainTransactionReceipt> {
@@ -135,19 +154,23 @@ class Vechain extends AbstractDLT {
     });
   }
 
-  /**
-   * @inheritdoc
-   * // TODO: Remove Buffer as params instead use string
-   */
+  /** @inheritdoc */
   public signTransaction(
     transaction: InterfaceVechainTransaction,
-    pk: Buffer
-  ): Buffer {
+    pk: string | Buffer
+  ): string {
+    var originPriv: Buffer;
+    if (typeof pk === "string") {
+      originPriv = Buffer.from(pk, HEX);
+    }
+    if (pk instanceof Buffer) {
+      originPriv = pk;
+    }
     let body: Transaction.Body = transaction;
     let tx = new Transaction(body);
     let signingHash = cry.blake2b256(tx.encode());
-    tx.signature = cry.secp256k1.sign(signingHash, pk);
-    return tx.signature;
+    tx.signature = cry.secp256k1.sign(signingHash, originPriv);
+    return PREFIX + tx.encode().toString("hex");
   }
 
   /**
@@ -246,7 +269,7 @@ class Vechain extends AbstractDLT {
     const addr = cry.publicKeyToAddress(pubKey);
     return {
       privateKey: pk.toString(HEX),
-      address: "0x" + addr.toString(HEX)
+      address: PREFIX + addr.toString(HEX)
     };
   }
 
