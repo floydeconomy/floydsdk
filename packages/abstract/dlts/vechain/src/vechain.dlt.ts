@@ -1,15 +1,15 @@
-import AbstractDLT from "../dlt";
-import { TypeDLT, TypeAccount } from "../../../utils/types/index";
+import AbstractDLT from "../../dlt";
+import { TypeDLT, TypeAccount } from "../../../../utils/types/index";
 import {
   InterfaceVechainTransactionOptions,
   InterfaceVechainTransaction,
   InterfaceVechainTransactionReceipt,
   InterfaceContractOptions,
   InterfaceContractDeployOptions
-} from "../../../utils/interfaces";
+} from "../../../../utils/interfaces";
 import { cry, Transaction } from "thor-devkit";
-import Contract from "web3-eth-contract";
-import { HEX, PREFIX } from "../../../utils/constants/index";
+import { Contract } from "web3-eth-contract";
+import { HEX, PREFIX } from "../../../../utils/constants/index";
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -34,7 +34,7 @@ class Vechain extends AbstractDLT {
    *   amount: number
    *   blockRef: default to 0x0000000000000000
    *   dependsOn: default to null
-   *   expiration: default to 32
+   *   expiration: default to 18
    *   chainTag: default to 0x9a
         // TODO: chainTag should also check provider
            TODO: calculate estimatedGas
@@ -59,7 +59,7 @@ class Vechain extends AbstractDLT {
     const transaction: InterfaceVechainTransaction = {
       chainTag: options.chainTag ? options.chainTag : 0x9a,
       blockRef: options.blockRef ? options.blockRef : "0x0000000000000000",
-      expiration: options.expiration ? options.expiration : 32,
+      expiration: options.expiration ? options.expiration : 18,
       clauses: options.clauses,
       gasPriceCoef: options.gasPrice ? options.gasPrice : 128,
       gas: options.gas ? options.gas : 21000,
@@ -180,7 +180,7 @@ class Vechain extends AbstractDLT {
    * @param {InterfaceContractOptions} options
    * @return {Web3.eth.Contract}
    */
-  public createContract(options: InterfaceContractOptions): Contract.Contract {
+  public createContract(options: InterfaceContractOptions): Contract {
     if (options.jsonInterface.length < 1) {
       throw new Error("[Vechain] The ABI provided is invalid");
     }

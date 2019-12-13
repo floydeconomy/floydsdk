@@ -1,24 +1,19 @@
 {
-  "name": "floyd",
+  "name": "Ethereum",
   "version": "1.0.0",
   "description": "",
   "repository": {
     "url": "https://github.com/floydeconomy/floyd",
     "type": "git"
   },
-  "main": "src/core/index.ts",
+  "main": "index.ts",
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",
-    "test:coverage": "yarn test --coverage",
-    "clean": "lerna run clean",
-    "bootstrap": "lerna bootstrap",
-    "compile": "lerna run compile",
-    "lint": "lerna run lint",
-    "test": "lerna run test"
+    "test:ethereum": "jest 'test/abstract/dlts/ethereum/ethereum.dlt.spec.ts'",
+    "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
-    "@binance-chain/javascript-sdk": "^2.16.1",
     "@types/node": "^12.7.11",
     "typescript": "^3.6.3",
     "web3": "^1.2.2"
@@ -27,13 +22,8 @@
     "@types/jest": "^24.0.18",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
-    "ts-jest": "^24.1.0",
-    "lerna": "^3.19.0"
+    "ts-jest": "^24.1.0"
   },
-  "private": true,
-  "workspaces": [
-    "packages/abstract/dlts/*"
-  ],
   "jest": {
     "collectCoverageFrom": [
       "!**/src/**/*.ts"
