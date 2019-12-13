@@ -1,0 +1,22 @@
+{
+  "name": "@floyd/core",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/floydeconomy/floyd",
+    "type": "git"
+  },
+  "main": "index.ts",
+  "author": "lpfloyd",
+  "dependencies": {
+    "@floyd/utils": "^1.0.0",
+    "@floyd/vechain": "^1.0.0",
+    "@floyd/ethereum": "^1.0.0",
+    "@floyd/binance": "^1.0.0",
+    "@types/node": "^12.7.11",
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "yarn test --coverage"
+  }
+}
