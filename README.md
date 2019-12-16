@@ -18,6 +18,15 @@ Pipelined blockchains:
 - EOS [eos-js](https://github.com/EOSIO/eosjs)
 - Bitcoin [bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib)
 
+# Major Updates Information
+The current repository commit is undergoing a major overheal in terms of structure, whereby, we are modularising the repository so that it becomes a monorepo. This will allow developers to take advantage of various different libraries that we offer such.
+* @floyd/abstract
+* @floyd/core
+* @floyd utils
+* @floyd/vechain
+* @floyd/ethereum
+* @floyd/binance
+
 ## Getting Started
 
 ### Node
