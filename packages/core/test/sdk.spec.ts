@@ -23,7 +23,7 @@ describe("core", () => {
       } catch (e) {
         expect(e).toEqual(
           Error(
-            "[DLT] The DLT name provided is not valid, please add wrongdlt manually"
+            "[DLT] The DLT provided is not valid, please add wrongdlt manually"
           )
         );
       }

@@ -1,0 +1,17 @@
+{
+  "name": "@floyd/abstract",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/floydeconomy/floyd",
+    "type": "git"
+  },
+  "main": "index.ts",
+  "author": "lpfloyd",
+  "dependencies": {
+    "@floyd/core": "^1.0.0",
+    "@floyd/utils": "^1.0.0",
+    "@types/node": "^12.7.11",
+    "typescript": "^3.6.3",
+    "web3": "^1.2.2"
+  }
+}

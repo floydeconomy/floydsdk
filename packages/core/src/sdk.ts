@@ -47,12 +47,17 @@ class FloydSDK {
   private loadDLT(dltConfig: TypeDLT): AbstractDLT {
     const dltName = `${dltConfig.name}`;
     try {
-      const dlt = require(`@floyd/${dltName}`).default;
+      const dlt = require(`@floyd/${dltName}`);
       return new dlt(this, dltConfig);
     } catch (e) {
       if (e.code === "MODULE_NOT_FOUND") {
         throw new Error(
-          `[DLT] The DLT name provided is not valid, please add ${dltName} manually`
+          `[DLT]-[ModuleError] The DLT provided is not valid, add ${dltName} manually`
+        );
+      }
+      if (e instanceof TypeError) {
+        throw new Error(
+          `[DLT]-[TypeError] omething went wrong with the instantiation of the dlt.`
         );
       } else {
         throw e;

@@ -1,5 +1,4 @@
-import Ethereum from "./dlts/ethereum/src/ethereum.dlt";
-import Vechain from "./dlts/vechain/src/vechain.dlt";
-import Binance from "./dlts/binance/src/binance.dlt";
+import AbstractDLT from "./src/dlt";
+import AbstractProvider from "./src/provider";
 
-export { Ethereum, Vechain, Binance };
+export { AbstractDLT, AbstractProvider };

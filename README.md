@@ -19,13 +19,15 @@ Pipelined blockchains:
 - Bitcoin [bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib)
 
 # Major Updates Information
-The current repository commit is undergoing a major overheal in terms of structure, whereby, we are modularising the repository so that it becomes a monorepo. This will allow developers to take advantage of various different libraries that we offer such.
-* @floyd/abstract
-* @floyd/core
-* @floyd utils
-* @floyd/vechain
-* @floyd/ethereum
-* @floyd/binance
+
+The current repository commit is undergoing a major overheal in terms of structure, whereby, we are modularising the repository through lerna which allows us to create a monorepo structure. This will allow developers to take advantage of various different libraries that we offer such.
+
+- @floyd/abstract
+- @floyd/core
+- @floyd/utils
+- @floyd/vechain
+- @floyd/ethereum
+- @floyd/binance
 
 ## Getting Started
 
