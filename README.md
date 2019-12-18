@@ -29,6 +29,8 @@ The current repository commit is undergoing a major overheal in terms of structu
 - @floyd/ethereum
 - @floyd/binance
 
+Note, the introduction of the monorepo has broken most of the test implementation, hence, it recommended to use an older commit this we get this sorted out.
+
 ## Getting Started
 
 ### Node
