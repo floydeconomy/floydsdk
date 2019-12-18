@@ -18,7 +18,7 @@ Pipelined blockchains:
 - EOS [eos-js](https://github.com/EOSIO/eosjs)
 - Bitcoin [bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib)
 
-# Major Updates Information
+# Major Updates Information (VERY IMPORTANT)
 
 The current repository commit is undergoing a major overheal in terms of structure, whereby, we are modularising the repository through lerna which allows us to create a monorepo structure. This will allow developers to take advantage of various different libraries that we offer such.
 
@@ -29,7 +29,7 @@ The current repository commit is undergoing a major overheal in terms of structu
 - @floyd/ethereum
 - @floyd/binance
 
-Note, the introduction of the monorepo has broken most of the test implementation, hence, it recommended to use an older commit this we get this sorted out.
+Note, the introduction of the monorepo has broken most of the test implementation, hence, it recommended to use an older commit this we get this sorted out. Also, checkout branch lerna for latest update on monorepo structure.
 
 ## Getting Started
 
