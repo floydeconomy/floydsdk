@@ -19,6 +19,6 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm ci
-          npm run test:coverage
+          npm run lerna:test
         env:
           CI: true
