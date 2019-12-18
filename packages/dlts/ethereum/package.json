@@ -10,7 +10,6 @@
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",
-    "test:ethereum": "jest 'test/abstract/dlts/ethereum/ethereum.dlt.spec.ts'",
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
