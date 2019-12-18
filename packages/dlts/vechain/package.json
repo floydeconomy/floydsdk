@@ -13,7 +13,6 @@
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
-    "@floyd/core": "^1.0.0",
     "@floyd/utils": "^1.0.0",
     "@types/node": "^12.7.11",
     "thor-devkit": "^1.2.2",
