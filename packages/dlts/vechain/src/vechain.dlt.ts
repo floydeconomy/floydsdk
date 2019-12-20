@@ -1,8 +1,5 @@
 import { AbstractDLT } from "@floyd/abstract";
 import {
-  InterfaceVechainTransactionOptions,
-  InterfaceVechainTransaction,
-  InterfaceVechainTransactionReceipt,
   InterfaceContractOptions,
   InterfaceContractDeployOptions,
   TypeDLT,
@@ -12,6 +9,11 @@ import {
 } from "@floyd/utils";
 import { cry, Transaction } from "thor-devkit";
 import { Contract } from "web3-eth-contract";
+import {
+  IVechainTransactionOptions,
+  IVechainTransaction,
+  IVechainTransactionReceipt
+} from "../utils/interfaces";
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -30,26 +32,19 @@ class Vechain extends AbstractDLT {
    * @inheritdoc
    * Current implementation only supports
    *   nonce: default to 0
-   *   from: string
    *   gasPriceCoef: default to 128
    *   gas: default to 21000
-   *   amount: number
    *   blockRef: default to 0x0000000000000000
    *   dependsOn: default to null
    *   expiration: default to 18
    *   chainTag: default to 0x9a
-        // TODO: chainTag should also check provider
-           TODO: calculate estimatedGas
-           TODO: better default values should be used
+   *   clauses: default to []
    */
   public buildTransaction(
-    options: InterfaceVechainTransactionOptions
-  ): InterfaceVechainTransaction {
+    options: IVechainTransactionOptions
+  ): IVechainTransaction {
     if (options.nonce && options.nonce < 0) {
       throw new Error("[Vechain] The nonce provided is invalid");
-    }
-    if (options.value < 0) {
-      throw new Error("[Vechain] The amount provided is invalid");
     }
     if (options.gas <= 0) {
       throw new Error("[Vechain] The gas provided is invalid");
@@ -58,16 +53,20 @@ class Vechain extends AbstractDLT {
       throw new Error("[Vechain] The gasPriceCoef provided is invalid");
     }
 
-    const transaction: InterfaceVechainTransaction = {
+    // TODO: chainTag should also check provider
+    // TODO: calculate estimatedGas
+    // TODO: better default values should be used
+    const transaction: IVechainTransaction = {
       chainTag: options.chainTag ? options.chainTag : 0x9a,
       blockRef: options.blockRef ? options.blockRef : "0x0000000000000000",
       expiration: options.expiration ? options.expiration : 18,
-      clauses: options.clauses,
+      clauses: options.clauses ? options.clauses : [],
       gasPriceCoef: options.gasPrice ? options.gasPrice : 128,
       gas: options.gas ? options.gas : 21000,
       dependsOn: options.dependsOn ? options.dependsOn : null,
       nonce: options.nonce ? options.nonce : 0
     };
+
     return transaction;
   }
 
@@ -78,7 +77,7 @@ class Vechain extends AbstractDLT {
     */
   public sendSignedTransaction(
     signature: string | Buffer
-  ): Promise<InterfaceVechainTransactionReceipt> {
+  ): Promise<IVechainTransactionReceipt> {
     // convert Buffer to string
     var sig: string;
     if (signature instanceof Buffer) {
@@ -98,7 +97,7 @@ class Vechain extends AbstractDLT {
       this.provider.instance.eth
         .sendSignedTransaction(sig)
         .then(data => {
-          const receipt: InterfaceVechainTransactionReceipt = {
+          const receipt: IVechainTransactionReceipt = {
             gasUsed: data.gasUsed,
             blockHash: data.blockHash,
             blockNumber: data.blockNumber,
@@ -127,13 +126,13 @@ class Vechain extends AbstractDLT {
         TODO: receipt should be more descriptive
    */
   public sendTransaction(
-    transaction: InterfaceVechainTransaction
-  ): Promise<InterfaceVechainTransactionReceipt> {
+    transaction: IVechainTransaction
+  ): Promise<IVechainTransactionReceipt> {
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
         .sendTransaction(transaction)
         .then(data => {
-          const receipt: InterfaceVechainTransactionReceipt = {
+          const receipt: IVechainTransactionReceipt = {
             gasUsed: data.gasUsed,
             blockHash: data.blockHash,
             blockNumber: data.blockNumber,
@@ -158,7 +157,7 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public signTransaction(
-    transaction: InterfaceVechainTransaction,
+    transaction: IVechainTransaction,
     pk: string | Buffer
   ): string {
     var originPriv: Buffer;
@@ -182,20 +181,20 @@ class Vechain extends AbstractDLT {
    * @param {InterfaceContractOptions} options
    * @return {Web3.eth.Contract}
    */
-  public createContract(options: InterfaceContractOptions): Contract {
-    if (options.jsonInterface.length < 1) {
-      throw new Error("[Vechain] The ABI provided is invalid");
-    }
-    try {
-      const contract = new this.provider.instance.eth.Contract(
-        options.jsonInterface,
-        options.address,
-        options.options
-      );
-      return contract;
-    } catch {
-      throw new Error("[Vechain] Something went wrong with contract creation");
-    }
+  public createContract(options: InterfaceContractOptions): any {
+    // if (options.jsonInterface.length < 1) {
+    //   throw new Error("[Vechain] The ABI provided is invalid");
+    // }
+    // try {
+    //   const contract = new this.provider.instance.eth.Contract(
+    //     options.jsonInterface,
+    //     options.address,
+    //     options.options
+    //   );
+    //   return contract;
+    // } catch {
+    //   throw new Error("[Vechain] Something went wrong with contract creation");
+    // }
   }
 
   /**

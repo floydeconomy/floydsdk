@@ -63,5 +63,11 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": ["src/**/*"],
-  "exclude": ["package.json", "node_modules", "**/*.spec.ts", "jest.config.js"]
+  "exclude": [
+    "package.json",
+    "node_modules",
+    "**/*.spec.ts",
+    "jest.config.js",
+    "__tests__/**/*"
+  ]
 }
