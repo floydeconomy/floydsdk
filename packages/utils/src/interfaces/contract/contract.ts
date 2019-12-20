@@ -14,6 +14,13 @@ interface InterfaceContract {
 
 interface InterfaceContractReceipt {}
 
+interface InterfaceContractDeployOptions {
+  contract: any;
+  data?: string;
+  fromAddress?: string;
+  args?: Array<any>;
+}
+
 export {
   InterfaceContract,
   InterfaceContractOptions,

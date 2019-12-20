@@ -1,11 +1,13 @@
 import {
   InterfaceContract,
   InterfaceContractReceipt,
-  InterfaceContractOptions
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 } from "./contract";
 
 export {
   InterfaceContract,
   InterfaceContractReceipt,
-  InterfaceContractOptions
+  InterfaceContractOptions,
+  InterfaceContractDeployOptions
 };

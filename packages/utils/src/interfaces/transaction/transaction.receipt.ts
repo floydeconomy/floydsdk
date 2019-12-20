@@ -3,27 +3,6 @@ interface InterfaceTransactionReceipt {}
 interface InterfaceBinanceTransactionReceipt
   extends InterfaceTransactionReceipt {}
 
-interface InterfaceVechainTransactionReceipt
-  extends InterfaceTransactionReceipt {
-  gasUsed: number;
-  gasPayer?: string;
-  paid?: string;
-  reward?: string;
-  reverted?: boolean;
-  meta?: Object;
-  outputs?: Array<Object>;
-  blockNumber: number;
-  blockHash: string;
-  transactionHash: string;
-  status: boolean;
-  transactionIndex: number;
-  logsBloom?: string;
-  from: string;
-  to: string;
-  logs?: [];
-  cumulativeGasUsed?: number;
-}
-
 interface InterfaceEthereumTransactionReceipt
   extends InterfaceTransactionReceipt {
   status: boolean;
@@ -43,6 +22,5 @@ interface InterfaceEthereumTransactionReceipt
 export {
   InterfaceTransactionReceipt,
   InterfaceEthereumTransactionReceipt,
-  InterfaceVechainTransactionReceipt,
   InterfaceBinanceTransactionReceipt
 };

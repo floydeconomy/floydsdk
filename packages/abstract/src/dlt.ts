@@ -50,11 +50,10 @@ abstract class AbstractDLT {
    * @param {provider} TypeProvider
    * @return {AbstractProvider}
    */
-  public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
+  public loadProvider(name: string, options: TypeProvider): AbstractProvider {
     try {
-      const dltprovider = require(`../../abstract/dlts/${name}/${name}.provider`)
-        .default;
-      return new dltprovider(provider);
+      const { provider } = require(`@floyd/${name}`);
+      return new provider(options);
     } catch (e) {
       if (e.code === "MODULE_NOT_FOUND") {
         throw new Error(
