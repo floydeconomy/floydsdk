@@ -1,5 +1,5 @@
 import { TypeAccount } from "@floyd/utils";
-
+import { IVechainTransaction } from "./interfaces";
 // Transaction Helpers
 export const MOCKRECEIPT = {
   gasUsed: 66846,
@@ -49,6 +49,16 @@ export const MOCKRECEIPT = {
 };
 export const MOCKSIGNATURE =
   "0xf86b819a8012d8d7947f4ab4b4b6a5c270c62997835baba027dde1ccb00a8081808252088083bc614ec0b841f688310efb2f7e3bc9e7967d127fab4b36906e8fafbbcc766704022819b6970d5df5f9393e2685f46fbacf04a6f923eaf05fe98ae47a27f8f4da008e660370ce01";
+export const MOCKTRANSACTION: IVechainTransaction = {
+  nonce: 12345678,
+  gasPriceCoef: 128,
+  gas: 21000,
+  clauses: [],
+  chainTag: 0x9a,
+  blockRef: "0x0000000000000000",
+  expiration: 18,
+  dependsOn: null
+};
 
 // Vechain accounts Helpers
 export const ALICE: TypeAccount = {

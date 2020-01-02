@@ -8,7 +8,6 @@ import {
   PREFIX
 } from "@floyd/utils";
 import { cry, Transaction } from "thor-devkit";
-import { Contract } from "web3-eth-contract";
 import {
   IVechainTransactionOptions,
   IVechainTransaction,
@@ -31,15 +30,17 @@ class Vechain extends AbstractDLT {
 
   /**
    * @inheritdoc
-   * Current implementation only supports
-   *   nonce: default to 0
-   *   gasPriceCoef: default to 128
-   *   gas: default to 21000
-   *   blockRef: default to 0x0000000000000000
-   *   dependsOn: default to null
-   *   expiration: default to 18
-   *   chainTag: default to 0x9a
-   *   clauses: default to []
+   *
+   * Current implementation supports
+   *   - nonce: default to 0
+   *   - gasPriceCoef: default to 128
+   *   - gas: default to 21000
+   *   - blockRef: default to 0x0000000000000000
+   *   - dependsOn: default to null
+   *   - expiration: default to 18
+   *   - chainTag: default to 0x9a
+   *   - clauses: default to []
+   *
    */
   public buildTransaction(
     options: IVechainTransactionOptions
@@ -71,11 +72,7 @@ class Vechain extends AbstractDLT {
     return transaction;
   }
 
-  /**
-    * @inheritdoc
-    * // TODO: write test for String
-         TODO: write test for Buffer
-    */
+  /** @inheritdoc */
   public sendSignedTransaction(
     signature: string
   ): Promise<IVechainTransactionReceipt> {
@@ -107,7 +104,6 @@ class Vechain extends AbstractDLT {
   /**
    * @inheritdoc
    * // TODO: ensure that private is included in web3.wallet
-        TODO: receipt should be more descriptive
    */
   public sendTransaction(
     transaction: IVechainTransaction

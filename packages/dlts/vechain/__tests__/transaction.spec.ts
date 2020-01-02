@@ -1,19 +1,19 @@
 import Vechain from "../src/vechain.dlt";
 import FloydSDK from "@floyd/core";
-import {
-  InterfaceContract,
-  InterfaceContractOptions,
-  InterfaceContractReceipt,
-  InterfaceContractDeployOptions,
-  HEX
-} from "@floyd/utils";
+import { HEX } from "@floyd/utils";
 import "jest-extended";
 import {
   IVechainTransaction,
   IVechainTransactionOptions,
   IVechainTransactionReceipt
 } from "../utils/interfaces";
-import { ALICE, BOB, MOCKRECEIPT, MOCKSIGNATURE } from "../utils/helpers";
+import {
+  ALICE,
+  BOB,
+  MOCKRECEIPT,
+  MOCKSIGNATURE,
+  MOCKTRANSACTION
+} from "../utils/helpers";
 
 // let intialiseTest = (dlt: string) => {
 //   const dltOptions = {
@@ -50,7 +50,6 @@ describe("transactions", () => {
     sdk = new FloydSDK(options);
     vechain = new Vechain(sdk, vechainDLTOptions);
   });
-
   describe("buildTransaction", () => {
     test("should build a vechain transaction", () => {
       const options: IVechainTransactionOptions = {
@@ -85,9 +84,7 @@ describe("transactions", () => {
         gasPrice: 128,
         gas: 21000
       };
-
       const transaction = vechain.buildTransaction(options);
-
       expect(transaction.chainTag).toBe(0x9a);
       expect(transaction.blockRef).toBe("0x0000000000000000");
       expect(transaction.expiration).toBe(18);
@@ -263,58 +260,49 @@ describe("transactions", () => {
         });
     });
   });
-  // describe("sendTransaction", () => {
-  //   let transaction;
-  //   beforeEach(() => {
-  //     transaction = {
-  //       gasPrice: "20000000000",
-  //       gas: "21000",
-  //       to: "0x3535353535353535353535353535353535353535",
-  //       value: "1000000000000000000",
-  //       data: "",
-  //       nonce: 0x0
-  //     };
-  //     vechain = new Vechain(sdk, vechainDLTOptions);
-  //   });
-  //
-  //   test("should fail if something goes wrong", async () => {
-  //     const mockSendSignedTransaction = jest
-  //       .fn(vechain.provider.instance.eth.sendTransaction)
-  //       .mockRejectedValue(new Error());
-  //
-  //     vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
-  //
-  //     vechain.sendTransaction(transaction).catch(err => {
-  //       expect(err).toStrictEqual(
-  //         new Error(
-  //           "[Vechain] Something went wrong when sending the transaction."
-  //         )
-  //       );
-  //     });
-  //   });
-  //
-  //   test("should return a transaction receipt", async () => {
-  //     const mockSendSignedTransaction = jest
-  //       .fn(vechain.provider.instance.eth.sendTransaction)
-  //       .mockResolvedValue(receipt1);
-  //
-  //     vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
-  //
-  //     vechain.sendTransaction(transaction).then(receipt => {
-  //       expect(receipt.status).toBe(true);
-  //       expect(receipt.transactionHash).toBe(
-  //         "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
-  //       );
-  //       expect(receipt.transactionIndex).toBe(0x123);
-  //       expect(receipt.blockHash).toBe(
-  //         "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86"
-  //       );
-  //       expect(receipt.blockNumber).toBe(2257);
-  //       expect(receipt.cumulativeGasUsed).toBe(0x9);
-  //       expect(receipt.gasUsed).toBe(66846);
-  //       expect(receipt.from).toBe("");
-  //       expect(receipt.to).toBe("");
-  //     });
-  //   });
-  // });
+  describe("sendTransaction", () => {
+    test("should fail if something goes wrong", async () => {
+      const mockSendSignedTransaction = jest
+        .fn(vechain.provider.instance.eth.sendTransaction)
+        .mockRejectedValue(new Error());
+      vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
+      vechain.sendTransaction(MOCKTRANSACTION).catch(err => {
+        expect(err).toStrictEqual(
+          new Error(
+            "[Vechain] Something went wrong when sending the transaction."
+          )
+        );
+      });
+    });
+    test("should return a transaction receipt", async () => {
+      const mockSendSignedTransaction = jest
+        .fn(vechain.provider.instance.eth.sendTransaction)
+        // @ts-ignore
+        .mockResolvedValue(MOCKRECEIPT);
+
+      vechain.provider.instance.eth.sendTransaction = mockSendSignedTransaction;
+
+      vechain.sendTransaction(MOCKTRANSACTION).then(receipt => {
+        expect(receipt.reward).toBe("0x1164d68d9b4ba8000");
+        expect(receipt.reverted).toBe(false);
+        expect(receipt.paid).toBe("0x39facb2d5afc30000");
+        expect(receipt.gasPayer).toBe(
+          "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e"
+        );
+        expect(receipt.gasUsed).toBe(66846);
+        expect(receipt.meta).toBeObject();
+        expect(receipt.outputs).toBeArray();
+        expect(receipt.status).toBe(true);
+        expect(receipt.transactionHash).toBe(
+          "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
+        );
+        expect(receipt.blockHash).toBe(
+          "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86"
+        );
+        expect(receipt.blockNumber).toBe(2257);
+        expect(receipt.gasUsed).toBe(66846);
+        expect(receipt.status).toBe("0x1");
+      });
+    });
+  });
 });
