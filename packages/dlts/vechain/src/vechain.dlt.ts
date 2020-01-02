@@ -14,6 +14,7 @@ import {
   IVechainTransaction,
   IVechainTransactionReceipt
 } from "../utils/interfaces";
+import { transactionReceiptFormatter } from "../utils/formatters";
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -76,39 +77,22 @@ class Vechain extends AbstractDLT {
          TODO: write test for Buffer
     */
   public sendSignedTransaction(
-    signature: string | Buffer
+    signature: string
   ): Promise<IVechainTransactionReceipt> {
-    // convert Buffer to string
-    var sig: string;
-    if (signature instanceof Buffer) {
-      sig = PREFIX + signature.toString(HEX);
-    }
-
-    // ensure signature starts with 0x
-    if (typeof signature === "string" && signature.startsWith(PREFIX, 0)) {
-      sig = signature;
-    } else {
-      throw new Error(
-        "[Vechain] The signature provided must be prefixed with " + PREFIX
-      );
-    }
-
     return new Promise((resolve, reject) => {
+      // ensure signature starts with 0x
+      if (!signature.startsWith(PREFIX, 0)) {
+        return reject(
+          new Error(
+            "[Vechain] The signature provided must be prefixed with " + PREFIX
+          )
+        );
+      }
+
       this.provider.instance.eth
-        .sendSignedTransaction(sig)
-        .then(data => {
-          const receipt: IVechainTransactionReceipt = {
-            gasUsed: data.gasUsed,
-            blockHash: data.blockHash,
-            blockNumber: data.blockNumber,
-            status: data.status,
-            cumulativeGasUsed: data.cumulativeGasUsed,
-            from: data.from,
-            to: data.to,
-            transactionHash: data.transactionHash,
-            transactionIndex: data.transactionIndex
-          };
-          return resolve(receipt);
+        .sendSignedTransaction(signature)
+        .then(receipt => {
+          return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
           return reject(
@@ -131,19 +115,8 @@ class Vechain extends AbstractDLT {
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
         .sendTransaction(transaction)
-        .then(data => {
-          const receipt: IVechainTransactionReceipt = {
-            gasUsed: data.gasUsed,
-            blockHash: data.blockHash,
-            blockNumber: data.blockNumber,
-            status: data.status,
-            cumulativeGasUsed: data.cumulativeGasUsed,
-            from: data.from,
-            to: data.to,
-            transactionHash: data.transactionHash,
-            transactionIndex: data.transactionIndex
-          };
-          return resolve(receipt);
+        .then(receipt => {
+          return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
           return reject(
@@ -171,7 +144,7 @@ class Vechain extends AbstractDLT {
     let tx = new Transaction(body);
     let signingHash = cry.blake2b256(tx.encode());
     tx.signature = cry.secp256k1.sign(signingHash, originPriv);
-    return PREFIX + tx.encode().toString("hex");
+    return PREFIX + tx.encode().toString(HEX);
   }
 
   /**

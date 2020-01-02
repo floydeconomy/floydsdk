@@ -1,24 +1,19 @@
 import Vechain from "../src/vechain.dlt";
-import VechainProvider from "../src/vechain.provider";
 import FloydSDK from "@floyd/core";
 import {
   InterfaceContract,
   InterfaceContractOptions,
   InterfaceContractReceipt,
   InterfaceContractDeployOptions,
-  TypeDLT,
-  TypeAccount
+  HEX
 } from "@floyd/utils";
-import { cry } from "thor-devkit";
 import "jest-extended";
 import {
   IVechainTransaction,
   IVechainTransactionOptions,
-  IVechainTransactionReceipt,
-  Clause
+  IVechainTransactionReceipt
 } from "../utils/interfaces";
-
-import { alice } from "../utils/address";
+import { ALICE, BOB, MOCKRECEIPT, MOCKSIGNATURE } from "../utils/helpers";
 
 // let intialiseTest = (dlt: string) => {
 //   const dltOptions = {
@@ -39,59 +34,6 @@ import { alice } from "../utils/address";
 //     vechain = new Vechain(sdk, dltOptions);
 //   });
 // };
-const vechainTransactionReceipt = {
-  gasUsed: 66846,
-  gasPayer: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e",
-  paid: "0x39facb2d5afc30000",
-  reward: "0x1164d68d9b4ba8000",
-  reverted: false,
-  meta: {
-    blockID:
-      "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-    blockNumber: 2257,
-    blockTimestamp: 1528451320,
-    txID: "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-    txOrigin: "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e"
-  },
-  outputs: [
-    {
-      contractAddress: null,
-      events: [
-        {
-          address: "0x0000000000000000000000000000456E65726779",
-          topics: [Array],
-          data:
-            "0x00000000000000000000000000000000000000000000010f0cf064dd59200000"
-        }
-      ],
-      transfers: []
-    },
-    {
-      contractAddress: null,
-      events: [],
-      transfers: [
-        {
-          sender: "0x4f6fc409e152d33843cf4982d414c1dd0879277e",
-          recipient: "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed",
-          amount: "0x10f0cf064dd59200000"
-        }
-      ]
-    }
-  ],
-  blockNumber: 2257,
-  blockHash:
-    "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86",
-  transactionHash:
-    "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490",
-  status: true,
-  transactionIndex: 0x123,
-  logsBloom: "",
-  from: "",
-  to: "",
-  logs: [],
-  cumulativeGasUsed: 0x9
-};
-
 describe("transactions", () => {
   const vechainDLTOptions = {
     name: "vechain",
@@ -99,7 +41,6 @@ describe("transactions", () => {
       uri: "http://localhost:4444"
     }
   };
-
   let sdk: FloydSDK;
   let vechain: Vechain;
   beforeEach(() => {
@@ -118,7 +59,7 @@ describe("transactions", () => {
         gas: 21000,
         clauses: [
           {
-            to: alice.address,
+            to: ALICE.address,
             value: 10,
             data: "0x"
           }
@@ -131,7 +72,7 @@ describe("transactions", () => {
       expect(transaction.gas).toBe(21000);
       expect(transaction.clauses).toStrictEqual([
         {
-          to: alice.address,
+          to: ALICE.address,
           value: 10,
           data: "0x"
         }
@@ -220,111 +161,108 @@ describe("transactions", () => {
       });
     });
   });
+  describe("signTransaction", () => {
+    test("should sign the transaction using string PK", () => {
+      const options: IVechainTransactionOptions = {
+        nonce: 12345678,
+        gasPrice: 128,
+        gas: 21000,
+        clauses: [
+          {
+            to: ALICE.address,
+            value: 10,
+            data: "0x"
+          }
+        ]
+      };
+      const transaction = vechain.buildTransaction(options);
+      const signature = vechain.signTransaction(transaction, BOB.privateKey);
+      expect(signature).toBeString();
+      expect(signature).toStartWith("0x");
+      expect(signature).toBe(
+        "0xf86b819a8012d8d7947f4ab4b4b6a5c270c62997835baba027dde1ccb00a8081808252088083bc614ec0b841f688310efb2f7e3bc9e7967d127fab4b36906e8fafbbcc766704022819b6970d5df5f9393e2685f46fbacf04a6f923eaf05fe98ae47a27f8f4da008e660370ce01"
+      );
+    });
+    test("should sign the transaction using Buffer PK", () => {
+      const options: IVechainTransactionOptions = {
+        nonce: 12345678,
+        gasPrice: 128,
+        gas: 21000,
+        clauses: [
+          {
+            to: ALICE.address,
+            value: 10,
+            data: "0x"
+          }
+        ]
+      };
+      const transaction = vechain.buildTransaction(options);
+      const signature = vechain.signTransaction(
+        transaction,
+        Buffer.from(BOB.privateKey, HEX)
+      );
+      expect(signature).toBeString();
+      expect(signature).toBe(
+        "0xf86b819a8012d8d7947f4ab4b4b6a5c270c62997835baba027dde1ccb00a8081808252088083bc614ec0b841f688310efb2f7e3bc9e7967d127fab4b36906e8fafbbcc766704022819b6970d5df5f9393e2685f46fbacf04a6f923eaf05fe98ae47a27f8f4da008e660370ce01"
+      );
+    });
+  });
+  describe("sendSignedTransaction", () => {
+    test("should throw error if 0x is not prefixed", () => {
+      vechain.sendSignedTransaction(MOCKSIGNATURE.slice(2)).catch(err => {
+        expect(err).toStrictEqual(
+          new Error("[Vechain] The signature provided must be prefixed with 0x")
+        );
+      });
+    });
+    test("should throw error if something goes wrong", async () => {
+      const mockSendSignedTransaction = jest
+        .fn(vechain.provider.instance.eth.sendSignedTransaction)
+        .mockRejectedValue(new Error());
 
-  //
-  // describe("signTransaction", () => {
-  //   let toAddress;
-  //   let fromAddress;
-  //   beforeEach(() => {
-  //     toAddress = cry.publicKeyToAddress(
-  //       cry.secp256k1.derivePublicKey(cry.secp256k1.generatePrivateKey())
-  //     );
-  //     fromAddress = cry.secp256k1.generatePrivateKey();
-  //   });
-  //
-  //   test("should sign the transaction", () => {
-  //     const options: InterfaceVechainTransactionOptions = {
-  //       nonce: 12345678,
-  //       value: 21000,
-  //       from: fromAddress.toString("hex"),
-  //       gasPrice: 128,
-  //       gas: 21000
-  //     };
-  //
-  //     const transaction = vechain.buildTransaction(toAddress, "", options);
-  //     const signature = vechain.signTransaction(transaction, fromAddress);
-  //     expect(signature).toBeInstanceOf(Buffer);
-  //   });
-  //
-  //   // test("should throw error if invalid private key format", () => {
-  //   //   const options: InterfaceVechainTransactionOptions = {
-  //   //     nonce: 12345678,
-  //   //     amount: 21000,
-  //   //     from: fromAddress.toString("hex"),
-  //   //     gasPriceCoef: 128,
-  //   //     gas: 21000
-  //   //   };
-  //   //   const privatekey = cry.keccak256(Buffer.alloc(0));
-  //   //   const transaction = vechain.buildTransaction(toAddress, "", options);
-  //   //   expect(() => {
-  //   //     vechain.signTransaction(transaction, privatekey);
-  //   //   }).toThrowError(new Error("[Vechain] Private key provided is invalid"));
-  //   // });
-  // });
-  //
-  // describe("sendSignedTransaction", () => {
-  //   let signature;
-  //   let transaction;
-  //   beforeEach(() => {
-  //     let fromAddress = Buffer.from(
-  //       "e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109",
-  //       "hex"
-  //     );
-  //
-  //     const options: InterfaceVechainTransactionOptions = {
-  //       nonce: 12345678,
-  //       value: 21000,
-  //       from: fromAddress.toString("hex"),
-  //       gasPrice: 128,
-  //       gas: 21000
-  //     };
-  //
-  //     transaction = vechain.buildTransaction(toAddress, "", options);
-  //     signature = vechain.signTransaction(transaction, fromAddress);
-  //     vechain = new Vechain(sdk, vechainDLTOptions);
-  //   });
-  //
-  //   test("should fail if something goes wrong", async () => {
-  //     const mockSendSignedTransaction = jest
-  //       .fn(vechain.provider.instance.eth.sendSignedTransaction)
-  //       .mockRejectedValue(new Error());
-  //
-  //     vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
-  //
-  //     vechain.sendSignedTransaction(signature).catch(err => {
-  //       expect(err).toStrictEqual(
-  //         new Error(
-  //           "[Vechain] Something went wrong when sending the signed transaction."
-  //         )
-  //       );
-  //     });
-  //   });
-  //
-  //   test("should return a transaction receipt", async () => {
-  //     const mockSendSignedTransaction = jest
-  //       .fn(vechain.provider.instance.eth.sendSignedTransaction)
-  //       .mockResolvedValue(receipt1);
-  //
-  //     vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
-  //
-  //     vechain.sendSignedTransaction(signature).then(receipt => {
-  //       expect(receipt.status).toBe(true);
-  //       expect(receipt.transactionHash).toBe(
-  //         "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
-  //       );
-  //       expect(receipt.transactionIndex).toBe(0x123);
-  //       expect(receipt.blockHash).toBe(
-  //         "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86"
-  //       );
-  //       expect(receipt.blockNumber).toBe(2257);
-  //       expect(receipt.cumulativeGasUsed).toBe(0x9);
-  //       expect(receipt.gasUsed).toBe(66846);
-  //       expect(receipt.from).toBe("");
-  //       expect(receipt.to).toBe("");
-  //     });
-  //   });
-  // });
-  //
+      vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
+
+      vechain.sendSignedTransaction(MOCKSIGNATURE).catch(err => {
+        expect(err).toStrictEqual(
+          new Error(
+            "[Vechain] Something went wrong when sending the signed transaction."
+          )
+        );
+      });
+    });
+    test("should return a transaction receipt", async () => {
+      const mockSendSignedTransaction = jest
+        .fn(vechain.provider.instance.eth.sendSignedTransaction)
+        // @ts-ignore
+        .mockResolvedValue(MOCKRECEIPT);
+
+      vechain.provider.instance.eth.sendSignedTransaction = mockSendSignedTransaction;
+
+      vechain
+        .sendSignedTransaction(MOCKSIGNATURE)
+        .then((receipt: IVechainTransactionReceipt) => {
+          expect(receipt.reward).toBe("0x1164d68d9b4ba8000");
+          expect(receipt.reverted).toBe(false);
+          expect(receipt.paid).toBe("0x39facb2d5afc30000");
+          expect(receipt.gasPayer).toBe(
+            "0x4f6FC409e152D33843Cf4982d414C1Dd0879277e"
+          );
+          expect(receipt.gasUsed).toBe(66846);
+          expect(receipt.meta).toBeObject();
+          expect(receipt.outputs).toBeArray();
+          expect(receipt.status).toBe(true);
+          expect(receipt.transactionHash).toBe(
+            "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
+          );
+          expect(receipt.blockHash).toBe(
+            "0x000008d168c7d5ca180a0f5cf0aba148982b9d5bed263ee8bdc94e6863962a86"
+          );
+          expect(receipt.blockNumber).toBe(2257);
+          expect(receipt.gasUsed).toBe(66846);
+          expect(receipt.status).toBe("0x1");
+        });
+    });
+  });
   // describe("sendTransaction", () => {
   //   let transaction;
   //   beforeEach(() => {

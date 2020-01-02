@@ -4,6 +4,8 @@ import {
   InterfaceTransaction
 } from "@floyd/utils";
 
+import { Clause, MetaReceipt, OutputReceipt } from "./types";
+
 export interface IVechainTransactionOptions
   extends InterfaceTransactionOptions {
   blockRef?: string;
@@ -16,22 +18,16 @@ export interface IVechainTransactionOptions
 export interface IVechainTransactionReceipt
   extends InterfaceTransactionReceipt {
   gasUsed: number;
-  gasPayer?: string;
-  paid?: string;
-  reward?: string;
-  reverted?: boolean;
-  meta?: Object;
-  outputs?: Array<Object>;
+  gasPayer: string;
+  paid: string;
+  reward: string;
+  reverted: boolean;
+  meta: MetaReceipt;
+  outputs: Array<OutputReceipt>;
   blockNumber: number;
   blockHash: string;
   transactionHash: string;
-  status: boolean;
-  transactionIndex: number;
-  logsBloom?: string;
-  from: string;
-  to: string;
-  logs?: [];
-  cumulativeGasUsed?: number;
+  status: string;
 }
 
 export interface IVechainTransaction extends InterfaceTransaction {
@@ -44,9 +40,3 @@ export interface IVechainTransaction extends InterfaceTransaction {
   dependsOn: string;
   clauses: Array<Clause>;
 }
-
-export type Clause = {
-  to: string;
-  value: number;
-  data: string;
-};
