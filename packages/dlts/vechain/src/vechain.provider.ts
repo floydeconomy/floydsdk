@@ -1,5 +1,5 @@
 import { AbstractProvider } from "@floyd/abstract";
-import { TypeProvider } from "@floyd/utils";
+import { TypeProvider } from "@floyd/types";
 import Web3 from "web3";
 import { thorify } from "thorify";
 

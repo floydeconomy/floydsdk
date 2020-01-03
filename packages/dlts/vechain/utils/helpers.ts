@@ -1,5 +1,6 @@
-import { TypeAccount } from "@floyd/utils";
+import { TypeAccount } from "@floyd/types";
 import { IVechainTransaction } from "./interfaces";
+
 // Transaction Helpers
 export const MOCKRECEIPT = {
   gasUsed: 66846,

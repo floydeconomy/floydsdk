@@ -1,12 +1,7 @@
 import { AbstractDLT } from "@floyd/abstract";
-import {
-  InterfaceContractOptions,
-  InterfaceContractDeployOptions,
-  TypeDLT,
-  TypeAccount,
-  HEX,
-  PREFIX
-} from "@floyd/utils";
+import { HEX, PREFIX } from "@floyd/utils";
+import { TypeDLT, TypeAccount } from "@floyd/types";
+import { IContractOptions, IContractDeployOptions } from "@floyd/interfaces";
 import { cry, Transaction } from "thor-devkit";
 import {
   IVechainTransactionOptions,
@@ -21,7 +16,7 @@ class Vechain extends AbstractDLT {
   name: string = "Vechain";
 
   /** @inheritdoc */
-  symbol: string = "vet";
+  symbol: string = "VET";
 
   /** @inheritdoc */
   constructor(sdk: any, options: TypeDLT) {
@@ -57,7 +52,6 @@ class Vechain extends AbstractDLT {
 
     // TODO: chainTag should also check provider
     // TODO: calculate estimatedGas
-    // TODO: better default values should be used
     const transaction: IVechainTransaction = {
       chainTag: options.chainTag ? options.chainTag : 0x9a,
       blockRef: options.blockRef ? options.blockRef : "0x0000000000000000",
@@ -150,7 +144,7 @@ class Vechain extends AbstractDLT {
    * @param {InterfaceContractOptions} options
    * @return {Web3.eth.Contract}
    */
-  public createContract(options: InterfaceContractOptions): any {
+  public createContract(options: IContractOptions): any {
     // if (options.jsonInterface.length < 1) {
     //   throw new Error("[Vechain] The ABI provided is invalid");
     // }
@@ -174,7 +168,7 @@ class Vechain extends AbstractDLT {
    * // TODO: remove defaults
    * // TODO: ensure that the fromAddress is in the web3 memory
    */
-  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
+  public deployContract(args: IContractDeployOptions): Promise<any> {
     if (args.data == undefined && args.contract.options.data == undefined) {
       throw new Error("[Vechain] Contract Data has not been provided");
     }

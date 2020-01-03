@@ -1,0 +1,14 @@
+{
+  "name": "@floyd/interfaces",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/floydeconomy/floyd",
+    "type": "git"
+  },
+  "main": "index.ts",
+  "author": "lpfloyd",
+  "dependencies": {
+    "@types/node": "^12.7.11",
+    "typescript": "^3.6.3"
+  }
+}

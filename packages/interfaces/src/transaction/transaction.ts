@@ -1,9 +1,9 @@
 import { BN } from "ethereumjs-util";
 import { Common } from "web3-core";
 
-interface InterfaceTransaction {}
+interface ITransaction {}
 
-interface InterfaceEthereumTransaction extends InterfaceTransaction {
+interface IEthereumTransaction extends ITransaction {
   to?: string;
   data: string;
   from?: string | number;
@@ -17,10 +17,6 @@ interface InterfaceEthereumTransaction extends InterfaceTransaction {
   hardfork?: string;
 }
 
-interface InterfaceBinanceTransaction extends InterfaceTransaction {}
+interface IBinanceTransaction extends ITransaction {}
 
-export {
-  InterfaceTransaction,
-  InterfaceEthereumTransaction,
-  InterfaceBinanceTransaction
-};
+export { ITransaction, IEthereumTransaction, IBinanceTransaction };

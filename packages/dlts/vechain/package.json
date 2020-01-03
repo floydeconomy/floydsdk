@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@floyd/utils": "^1.0.0",
+    "@floyd/interfaces": "^1.0.0",
+    "@floyd/types": "^1.0.0",
     "@types/node": "^12.7.11",
     "thor-devkit": "^1.2.2",
     "thorify": "^1.4.0",

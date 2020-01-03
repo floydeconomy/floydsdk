@@ -1,13 +1,12 @@
 import {
-  InterfaceTransactionOptions,
-  InterfaceTransactionReceipt,
-  InterfaceTransaction
-} from "@floyd/utils";
+  ITransactionOptions,
+  ITransactionReceipt,
+  ITransaction
+} from "@floyd/interfaces";
 
 import { Clause, MetaReceipt, OutputReceipt } from "./types";
 
-export interface IVechainTransactionOptions
-  extends InterfaceTransactionOptions {
+interface IVechainTransactionOptions extends ITransactionOptions {
   blockRef?: string;
   expiration?: number;
   dependsOn?: string;
@@ -15,8 +14,7 @@ export interface IVechainTransactionOptions
   clauses?: Array<Clause>;
 }
 
-export interface IVechainTransactionReceipt
-  extends InterfaceTransactionReceipt {
+interface IVechainTransactionReceipt extends ITransactionReceipt {
   gasUsed: number;
   gasPayer: string;
   paid: string;
@@ -30,7 +28,7 @@ export interface IVechainTransactionReceipt
   status: string;
 }
 
-export interface IVechainTransaction extends InterfaceTransaction {
+interface IVechainTransaction extends ITransaction {
   nonce: number;
   gas: number;
   gasPriceCoef: number;
@@ -40,3 +38,9 @@ export interface IVechainTransaction extends InterfaceTransaction {
   dependsOn: string;
   clauses: Array<Clause>;
 }
+
+export {
+  IVechainTransaction,
+  IVechainTransactionOptions,
+  IVechainTransactionReceipt
+};

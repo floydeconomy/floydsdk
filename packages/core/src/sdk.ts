@@ -1,4 +1,4 @@
-import { TypeDLT, TypeSDK } from "@floyd/utils";
+import { TypeDLT, TypeSDK } from "@floyd/types";
 import { AbstractDLT } from "@floyd/abstract";
 
 /**
