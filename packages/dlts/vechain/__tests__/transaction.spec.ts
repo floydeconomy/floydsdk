@@ -1,5 +1,4 @@
 import Vechain from "../src/vechain.dlt";
-import FloydSDK from "@floyd/core";
 import { HEX } from "@floyd/utils";
 import "jest-extended";
 import {
@@ -10,45 +9,19 @@ import {
 import {
   ALICE,
   BOB,
+  VECHAIN,
   MOCKRECEIPT,
   MOCKSIGNATURE,
   MOCKTRANSACTION
 } from "../utils/helpers";
 
-// let intialiseTest = (dlt: string) => {
-//   const dltOptions = {
-//     name: dlt,
-//     provider: {
-//       uri: "http://localhost:4444"
-//     }
-//   };
-//
-//   let sdk: FloydSDK;
-//   let vechain: Vechain;
-//
-//   beforeEach(() => {
-//     const options = {
-//       dlts: [dltOptions]
-//     };
-//     sdk = new FloydSDK(options);
-//     vechain = new Vechain(sdk, dltOptions);
-//   });
-// };
 describe("transactions", () => {
-  const vechainDLTOptions = {
-    name: "vechain",
-    provider: {
-      uri: "http://localhost:4444"
-    }
-  };
-  let sdk: FloydSDK;
   let vechain: Vechain;
   beforeEach(() => {
     const options = {
-      dlts: [vechainDLTOptions]
+      dlts: [VECHAIN]
     };
-    sdk = new FloydSDK(options);
-    vechain = new Vechain(sdk, vechainDLTOptions);
+    vechain = new Vechain(VECHAIN);
   });
   describe("buildTransaction", () => {
     test("should build a vechain transaction", () => {
@@ -247,7 +220,6 @@ describe("transactions", () => {
           expect(receipt.gasUsed).toBe(66846);
           expect(receipt.meta).toBeObject();
           expect(receipt.outputs).toBeArray();
-          expect(receipt.status).toBe(true);
           expect(receipt.transactionHash).toBe(
             "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
           );
@@ -292,7 +264,6 @@ describe("transactions", () => {
         expect(receipt.gasUsed).toBe(66846);
         expect(receipt.meta).toBeObject();
         expect(receipt.outputs).toBeArray();
-        expect(receipt.status).toBe(true);
         expect(receipt.transactionHash).toBe(
           "0x0d79ef6830ee3a8ad55d31b4c30e53ebf2252da90db6074f9304889c682f0490"
         );
@@ -304,6 +275,5 @@ describe("transactions", () => {
         expect(receipt.status).toBe("0x1");
       });
     });
-    test("should throw error if pk not stored in local memory", async () => {});
   });
 });

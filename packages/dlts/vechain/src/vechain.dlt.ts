@@ -19,24 +19,11 @@ class Vechain extends AbstractDLT {
   symbol: string = "VET";
 
   /** @inheritdoc */
-  constructor(sdk: any, options: TypeDLT) {
-    super(sdk, options);
+  constructor(options: TypeDLT) {
+    super(options);
   }
 
-  /**
-   * @inheritdoc
-   *
-   * Current implementation supports
-   *   - nonce: default to 0
-   *   - gasPriceCoef: default to 128
-   *   - gas: default to 21000
-   *   - blockRef: default to 0x0000000000000000
-   *   - dependsOn: default to null
-   *   - expiration: default to 18
-   *   - chainTag: default to 0x9a
-   *   - clauses: default to []
-   *
-   */
+  /** @inheritdoc */
   public buildTransaction(
     options: IVechainTransactionOptions
   ): IVechainTransaction {

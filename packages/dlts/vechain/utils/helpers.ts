@@ -1,6 +1,14 @@
 import { TypeAccount } from "@floyd/types";
 import { IVechainTransaction } from "./interfaces";
 
+// DLT Helper
+export const VECHAIN = {
+  name: "vechain",
+  provider: {
+    uri: "http://localhost:4444"
+  }
+};
+
 // Transaction Helpers
 export const MOCKRECEIPT = {
   gasUsed: 66846,

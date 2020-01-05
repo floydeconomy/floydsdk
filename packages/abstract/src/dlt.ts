@@ -6,7 +6,6 @@ import {
   IContractDeployOptions
 } from "@floyd/interfaces";
 import { TypeAccount, TypeProvider, TypeDLT } from "@floyd/types";
-import FloydSDK from "@floyd/core";
 import AbstractProvider from "./provider";
 
 /**
@@ -27,9 +26,6 @@ abstract class AbstractDLT {
   /** Symbol used by the DLT */
   public symbol: string;
 
-  /** Instance of the FloydSDK  */
-  public sdk: any;
-
   /** This handles all the accounts in the DLT, whereby, the key is the address */
   public accounts: TypeAccount[] = new Array<TypeAccount>();
 
@@ -37,8 +33,7 @@ abstract class AbstractDLT {
    * @param {FloydSDK} sdk
    * @param {TypeProvider} options
    */
-  constructor(sdk: FloydSDK, options: TypeDLT) {
-    this.sdk = sdk;
+  constructor(options: TypeDLT) {
     this.provider = this.loadProvider(options.name, options.provider);
   }
 
