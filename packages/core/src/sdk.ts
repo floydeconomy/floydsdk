@@ -48,7 +48,7 @@ class FloydSDK {
     const dltName = `${dltConfig.name}`;
     try {
       const { dlt } = require(`@floyd/${dltName}`);
-      return new dlt(this, dltConfig);
+      return new dlt(dltConfig);
     } catch (e) {
       if (e.code === "MODULE_NOT_FOUND") {
         throw new Error(

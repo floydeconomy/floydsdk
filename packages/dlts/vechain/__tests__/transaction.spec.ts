@@ -304,5 +304,6 @@ describe("transactions", () => {
         expect(receipt.status).toBe("0x1");
       });
     });
+    test("should throw error if pk not stored in local memory", async () => {});
   });
 });

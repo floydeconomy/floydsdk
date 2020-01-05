@@ -1,20 +1,17 @@
-interface InterfaceContractOptions {
+interface IContractOptions {
   jsonInterface: Array<Object>;
   address?: string;
   options?: Object;
 }
-
-interface InterfaceContract {
+interface IContract {
   address: string;
   jsonInterface: [];
   from: string;
   gasPrice: string;
   gas: number;
 }
-
-interface InterfaceContractReceipt {}
-
-interface InterfaceContractDeployOptions {
+interface IContractReceipt {}
+interface IContractDeployOptions {
   contract: any;
   data?: string;
   fromAddress?: string;
@@ -22,8 +19,8 @@ interface InterfaceContractDeployOptions {
 }
 
 export {
-  InterfaceContract,
-  InterfaceContractOptions,
-  InterfaceContractReceipt,
-  InterfaceContractDeployOptions
+  IContract,
+  IContractOptions,
+  IContractReceipt,
+  IContractDeployOptions
 };
