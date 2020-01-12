@@ -13,17 +13,6 @@
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:test": "lerna run test --stream"
   },
-  "dependencies": {
-    "@types/node": "^12.7.11",
-    "typescript": "^3.6.3"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "jest": "^24.9.0",
-    "jest-extended": "^0.11.2",
-    "ts-jest": "^24.1.0",
-    "lerna": "^3.19.0"
-  },
   "private": true,
   "workspaces": [
     "packages/**/*"
@@ -32,5 +21,21 @@
     "collectCoverageFrom": [
       "!**/src/**/*.ts"
     ]
+  },
+  "dependencies": {
+    "@floyd/abstract": "file:packages/abstract",
+    "@floyd/binance": "file:packages/dlts/binance",
+    "@floyd/core": "file:packages/core",
+    "@floyd/ethereum": "file:packages/dlts/ethereum",
+    "@floyd/interfaces": "file:packages/interfaces",
+    "@floyd/types": "file:packages/types",
+    "@floyd/utils": "file:packages/utils",
+    "@floyd/vechain": "file:packages/dlts/vechain"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2",
+    "ts-jest": "^24.1.0"
   }
 }

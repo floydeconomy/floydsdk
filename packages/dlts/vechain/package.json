@@ -13,11 +13,13 @@
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
-    "@floyd/utils": "^1.0.0",
-    "@floyd/interfaces": "^1.0.0",
-    "@floyd/types": "^1.0.0",
+    "@floyd/core": "file:../../core",
+    "@floyd/types": "file:../../types",
+    "@floyd/utils": "file:../../utils",
     "thor-devkit": "^1.2.2",
-    "thorify": "^1.4.0"
+    "thorify": "^1.4.0",
+    "@types/node": "^12.7.11",
+    "typescript": "^3.6.3"
   },
   "jest": {
     "collectCoverageFrom": [

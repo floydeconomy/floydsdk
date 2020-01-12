@@ -30,7 +30,7 @@ describe("core", () => {
     let options = {
       dlts: [
         {
-          name: "Vechain",
+          name: "vechain",
           provider: {
             uri: "http://localhost:4444"
           }
@@ -66,12 +66,6 @@ describe("core", () => {
           provider: {
             uri: "http://localhost:4444"
           }
-        },
-        {
-          name: "ethereum",
-          provider: {
-            uri: "http://localhost:4444"
-          }
         }
       ]
     };
@@ -90,7 +84,7 @@ describe("core", () => {
     let options = {
       dlts: [
         {
-          name: "vechain",
+          name: "Vechain",
           provider: {
             uri: ""
           }

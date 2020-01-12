@@ -8,10 +8,12 @@
   "main": "index.ts",
   "author": "lpfloyd",
   "dependencies": {
-    "@floyd/utils": "^1.0.0",
-    "@floyd/vechain": "^1.0.0",
-    "@floyd/ethereum": "^1.0.0",
-    "@floyd/binance": "^1.0.0"
+    "@floyd/binance": "file:../dlts/binance",
+    "@floyd/ethereum": "file:../dlts/ethereum",
+    "@floyd/utils": "file:../utils",
+    "@floyd/vechain": "file:../dlts/vechain",
+    "@types/node": "^12.7.11",
+    "typescript": "^3.6.3"
   },
   "scripts": {
     "test": "jest",
