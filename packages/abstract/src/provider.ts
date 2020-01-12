@@ -1,4 +1,4 @@
-import { TypeProvider } from "@floyd/utils";
+import { TypeProvider } from "@floyd/types";
 import { URL } from "url";
 import Web3 from "web3";
 

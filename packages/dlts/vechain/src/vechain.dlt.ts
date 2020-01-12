@@ -1,17 +1,14 @@
 import { AbstractDLT } from "@floyd/abstract";
-import {
-  InterfaceVechainTransactionOptions,
-  InterfaceVechainTransaction,
-  InterfaceVechainTransactionReceipt,
-  InterfaceContractOptions,
-  InterfaceContractDeployOptions,
-  TypeDLT,
-  TypeAccount,
-  HEX,
-  PREFIX
-} from "@floyd/utils";
+import { HEX, PREFIX } from "@floyd/utils";
+import { TypeDLT, TypeAccount } from "@floyd/types";
+import { IContractOptions, IContractDeployOptions } from "@floyd/interfaces";
 import { cry, Transaction } from "thor-devkit";
-import { Contract } from "web3-eth-contract";
+import {
+  IVechainTransactionOptions,
+  IVechainTransaction,
+  IVechainTransactionReceipt
+} from "../utils/interfaces";
+import { transactionReceiptFormatter } from "../utils/formatters";
 
 /** @inheritdoc */
 class Vechain extends AbstractDLT {
@@ -19,37 +16,19 @@ class Vechain extends AbstractDLT {
   name: string = "Vechain";
 
   /** @inheritdoc */
-  symbol: string = "vet";
+  symbol: string = "VET";
 
   /** @inheritdoc */
-  constructor(sdk: any, options: TypeDLT) {
-    super(sdk, options);
+  constructor(options: TypeDLT) {
+    super(options);
   }
 
-  /**
-   * @inheritdoc
-   * Current implementation only supports
-   *   nonce: default to 0
-   *   from: string
-   *   gasPriceCoef: default to 128
-   *   gas: default to 21000
-   *   amount: number
-   *   blockRef: default to 0x0000000000000000
-   *   dependsOn: default to null
-   *   expiration: default to 18
-   *   chainTag: default to 0x9a
-        // TODO: chainTag should also check provider
-           TODO: calculate estimatedGas
-           TODO: better default values should be used
-   */
+  /** @inheritdoc */
   public buildTransaction(
-    options: InterfaceVechainTransactionOptions
-  ): InterfaceVechainTransaction {
+    options: IVechainTransactionOptions
+  ): IVechainTransaction {
     if (options.nonce && options.nonce < 0) {
       throw new Error("[Vechain] The nonce provided is invalid");
-    }
-    if (options.value < 0) {
-      throw new Error("[Vechain] The amount provided is invalid");
     }
     if (options.gas <= 0) {
       throw new Error("[Vechain] The gas provided is invalid");
@@ -58,58 +37,40 @@ class Vechain extends AbstractDLT {
       throw new Error("[Vechain] The gasPriceCoef provided is invalid");
     }
 
-    const transaction: InterfaceVechainTransaction = {
+    // TODO: chainTag should also check provider
+    // TODO: calculate estimatedGas
+    const transaction: IVechainTransaction = {
       chainTag: options.chainTag ? options.chainTag : 0x9a,
       blockRef: options.blockRef ? options.blockRef : "0x0000000000000000",
       expiration: options.expiration ? options.expiration : 18,
-      clauses: options.clauses,
+      clauses: options.clauses ? options.clauses : [],
       gasPriceCoef: options.gasPrice ? options.gasPrice : 128,
       gas: options.gas ? options.gas : 21000,
       dependsOn: options.dependsOn ? options.dependsOn : null,
       nonce: options.nonce ? options.nonce : 0
     };
+
     return transaction;
   }
 
-  /**
-    * @inheritdoc
-    * // TODO: write test for String
-         TODO: write test for Buffer
-    */
+  /** @inheritdoc */
   public sendSignedTransaction(
-    signature: string | Buffer
-  ): Promise<InterfaceVechainTransactionReceipt> {
-    // convert Buffer to string
-    var sig: string;
-    if (signature instanceof Buffer) {
-      sig = PREFIX + signature.toString(HEX);
-    }
-
-    // ensure signature starts with 0x
-    if (typeof signature === "string" && signature.startsWith(PREFIX, 0)) {
-      sig = signature;
-    } else {
-      throw new Error(
-        "[Vechain] The signature provided must be prefixed with " + PREFIX
-      );
-    }
-
+    signature: string
+  ): Promise<IVechainTransactionReceipt> {
     return new Promise((resolve, reject) => {
+      // ensure signature starts with 0x
+      if (!signature.startsWith(PREFIX, 0)) {
+        return reject(
+          new Error(
+            "[Vechain] The signature provided must be prefixed with " + PREFIX
+          )
+        );
+      }
+
       this.provider.instance.eth
-        .sendSignedTransaction(sig)
-        .then(data => {
-          const receipt: InterfaceVechainTransactionReceipt = {
-            gasUsed: data.gasUsed,
-            blockHash: data.blockHash,
-            blockNumber: data.blockNumber,
-            status: data.status,
-            cumulativeGasUsed: data.cumulativeGasUsed,
-            from: data.from,
-            to: data.to,
-            transactionHash: data.transactionHash,
-            transactionIndex: data.transactionIndex
-          };
-          return resolve(receipt);
+        .sendSignedTransaction(signature)
+        .then(receipt => {
+          return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
           return reject(
@@ -124,27 +85,15 @@ class Vechain extends AbstractDLT {
   /**
    * @inheritdoc
    * // TODO: ensure that private is included in web3.wallet
-        TODO: receipt should be more descriptive
    */
   public sendTransaction(
-    transaction: InterfaceVechainTransaction
-  ): Promise<InterfaceVechainTransactionReceipt> {
+    transaction: IVechainTransaction
+  ): Promise<IVechainTransactionReceipt> {
     return new Promise((resolve, reject) => {
       this.provider.instance.eth
         .sendTransaction(transaction)
-        .then(data => {
-          const receipt: InterfaceVechainTransactionReceipt = {
-            gasUsed: data.gasUsed,
-            blockHash: data.blockHash,
-            blockNumber: data.blockNumber,
-            status: data.status,
-            cumulativeGasUsed: data.cumulativeGasUsed,
-            from: data.from,
-            to: data.to,
-            transactionHash: data.transactionHash,
-            transactionIndex: data.transactionIndex
-          };
-          return resolve(receipt);
+        .then(receipt => {
+          return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
           return reject(
@@ -158,7 +107,7 @@ class Vechain extends AbstractDLT {
 
   /** @inheritdoc */
   public signTransaction(
-    transaction: InterfaceVechainTransaction,
+    transaction: IVechainTransaction,
     pk: string | Buffer
   ): string {
     var originPriv: Buffer;
@@ -172,7 +121,7 @@ class Vechain extends AbstractDLT {
     let tx = new Transaction(body);
     let signingHash = cry.blake2b256(tx.encode());
     tx.signature = cry.secp256k1.sign(signingHash, originPriv);
-    return PREFIX + tx.encode().toString("hex");
+    return PREFIX + tx.encode().toString(HEX);
   }
 
   /**
@@ -182,20 +131,20 @@ class Vechain extends AbstractDLT {
    * @param {InterfaceContractOptions} options
    * @return {Web3.eth.Contract}
    */
-  public createContract(options: InterfaceContractOptions): Contract {
-    if (options.jsonInterface.length < 1) {
-      throw new Error("[Vechain] The ABI provided is invalid");
-    }
-    try {
-      const contract = new this.provider.instance.eth.Contract(
-        options.jsonInterface,
-        options.address,
-        options.options
-      );
-      return contract;
-    } catch {
-      throw new Error("[Vechain] Something went wrong with contract creation");
-    }
+  public createContract(options: IContractOptions): any {
+    // if (options.jsonInterface.length < 1) {
+    //   throw new Error("[Vechain] The ABI provided is invalid");
+    // }
+    // try {
+    //   const contract = new this.provider.instance.eth.Contract(
+    //     options.jsonInterface,
+    //     options.address,
+    //     options.options
+    //   );
+    //   return contract;
+    // } catch {
+    //   throw new Error("[Vechain] Something went wrong with contract creation");
+    // }
   }
 
   /**
@@ -206,7 +155,7 @@ class Vechain extends AbstractDLT {
    * // TODO: remove defaults
    * // TODO: ensure that the fromAddress is in the web3 memory
    */
-  public deployContract(args: InterfaceContractDeployOptions): Promise<any> {
+  public deployContract(args: IContractDeployOptions): Promise<any> {
     if (args.data == undefined && args.contract.options.data == undefined) {
       throw new Error("[Vechain] Contract Data has not been provided");
     }

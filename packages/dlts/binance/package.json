@@ -10,12 +10,10 @@
   "author": "lpfloyd",
   "scripts": {
     "test": "jest",
-    "test:binance": "jest 'test/abstract/dlts/binance/binance.dlt.spec.ts'",
     "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
     "@binance-chain/javascript-sdk": "^2.16.1",
-    "@floyd/core": "^1.0.0",
     "@floyd/utils": "^1.0.0",
     "@types/node": "^12.7.11",
     "typescript": "^3.6.3"

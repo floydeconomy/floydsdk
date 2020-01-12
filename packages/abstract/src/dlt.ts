@@ -1,14 +1,11 @@
 import {
-  InterfaceTransactionOptions,
-  InterfaceTransaction,
-  InterfaceTransactionReceipt,
-  InterfaceContractOptions,
-  InterfaceContractDeployOptions,
-  TypeAccount,
-  TypeProvider,
-  TypeDLT
-} from "@floyd/utils";
-import FloydSDK from "@floyd/core";
+  ITransactionOptions,
+  ITransaction,
+  ITransactionReceipt,
+  IContractOptions,
+  IContractDeployOptions
+} from "@floyd/interfaces";
+import { TypeAccount, TypeProvider, TypeDLT } from "@floyd/types";
 import AbstractProvider from "./provider";
 
 /**
@@ -29,9 +26,6 @@ abstract class AbstractDLT {
   /** Symbol used by the DLT */
   public symbol: string;
 
-  /** Instance of the FloydSDK  */
-  public sdk: any;
-
   /** This handles all the accounts in the DLT, whereby, the key is the address */
   public accounts: TypeAccount[] = new Array<TypeAccount>();
 
@@ -39,8 +33,7 @@ abstract class AbstractDLT {
    * @param {FloydSDK} sdk
    * @param {TypeProvider} options
    */
-  constructor(sdk: FloydSDK, options: TypeDLT) {
-    this.sdk = sdk;
+  constructor(options: TypeDLT) {
     this.provider = this.loadProvider(options.name, options.provider);
   }
 
@@ -50,11 +43,10 @@ abstract class AbstractDLT {
    * @param {provider} TypeProvider
    * @return {AbstractProvider}
    */
-  public loadProvider(name: string, provider: TypeProvider): AbstractProvider {
+  public loadProvider(name: string, options: TypeProvider): AbstractProvider {
     try {
-      const dltprovider = require(`../../abstract/dlts/${name}/${name}.provider`)
-        .default;
-      return new dltprovider(provider);
+      const { provider } = require(`@floyd/${name}`);
+      return new provider(options);
     } catch (e) {
       if (e.code === "MODULE_NOT_FOUND") {
         throw new Error(
@@ -68,59 +60,52 @@ abstract class AbstractDLT {
 
   /**
    * Build the transaction
-   * // TODO: remove to and message params they should be included in TransactionOptions
-   * @param {string} to
-   * @param {string} message
-   * @param {TransactionOptions} options
+   * @param {ITransactionOptios} options
    */
-  public abstract buildTransaction(
-    options: InterfaceTransactionOptions
-  ): InterfaceTransaction;
+  public abstract buildTransaction(options: ITransactionOptions): ITransaction;
 
   /**
    * Sends a singed transaction to the blockchain
    * @param {string | Buffer} signature if string, must be prefixed with 0x, buffers will be automatically converted
-   * @return {Promise<InterfaceTransactionReceipt>}
+   * @return {Promise< ITransactionReceipt>}
    */
   public abstract sendSignedTransaction(
     signature: string | Buffer
-  ): Promise<InterfaceTransactionReceipt>;
+  ): Promise<ITransactionReceipt>;
 
   /**
    * Sends a transaction to the blockchain
-   * @param {InterfaceTransaction} transaction
-   * @return {Promise<InterfaceTransactionReceipt>}
+   * @param { ITransaction} transaction
+   * @return {Promise< ITransactionReceipt>}
    */
   public abstract sendTransaction(
-    transaction: InterfaceTransaction
-  ): Promise<InterfaceTransactionReceipt>;
+    transaction: ITransaction
+  ): Promise<ITransactionReceipt>;
 
   /**
    * Signs a transaction with the private key
-   * @param {InterfaceTransaction} transaction the transaction to sign
+   * @param { ITransaction} transaction the transaction to sign
    * @param {string | Buffer} pk the private key
    * @return {string} the raw transaction in string with 0x prefixed in front of it
    */
   public abstract signTransaction(
-    transaction: InterfaceTransaction,
+    transaction: ITransaction,
     pk: string | Buffer
   ): string;
 
   /**
    * Creates a new contract
    * // TODO: should return a standarised interface
-   * @return {InterfaceContract}
+   * @return { IContract}
    */
-  public abstract createContract(options: InterfaceContractOptions): any;
+  public abstract createContract(options: IContractOptions): any;
 
   /**
    * Deploys the contract
    * // TODO: should not return promise any instead a defined interface
    * @return {any}
    */
-  public abstract deployContract(
-    args: InterfaceContractDeployOptions
-  ): Promise<any>;
+  public abstract deployContract(args: IContractDeployOptions): Promise<any>;
 
   /**
    * Creates a new account

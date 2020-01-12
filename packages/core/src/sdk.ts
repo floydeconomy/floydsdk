@@ -1,4 +1,4 @@
-import { TypeDLT, TypeSDK } from "@floyd/utils";
+import { TypeDLT, TypeSDK } from "@floyd/types";
 import { AbstractDLT } from "@floyd/abstract";
 
 /**
@@ -47,8 +47,8 @@ class FloydSDK {
   private loadDLT(dltConfig: TypeDLT): AbstractDLT {
     const dltName = `${dltConfig.name}`;
     try {
-      const dlt = require(`@floyd/${dltName}`);
-      return new dlt(this, dltConfig);
+      const { dlt } = require(`@floyd/${dltName}`);
+      return new dlt(dltConfig);
     } catch (e) {
       if (e.code === "MODULE_NOT_FOUND") {
         throw new Error(
@@ -57,11 +57,11 @@ class FloydSDK {
       }
       if (e instanceof TypeError) {
         throw new Error(
-          `[DLT]-[TypeError] omething went wrong with the instantiation of the dlt.`
+          `[DLT]-[TypeError] Something went wrong with the instantiation of the dlt.`
         );
-      } else {
-        throw e;
       }
+
+      throw e;
     }
   }
 }

@@ -11,9 +11,7 @@
     "@floyd/utils": "^1.0.0",
     "@floyd/vechain": "^1.0.0",
     "@floyd/ethereum": "^1.0.0",
-    "@floyd/binance": "^1.0.0",
-    "@types/node": "^12.7.11",
-    "typescript": "^3.6.3"
+    "@floyd/binance": "^1.0.0"
   },
   "scripts": {
     "test": "jest",
