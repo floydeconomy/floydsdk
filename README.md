@@ -1,6 +1,10 @@
 ![FloydSDK Logo](/floyd.png)
 
+<<<<<<< HEAD
 # FloydSDK - Standarised Typescript API
+=======
+# FloydSDK - Standarised Blockchain Typescript API
+>>>>>>> vechain_test
 
 This is the FloydSDK [Typescript API] which serves as a multi-blockchain software development kit that allows developers to utilise multiple blockchain through a single interface. The issue is that when developing decentralised applications, developers tend to be coupled down to a single blockchain, for example, Ethereum (through web3). This SDK allows developers to leverage different blockchain and being able to change the blockchain layer through a single line.
 

@@ -73,11 +73,7 @@ class Vechain extends AbstractDLT {
           return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
-          return reject(
-            new Error(
-              "[Vechain] Something went wrong when sending the signed transaction."
-            )
-          );
+          return reject(err);
         });
     });
   }
@@ -96,11 +92,7 @@ class Vechain extends AbstractDLT {
           return resolve(transactionReceiptFormatter(receipt));
         })
         .catch(err => {
-          return reject(
-            new Error(
-              "[Vechain] Something went wrong when sending the transaction."
-            )
-          );
+          return reject(err);
         });
     });
   }
