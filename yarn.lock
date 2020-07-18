@@ -178,6 +178,70 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@floyd/abstract@file:packages/abstract":
+  version "1.0.0"
+  dependencies:
+    "@floyd/core" "file:packages/core"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+    web3 "^1.2.2"
+
+"@floyd/binance@file:packages/dlts/binance":
+  version "1.0.0"
+  dependencies:
+    "@binance-chain/javascript-sdk" "^2.16.1"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/core@file:packages/core":
+  version "1.0.0"
+  dependencies:
+    "@floyd/binance" "file:packages/dlts/binance"
+    "@floyd/ethereum" "file:packages/dlts/ethereum"
+    "@floyd/utils" "file:packages/utils"
+    "@floyd/vechain" "file:packages/dlts/vechain"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/ethereum@file:packages/dlts/ethereum":
+  version "1.0.0"
+  dependencies:
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+    web3 "^1.2.2"
+
+"@floyd/interfaces@file:packages/interfaces":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/types@file:packages/types":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/utils@file:packages/utils":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/vechain@file:packages/dlts/vechain":
+  version "1.0.0"
+  dependencies:
+    "@floyd/core" "file:packages/core"
+    "@floyd/types" "file:packages/types"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    thor-devkit "^1.2.2"
+    thorify "^1.4.0"
+    typescript "^3.6.3"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -3496,9 +3560,9 @@ lodash.sortby@^4.7.0:
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
 lodash@^4.17.13, lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loose-envify@^1.0.0:
   version "1.4.0"
