@@ -178,6 +178,70 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@floyd/abstract@file:packages/abstract":
+  version "1.0.0"
+  dependencies:
+    "@floyd/core" "file:packages/core"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+    web3 "^1.2.2"
+
+"@floyd/binance@file:packages/dlts/binance":
+  version "1.0.0"
+  dependencies:
+    "@binance-chain/javascript-sdk" "^2.16.1"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/core@file:packages/core":
+  version "1.0.0"
+  dependencies:
+    "@floyd/binance" "file:packages/dlts/binance"
+    "@floyd/ethereum" "file:packages/dlts/ethereum"
+    "@floyd/utils" "file:packages/utils"
+    "@floyd/vechain" "file:packages/dlts/vechain"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/ethereum@file:packages/dlts/ethereum":
+  version "1.0.0"
+  dependencies:
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+    web3 "^1.2.2"
+
+"@floyd/interfaces@file:packages/interfaces":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/types@file:packages/types":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/utils@file:packages/utils":
+  version "1.0.0"
+  dependencies:
+    "@types/node" "^12.7.11"
+    typescript "^3.6.3"
+
+"@floyd/vechain@file:packages/dlts/vechain":
+  version "1.0.0"
+  dependencies:
+    "@floyd/core" "file:packages/core"
+    "@floyd/types" "file:packages/types"
+    "@floyd/utils" "file:packages/utils"
+    "@types/node" "^12.7.11"
+    thor-devkit "^1.2.2"
+    thorify "^1.4.0"
+    typescript "^3.6.3"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -2624,9 +2688,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@~1.3.0:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 int53@^0.2.4:
   version "0.2.4"
